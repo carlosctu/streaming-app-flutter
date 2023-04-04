@@ -1,4 +1,5 @@
-import 'package:components/design_components.dart';
+import 'package:features/splash_screen/sign_in/widgets/sign_in_action_text_button.dart';
+import 'package:features/splash_screen/sign_in/widgets/sign_in_auth_buttons.dart';
 import 'package:flutter/material.dart';
 
 class SignInPage extends StatefulWidget {
@@ -19,64 +20,31 @@ class _SignInPageState extends State<SignInPage> {
           padding: const EdgeInsets.all(16.0),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Container(
-                padding: const EdgeInsets.symmetric(vertical: 16),
-                child: const Text(
-                  "Welcome to StreamingApp!",
-                  style: TextStyle(fontSize: 28),
-                  textAlign: TextAlign.center,
-                ),
-              ),
-              StyledAuthButton(
-                label: "Continue with Google",
-                onPressed: () {},
-                asset: StreamingAppAssets.google,
-              ),
-              StyledAuthButton(
-                label: "Continue with Facebook",
-                asset: StreamingAppAssets.facebook,
-                onPressed: () {},
-              ),
-              StyledAuthButton(
-                label: "Continue with Github",
-                asset: StreamingAppAssets.github,
-                onPressed: () {},
-              ),
-              const HorizontalDivider(
-                text: "or",
-              ),
-              StyledCustomButton(
-                content: const TextIconRow(
-                  icon: IconAsset.mail,
-                  alignment: RowAlignment.center,
-                  label: 'Continue with email',
-                ),
-                onPressed: () {},
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Text(
-                    'Dont have an account?',
-                  ),
-                  TextButton(
-                    style: ButtonStyle(
-                        foregroundColor:
-                            MaterialStateProperty.all(const Color(0xffD93B41)),
-                        overlayColor:
-                            MaterialStateProperty.all(Colors.transparent)),
-                    onPressed: () {},
-                    child: const Text(
-                      "Sign up!.",
-                    ),
-                  )
-                ],
-              ),
+            children: const [
+              SignInHeader(),
+              SignInAuthButtons(),
+              SignInFooterText(),
             ],
           ),
         ),
+      ),
+    );
+  }
+}
+
+class SignInHeader extends StatelessWidget {
+  const SignInHeader({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(vertical: 16),
+      child: const Text(
+        "Welcome to StreamingApp!",
+        style: TextStyle(fontSize: 28),
+        textAlign: TextAlign.center,
       ),
     );
   }
