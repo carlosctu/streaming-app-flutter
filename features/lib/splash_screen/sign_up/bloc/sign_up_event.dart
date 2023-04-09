@@ -1,17 +1,17 @@
 abstract class SignUpEvent {}
 
 class SignUpEventUpdate extends SignUpEvent {
-  final String nameValue;
-  final String emailValue;
-  final String passwordValue;
-  final String confirmpasswordValue;
+  final String? nameValue;
+  final String? emailValue;
+  final String? passwordValue;
+  final String? confirmpasswordValue;
 
-  SignUpEventUpdate(
+  SignUpEventUpdate({
     this.nameValue,
     this.emailValue,
     this.passwordValue,
     this.confirmpasswordValue,
-  );
+  });
 }
 
 class SignUpEventSubmitted extends SignUpEvent {
