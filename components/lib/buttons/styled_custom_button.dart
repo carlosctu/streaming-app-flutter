@@ -5,11 +5,13 @@ class StyledCustomButton extends StatelessWidget {
   final Function() onPressed;
   final Widget content;
   final bool isColored;
+  final bool isDisabled;
   const StyledCustomButton({
     super.key,
     required this.onPressed,
     required this.content,
     this.isColored = true,
+    this.isDisabled = false,
   });
 
   @override
@@ -18,6 +20,7 @@ class StyledCustomButton extends StatelessWidget {
       isColored: isColored,
       content: content,
       onPressed: onPressed,
+      isDisabled: isDisabled,
     );
   }
 }

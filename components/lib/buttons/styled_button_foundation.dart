@@ -4,11 +4,13 @@ class StyledButtonFoundation extends StatelessWidget {
   final Widget content;
   final Function() onPressed;
   final bool isColored;
+  final bool isDisabled;
   const StyledButtonFoundation({
     super.key,
     required this.content,
     this.isColored = false,
     required this.onPressed,
+    this.isDisabled = false,
   });
 
   @override
@@ -17,7 +19,7 @@ class StyledButtonFoundation extends StatelessWidget {
       margin: const EdgeInsets.symmetric(vertical: 4),
       constraints: const BoxConstraints(
         minHeight: 42,
-        maxHeight: 42,
+        maxHeight: 46,
       ),
       decoration: BoxDecoration(
         color: isColored ? const Color(0xffD93B41) : null,
@@ -28,7 +30,7 @@ class StyledButtonFoundation extends StatelessWidget {
       ),
       width: MediaQuery.of(context).size.width / 1.2,
       child: MaterialButton(
-        onPressed: onPressed,
+        onPressed: isDisabled ? null : onPressed,
         child: DefaultTextStyle(
           style: TextStyle(
             fontWeight: FontWeight.w600,

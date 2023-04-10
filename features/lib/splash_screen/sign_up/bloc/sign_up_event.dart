@@ -4,13 +4,13 @@ class SignUpEventUpdate extends SignUpEvent {
   final String? nameValue;
   final String? emailValue;
   final String? passwordValue;
-  final String? confirmpasswordValue;
+  final String? confirmPasswordValue;
 
   SignUpEventUpdate({
     this.nameValue,
     this.emailValue,
     this.passwordValue,
-    this.confirmpasswordValue,
+    this.confirmPasswordValue,
   });
 }
 

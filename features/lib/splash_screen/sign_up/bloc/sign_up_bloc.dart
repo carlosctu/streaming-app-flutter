@@ -12,7 +12,7 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
         event.nameValue ?? model.nameValue,
         event.emailValue ?? model.emailValue,
         event.passwordValue ?? model.passwordValue,
-        event.confirmpasswordValue ?? model.confirmpasswordValue,
+        event.confirmPasswordValue ?? model.confirmpasswordValue,
       );
     });
 

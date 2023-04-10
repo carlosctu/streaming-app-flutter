@@ -4,6 +4,7 @@ import 'package:features/splash_screen/sign_up/bloc/sign_up_event.dart';
 import 'package:features/splash_screen/sign_up/bloc/sign_up_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:email_validator/email_validator.dart';
 
 class SignUpPage extends StatefulWidget {
   const SignUpPage({super.key});
@@ -15,101 +16,137 @@ class SignUpPage extends StatefulWidget {
 }
 
 class _SignUpPageState extends State<SignUpPage> {
-  final _formKey = GlobalKey();
+  final _formKey = GlobalKey<FormState>();
   TextEditingController nameController = TextEditingController();
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   TextEditingController confirmPasswordController = TextEditingController();
+  bool _obscureText = false;
+
   @override
   Widget build(BuildContext context) {
     final bloc = BlocProvider.of<SignUpBloc>(context);
 
-    // _updateForm() {
-    //   bloc.add(SignUpEventUpdate(
-    //     nameController.text,
-    //     emailController.text,
-    //     passwordController.text,
-    //     confirmPasswordController.text,
-    //   ));
-    // }
-
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.transparent,
+        elevation: 0,
+        leading: IconButton(
+          splashRadius: 18,
+          icon: const Icon(
+            Icons.arrow_back_outlined,
+            size: 22,
+            color: Color(0xffD93B41),
+          ),
+          onPressed: () => Navigator.pop(context),
+        ),
       ),
-      body: Container(
-        alignment: Alignment.center,
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          children: [
-            Container(
-              padding: const EdgeInsets.symmetric(vertical: 16),
-              child: const Text(
-                "Create your account",
-                style: TextStyle(fontSize: 26),
-                textAlign: TextAlign.center,
+      body: SingleChildScrollView(
+        child: Container(
+          alignment: Alignment.center,
+          padding: const EdgeInsets.all(16),
+          child: Column(
+            children: [
+              Container(
+                padding: const EdgeInsets.symmetric(vertical: 16),
+                child: const Text(
+                  "Create your account",
+                  style: TextStyle(fontSize: 26),
+                  textAlign: TextAlign.center,
+                ),
               ),
-            ),
-            Column(
-              children: [
-                BlocBuilder<SignUpBloc, SignUpState>(builder: (context, state) {
-                  if (state is SignUpErrorState) {
-                    return Text(state.errorMessage);
-                  }
-                  return const SizedBox.shrink();
-                }),
-                TextFormField(
-                  controller: nameController,
-                  decoration: const InputDecoration(
-                    labelText: 'Name',
-                  ),
-                  onChanged: (value) {
-                    bloc.add(SignUpEventUpdate(nameValue: value));
-                  },
-                ),
-                TextFormField(
-                  controller: emailController,
-                  decoration: const InputDecoration(
-                    labelText: 'Email',
-                  ),
-                  onChanged: (value) {
-                    bloc.add(SignUpEventUpdate(emailValue: value));
-                  },
-                ),
-                TextFormField(
-                  controller: passwordController,
-                  decoration: const InputDecoration(
-                    labelText: 'Password',
-                  ),
-                  onChanged: (value) {
-                    bloc.add(SignUpEventUpdate(passwordValue: value));
-                  },
-                ),
-                TextFormField(
-                  controller: confirmPasswordController,
-                  decoration: const InputDecoration(
-                    labelText: 'Confirm Password',
-                  ),
-                  onChanged: (value) {
-                    bloc.add(SignUpEventUpdate(confirmpasswordValue: value));
-                  },
-                ),
-                const SizedBox(height: 16),
-                BlocBuilder<SignUpBloc, SignUpState>(
-                  builder: (context, state) {
-                    return StyledCustomButton(
-                      onPressed: () {
-                        print(bloc.model);
-                      },
-                      content: state is SignUpErrorState
-                          ? const Text('Error')
-                          : const Text('Sign up'),
-                    );
-                  },
-                )
-              ],
-            )
-          ],
+              ListView(
+                shrinkWrap: true,
+                children: [
+                  Form(
+                    key: _formKey,
+                    child: Column(
+                      children: [
+                        InputFormField(
+                          labelText: 'Name',
+                          controller: nameController,
+                          onChanged: (value) => bloc.add(
+                            SignUpEventUpdate(nameValue: value),
+                          ),
+                          validator: (value) {
+                            if (value!.isEmpty) return 'Please enter a name';
+                            return null;
+                          },
+                        ),
+                        InputFormField(
+                          controller: emailController,
+                          validator: (value) {
+                            if (EmailValidator.validate(value!) == false) {
+                              return 'Please enter a valid email';
+                            }
+                            return null;
+                          },
+                          labelText: 'Email',
+                          onChanged: (value) => bloc.add(
+                            SignUpEventUpdate(emailValue: value),
+                          ),
+                        ),
+                        InputFormField(
+                          controller: passwordController,
+                          labelText: 'Password',
+                          obscureText: _obscureText,
+                          suffixIcon: IconButton(
+                            highlightColor: Colors.transparent,
+                            splashColor: Colors.transparent,
+                            icon: Icon(
+                              _obscureText
+                                  ? Icons.visibility
+                                  : Icons.visibility_off,
+                            ),
+                            onPressed: () {
+                              setState(() => _obscureText = !_obscureText);
+                            },
+                          ),
+                          validator: (value) {
+                            if (value!.length < 6) {
+                              return 'Password must be at least 6 length long.';
+                            }
+                            return null;
+                          },
+                          onChanged: (value) => bloc.add(
+                            SignUpEventUpdate(confirmPasswordValue: value),
+                          ),
+                        ),
+                        InputFormField(
+                          obscureText: _obscureText,
+                          controller: confirmPasswordController,
+                          labelText: 'Confirm Password',
+                          validator: (value) {
+                            if (value != passwordController.text) {
+                              return 'Passwords do not match.';
+                            }
+                            return null;
+                          },
+                          onChanged: (value) => bloc.add(
+                            SignUpEventUpdate(confirmPasswordValue: value),
+                          ),
+                        ),
+                        const SizedBox(height: 16),
+                        BlocBuilder<SignUpBloc, SignUpState>(
+                          builder: (context, state) {
+                            return StyledCustomButton(
+                              isDisabled: false,
+                              onPressed: () {
+                                if (_formKey.currentState!.validate()) {
+                                  Navigator.pop(context);
+                                }
+                              },
+                              content: const Text('Sign up'),
+                            );
+                          },
+                        )
+                      ],
+                    ),
+                  )
+                ],
+              )
+            ],
+          ),
         ),
       ),
     );
@@ -117,26 +154,35 @@ class _SignUpPageState extends State<SignUpPage> {
 }
 
 class InputFormField extends StatelessWidget {
+  final TextEditingController? controller;
+  final String labelText;
+  final String? Function(String?) validator;
+  final Function(String)? onChanged;
+  final bool obscureText;
+  final Widget? suffixIcon;
+
   const InputFormField({
     super.key,
+    required this.controller,
+    required this.labelText,
+    required this.validator,
+    this.onChanged,
+    this.obscureText = false,
+    this.suffixIcon,
   });
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
-      decoration: const InputDecoration(
-        labelText: 'Name',
+      controller: controller,
+      obscureText: obscureText,
+      decoration: InputDecoration(
+        labelText: labelText,
+        suffixIcon: suffixIcon,
       ),
       autovalidateMode: AutovalidateMode.onUserInteraction,
-      validator: (value) {
-        if (value != null) {
-          return 'Por favor, insira seu nome.';
-        }
-        return null;
-      },
-      onSaved: (value) {
-        // _nome = value;
-      },
+      validator: validator,
+      onChanged: onChanged,
     );
   }
 }
