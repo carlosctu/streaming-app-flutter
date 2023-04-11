@@ -9,7 +9,7 @@ class SignUpPageMixin {
     required SnackBarStatus status,
     FirebaseAuthException? exception,
   }) {
-    String snackMessage = "Account sucessfuly created!.";
+    String snackMessage = "Account successfully created!";
     if (status == SnackBarStatus.negative) {
       switch (exception!.code) {
         case "email-already-in-use":

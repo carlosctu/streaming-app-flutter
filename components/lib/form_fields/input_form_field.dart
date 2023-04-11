@@ -7,7 +7,7 @@ class InputFormField extends StatelessWidget {
   final Function(String)? onChanged;
   final bool obscureText;
   final Widget? suffixIcon;
-  final Widget? prefixIcon;
+  final IconData? prefixIcon;
 
   const InputFormField({
     super.key,
@@ -30,10 +30,14 @@ class InputFormField extends StatelessWidget {
       ),
       child: Row(
         children: [
-          Padding(
-            padding: const EdgeInsets.only(right: 8),
-            child: prefixIcon != null ? prefixIcon! : const SizedBox.shrink(),
-          ),
+          if (prefixIcon != null)
+            Padding(
+              padding: const EdgeInsets.only(right: 8),
+              child: Icon(
+                prefixIcon,
+                color: Colors.grey.shade700,
+              ),
+            ),
           Flexible(
             child: TextFormField(
               controller: controller,
