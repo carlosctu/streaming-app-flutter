@@ -20,20 +20,18 @@ class TextIconRow extends StatelessWidget with RowAlignmentMixin {
 
   @override
   Widget build(BuildContext context) {
-    return Flexible(
-      child: Row(
-        mainAxisAlignment: getAlignment(alignment),
-        children: [
-          AssetComponent(
-            icon: icon,
-            color: iconColor,
-            width: 24,
-            height: 24,
-          ),
-          const SizedBox(width: 8),
-          Text(label),
-        ],
-      ),
+    return Row(
+      mainAxisAlignment: getAlignment(alignment),
+      children: [
+        AssetComponent(
+          icon: icon,
+          color: iconColor,
+          width: 24,
+          height: 24,
+        ),
+        const SizedBox(width: 8),
+        Flexible(child: Text(label)),
+      ],
     );
   }
 }
