@@ -3,17 +3,8 @@
 import 'package:firebase_core/firebase_core.dart' show FirebaseOptions;
 import 'package:flutter/foundation.dart'
     show defaultTargetPlatform, kIsWeb, TargetPlatform;
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
-/// Default [FirebaseOptions] for use with your Firebase apps.
-///
-/// Example:
-/// ```dart
-/// import 'firebase_options.dart';
-/// // ...
-/// await Firebase.initializeApp(
-///   options: DefaultFirebaseOptions.currentPlatform,
-/// );
-/// ```
 class DefaultFirebaseOptions {
   static FirebaseOptions get currentPlatform {
     if (kIsWeb) {
@@ -49,21 +40,21 @@ class DefaultFirebaseOptions {
     }
   }
 
-  static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyBe9_cCeiZQ4TVMZiwaJ2AcJ0DQdqBW0Rw',
-    appId: '1:898840857034:android:047ac24308a1dc1d0c2733',
-    messagingSenderId: '898840857034',
-    projectId: 'streaming-app-flutter-72e24',
-    storageBucket: 'streaming-app-flutter-72e24.appspot.com',
+  static FirebaseOptions android = FirebaseOptions(
+    apiKey: dotenv.env['API_KEY_ANDROID']!,
+    appId: dotenv.env['APP_ID_ANDROID']!,
+    messagingSenderId: dotenv.env['MESSAGING_SENDER_ID_ANDROID']!,
+    projectId: dotenv.env['PROJECT_ID_ANDROID']!,
+    storageBucket: dotenv.env['STORAGE_BUCKET_ANDROID']!,
   );
 
-  static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyAFlTQa9U-Yuu4SqQ1vYyLI9_bLqWjg1Iw',
-    appId: '1:898840857034:ios:8a7cf37117e50cb40c2733',
-    messagingSenderId: '898840857034',
-    projectId: 'streaming-app-flutter-72e24',
-    storageBucket: 'streaming-app-flutter-72e24.appspot.com',
-    iosClientId: '898840857034-v7ojajs71ave3q7a2q5k49v2e2gokv8u.apps.googleusercontent.com',
-    iosBundleId: 'com.example.streamingAppFlutter',
+  static FirebaseOptions ios = FirebaseOptions(
+    apiKey: dotenv.env['API_KEY_IOS']!,
+    appId: dotenv.env['APP_ID_IOS']!,
+    messagingSenderId: dotenv.env['MESSAGING_SENDER_ID_IOS']!,
+    projectId: dotenv.env['PROJECT_ID_IOS']!,
+    storageBucket: dotenv.env['STORAGE_BUCKET_IOS']!,
+    iosClientId: dotenv.env['IOS_CLIENT_ID']!,
+    iosBundleId: dotenv.env['IOS_BUNDLE_ID']!,
   );
 }
