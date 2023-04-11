@@ -1,6 +1,8 @@
+import 'package:components/buttons/config/styled_button_foundation_mixin.dart';
 import 'package:flutter/material.dart';
 
-class StyledButtonFoundation extends StatelessWidget {
+class StyledButtonFoundation extends StatelessWidget
+    with StyledButtonFoundationMixin {
   final Widget content;
   final Function() onPressed;
   final bool isColored;
@@ -22,7 +24,7 @@ class StyledButtonFoundation extends StatelessWidget {
         maxHeight: 46,
       ),
       decoration: BoxDecoration(
-        color: isColored ? const Color(0xffD93B41) : null,
+        color: getButtonColor(isColored, isDisabled),
         borderRadius: BorderRadius.circular(12),
         border: Border.all(
           color: const Color.fromARGB(255, 219, 219, 220),

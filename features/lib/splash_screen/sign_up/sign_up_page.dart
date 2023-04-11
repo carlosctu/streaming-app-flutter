@@ -17,11 +17,8 @@ class SignUpPage extends StatefulWidget {
 
 class _SignUpPageState extends State<SignUpPage> {
   final _formKey = GlobalKey<FormState>();
-  TextEditingController nameController = TextEditingController();
-  TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
-  TextEditingController confirmPasswordController = TextEditingController();
-  bool _obscureText = false;
+  bool _obscureText = true;
 
   @override
   Widget build(BuildContext context) {
@@ -64,8 +61,10 @@ class _SignUpPageState extends State<SignUpPage> {
                       children: [
                         InputFormField(
                           labelText: 'Name',
-                          controller: nameController,
-                          prefixIcon: const Icon(Icons.person),
+                          prefixIcon: Icon(
+                            Icons.person,
+                            color: Colors.grey.shade700,
+                          ),
                           onChanged: (value) => bloc.add(
                             SignUpEventUpdate(nameValue: value),
                           ),
@@ -75,8 +74,10 @@ class _SignUpPageState extends State<SignUpPage> {
                           },
                         ),
                         InputFormField(
-                          controller: emailController,
-                          prefixIcon: const Icon(Icons.mail),
+                          prefixIcon: Icon(
+                            Icons.mail,
+                            color: Colors.grey.shade700,
+                          ),
                           validator: (value) {
                             if (EmailValidator.validate(value!) == false) {
                               return 'Please enter a valid email';
@@ -92,7 +93,10 @@ class _SignUpPageState extends State<SignUpPage> {
                           controller: passwordController,
                           labelText: 'Password',
                           obscureText: _obscureText,
-                          prefixIcon: const Icon(Icons.lock),
+                          prefixIcon: Icon(
+                            Icons.lock,
+                            color: Colors.grey.shade700,
+                          ),
                           suffixIcon: IconButton(
                             highlightColor: Colors.transparent,
                             splashColor: Colors.transparent,
@@ -117,9 +121,11 @@ class _SignUpPageState extends State<SignUpPage> {
                         ),
                         InputFormField(
                           obscureText: _obscureText,
-                          controller: confirmPasswordController,
                           labelText: 'Confirm Password',
-                          prefixIcon: const Icon(Icons.lock),
+                          prefixIcon: Icon(
+                            Icons.lock,
+                            color: Colors.grey.shade700,
+                          ),
                           validator: (value) {
                             if (value != passwordController.text) {
                               return 'Passwords do not match.';
@@ -134,7 +140,6 @@ class _SignUpPageState extends State<SignUpPage> {
                         BlocBuilder<SignUpBloc, SignUpState>(
                           builder: (context, state) {
                             return StyledCustomButton(
-                              isDisabled: false,
                               onPressed: () {
                                 if (_formKey.currentState!.validate()) {
                                   Navigator.pop(context);
@@ -168,7 +173,7 @@ class InputFormField extends StatelessWidget {
 
   const InputFormField({
     super.key,
-    required this.controller,
+    this.controller,
     required this.labelText,
     required this.validator,
     this.onChanged,
@@ -185,24 +190,33 @@ class InputFormField extends StatelessWidget {
               primary: const Color(0xff3EA1D2),
             ),
       ),
-      child: TextFormField(
-        controller: controller,
-        obscureText: obscureText,
-        maxLines: 1,
-        decoration: InputDecoration(
-          labelText: labelText,
-          suffixIcon: suffixIcon,
-          prefixIcon: prefixIcon,
-          focusColor: Colors.red,
-          focusedBorder: const UnderlineInputBorder(
-            borderSide: BorderSide(
-              color: Color(0xff3EA1D2),
+      child: Row(
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(right: 8),
+            child: prefixIcon != null ? prefixIcon! : const SizedBox.shrink(),
+          ),
+          Flexible(
+            child: TextFormField(
+              controller: controller,
+              obscureText: obscureText,
+              maxLines: 1,
+              decoration: InputDecoration(
+                labelText: labelText,
+                suffixIcon: suffixIcon,
+                focusColor: Colors.red,
+                focusedBorder: const UnderlineInputBorder(
+                  borderSide: BorderSide(
+                    color: Color(0xff3EA1D2),
+                  ),
+                ),
+              ),
+              autovalidateMode: AutovalidateMode.onUserInteraction,
+              validator: validator,
+              onChanged: onChanged,
             ),
           ),
-        ),
-        autovalidateMode: AutovalidateMode.onUserInteraction,
-        validator: validator,
-        onChanged: onChanged,
+        ],
       ),
     );
   }
