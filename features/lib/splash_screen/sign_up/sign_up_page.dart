@@ -35,7 +35,7 @@ class _SignUpPageState extends State<SignUpPage> {
           splashRadius: 18,
           icon: const Icon(
             Icons.arrow_back_outlined,
-            size: 22,
+            size: 24,
             color: Color(0xffD93B41),
           ),
           onPressed: () => Navigator.pop(context),
@@ -65,6 +65,7 @@ class _SignUpPageState extends State<SignUpPage> {
                         InputFormField(
                           labelText: 'Name',
                           controller: nameController,
+                          prefixIcon: const Icon(Icons.person),
                           onChanged: (value) => bloc.add(
                             SignUpEventUpdate(nameValue: value),
                           ),
@@ -75,6 +76,7 @@ class _SignUpPageState extends State<SignUpPage> {
                         ),
                         InputFormField(
                           controller: emailController,
+                          prefixIcon: const Icon(Icons.mail),
                           validator: (value) {
                             if (EmailValidator.validate(value!) == false) {
                               return 'Please enter a valid email';
@@ -90,6 +92,7 @@ class _SignUpPageState extends State<SignUpPage> {
                           controller: passwordController,
                           labelText: 'Password',
                           obscureText: _obscureText,
+                          prefixIcon: const Icon(Icons.lock),
                           suffixIcon: IconButton(
                             highlightColor: Colors.transparent,
                             splashColor: Colors.transparent,
@@ -116,6 +119,7 @@ class _SignUpPageState extends State<SignUpPage> {
                           obscureText: _obscureText,
                           controller: confirmPasswordController,
                           labelText: 'Confirm Password',
+                          prefixIcon: const Icon(Icons.lock),
                           validator: (value) {
                             if (value != passwordController.text) {
                               return 'Passwords do not match.';
@@ -160,6 +164,7 @@ class InputFormField extends StatelessWidget {
   final Function(String)? onChanged;
   final bool obscureText;
   final Widget? suffixIcon;
+  final Widget? prefixIcon;
 
   const InputFormField({
     super.key,
@@ -169,6 +174,7 @@ class InputFormField extends StatelessWidget {
     this.onChanged,
     this.obscureText = false,
     this.suffixIcon,
+    this.prefixIcon,
   });
 
   @override
@@ -176,9 +182,17 @@ class InputFormField extends StatelessWidget {
     return TextFormField(
       controller: controller,
       obscureText: obscureText,
+      maxLines: 1,
       decoration: InputDecoration(
         labelText: labelText,
         suffixIcon: suffixIcon,
+        prefixIcon: prefixIcon,
+        focusColor: Colors.red,
+        focusedBorder: const UnderlineInputBorder(
+          borderSide: BorderSide(
+            color: Color(0xff3EA1D2),
+          ),
+        ),
       ),
       autovalidateMode: AutovalidateMode.onUserInteraction,
       validator: validator,
