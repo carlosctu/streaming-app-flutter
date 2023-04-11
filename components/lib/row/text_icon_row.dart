@@ -20,7 +20,7 @@ class TextIconRow extends StatelessWidget with RowAlignmentMixin {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
+    return Flexible(
       child: Row(
         mainAxisAlignment: getAlignment(alignment),
         children: [
