@@ -6,12 +6,14 @@ class StyledCustomButton extends StatelessWidget {
   final Widget content;
   final bool isColored;
   final bool isDisabled;
+  final bool isLoading;
   const StyledCustomButton({
     super.key,
     required this.onPressed,
     required this.content,
     this.isColored = true,
     this.isDisabled = false,
+    this.isLoading = false,
   });
 
   @override
@@ -21,6 +23,7 @@ class StyledCustomButton extends StatelessWidget {
       content: content,
       onPressed: onPressed,
       isDisabled: isDisabled,
+      isLoading: isLoading,
     );
   }
 }

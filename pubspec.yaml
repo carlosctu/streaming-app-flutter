@@ -39,6 +39,7 @@ dependencies:
   ## Features
   features:
     path: features/
+  firebase_core: ^2.9.0
 
 dev_dependencies:
   flutter_test:

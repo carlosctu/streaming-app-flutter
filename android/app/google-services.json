@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "898840857034",
+    "project_id": "streaming-app-flutter-72e24",
+    "storage_bucket": "streaming-app-flutter-72e24.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:898840857034:android:047ac24308a1dc1d0c2733",
+        "android_client_info": {
+          "package_name": "com.example.streaming_app_flutter"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "898840857034-vhq24at0pfqk0kf5osgsbsncbplp95c9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBe9_cCeiZQ4TVMZiwaJ2AcJ0DQdqBW0Rw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "898840857034-vhq24at0pfqk0kf5osgsbsncbplp95c9.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "898840857034-v7ojajs71ave3q7a2q5k49v2e2gokv8u.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.streamingAppFlutter"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

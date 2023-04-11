@@ -2,9 +2,12 @@ import 'package:components/design_components.dart';
 import 'package:features/splash_screen/sign_up/bloc/sign_up_bloc.dart';
 import 'package:features/splash_screen/sign_up/bloc/sign_up_event.dart';
 import 'package:features/splash_screen/sign_up/bloc/sign_up_state.dart';
+import 'package:features/splash_screen/sign_up/config/sign_up_page_mixin.dart';
+import 'package:features/splash_screen/sign_up/model/sign_up_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:email_validator/email_validator.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class SignUpPage extends StatefulWidget {
   const SignUpPage({super.key});
@@ -15,15 +18,41 @@ class SignUpPage extends StatefulWidget {
   State<SignUpPage> createState() => _SignUpPageState();
 }
 
-class _SignUpPageState extends State<SignUpPage> {
+class _SignUpPageState extends State<SignUpPage> with SignUpPageMixin {
+  final FirebaseAuth _auth = FirebaseAuth.instance;
   final _formKey = GlobalKey<FormState>();
-  TextEditingController passwordController = TextEditingController();
   bool _obscureText = true;
+  bool _isLoading = false;
+
+  Future<void> _signUp(SignUpModel model) async {
+    if (!_formKey.currentState!.validate()) return;
+
+    setState(() => _isLoading = true);
+
+    try {
+      await _auth.createUserWithEmailAndPassword(
+        email: model.emailValue,
+        password: model.passwordValue,
+      );
+      if (context.mounted) {
+        _formKey.currentState!.reset();
+        showSnackAlert(context: context, status: SnackBarStatus.positive);
+        Navigator.pop(context);
+      }
+    } on FirebaseAuthException catch (ex) {
+      showSnackAlert(
+        context: context,
+        status: SnackBarStatus.negative,
+        exception: ex,
+      );
+    } finally {
+      setState(() => _isLoading = false);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     final bloc = BlocProvider.of<SignUpBloc>(context);
-
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.transparent,
@@ -90,7 +119,6 @@ class _SignUpPageState extends State<SignUpPage> {
                           ),
                         ),
                         InputFormField(
-                          controller: passwordController,
                           labelText: 'Password',
                           obscureText: _obscureText,
                           prefixIcon: Icon(
@@ -116,7 +144,7 @@ class _SignUpPageState extends State<SignUpPage> {
                             return null;
                           },
                           onChanged: (value) => bloc.add(
-                            SignUpEventUpdate(confirmPasswordValue: value),
+                            SignUpEventUpdate(passwordValue: value),
                           ),
                         ),
                         InputFormField(
@@ -127,7 +155,7 @@ class _SignUpPageState extends State<SignUpPage> {
                             color: Colors.grey.shade700,
                           ),
                           validator: (value) {
-                            if (value != passwordController.text) {
+                            if (value != bloc.model.passwordValue) {
                               return 'Passwords do not match.';
                             }
                             return null;
@@ -140,11 +168,8 @@ class _SignUpPageState extends State<SignUpPage> {
                         BlocBuilder<SignUpBloc, SignUpState>(
                           builder: (context, state) {
                             return StyledCustomButton(
-                              onPressed: () {
-                                if (_formKey.currentState!.validate()) {
-                                  Navigator.pop(context);
-                                }
-                              },
+                              isLoading: _isLoading,
+                              onPressed: () => _signUp(bloc.model),
                               content: const Text('Sign up'),
                             );
                           },

@@ -7,12 +7,14 @@ class StyledButtonFoundation extends StatelessWidget
   final Function() onPressed;
   final bool isColored;
   final bool isDisabled;
+  final bool isLoading;
   const StyledButtonFoundation({
     super.key,
     required this.content,
     this.isColored = false,
     required this.onPressed,
     this.isDisabled = false,
+    this.isLoading = false,
   });
 
   @override
@@ -39,7 +41,18 @@ class StyledButtonFoundation extends StatelessWidget
             letterSpacing: 0.5,
             color: isColored ? Colors.white : Colors.grey.shade600,
           ),
-          child: content,
+          child: isLoading
+              ? SizedBox(
+                  height: 22,
+                  width: 22,
+                  child: Center(
+                    child: CircularProgressIndicator(
+                      strokeWidth: 4,
+                      color: isColored ? Colors.white : const Color(0xffD93B41),
+                    ),
+                  ),
+                )
+              : content,
         ),
       ),
     );
