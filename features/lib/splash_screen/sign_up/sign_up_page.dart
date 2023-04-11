@@ -179,24 +179,31 @@ class InputFormField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return TextFormField(
-      controller: controller,
-      obscureText: obscureText,
-      maxLines: 1,
-      decoration: InputDecoration(
-        labelText: labelText,
-        suffixIcon: suffixIcon,
-        prefixIcon: prefixIcon,
-        focusColor: Colors.red,
-        focusedBorder: const UnderlineInputBorder(
-          borderSide: BorderSide(
-            color: Color(0xff3EA1D2),
+    return Theme(
+      data: Theme.of(context).copyWith(
+        colorScheme: ThemeData().colorScheme.copyWith(
+              primary: const Color(0xff3EA1D2),
+            ),
+      ),
+      child: TextFormField(
+        controller: controller,
+        obscureText: obscureText,
+        maxLines: 1,
+        decoration: InputDecoration(
+          labelText: labelText,
+          suffixIcon: suffixIcon,
+          prefixIcon: prefixIcon,
+          focusColor: Colors.red,
+          focusedBorder: const UnderlineInputBorder(
+            borderSide: BorderSide(
+              color: Color(0xff3EA1D2),
+            ),
           ),
         ),
+        autovalidateMode: AutovalidateMode.onUserInteraction,
+        validator: validator,
+        onChanged: onChanged,
       ),
-      autovalidateMode: AutovalidateMode.onUserInteraction,
-      validator: validator,
-      onChanged: onChanged,
     );
   }
 }
