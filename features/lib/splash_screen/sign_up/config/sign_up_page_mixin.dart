@@ -6,14 +6,13 @@ class SignUpPageMixin {
   void showSnackAlert({
     required BuildContext context,
     required SnackBarStatus status,
-    String? exceptionMessage,
+    required String message,
   }) {
-    String snackMessage = exceptionMessage ?? "Account successfully created!";
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         behavior: SnackBarBehavior.floating,
         dismissDirection: DismissDirection.down,
-        content: Text(snackMessage),
+        content: Text(message),
         duration: const Duration(seconds: 4),
         backgroundColor: status == SnackBarStatus.positive
             ? const Color(0xff408140)

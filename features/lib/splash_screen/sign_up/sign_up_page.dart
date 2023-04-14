@@ -20,6 +20,32 @@ class _SignUpPageState extends State<SignUpPage> with SignUpPageMixin {
   final _formKey = GlobalKey<FormState>();
   bool _isLoading = false;
 
+  void listenerValidator(BuildContext context, SignUpState state) {
+    if (state is SignUpLoadingState) {
+      setState(() => _isLoading = !_isLoading);
+    }
+
+    if (state is SignUpValidState) {
+      if (context.mounted) {
+        _isLoading = !_isLoading;
+        _formKey.currentState!.reset();
+        showSnackAlert(
+          context: context,
+          status: SnackBarStatus.positive,
+          message: SignUpValidState.successfulMessage,
+        );
+        Navigator.pop(context);
+      }
+    } else if (state is SignUpInvalidState) {
+      _isLoading = !_isLoading;
+      showSnackAlert(
+        context: context,
+        status: SnackBarStatus.negative,
+        message: state.exception,
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final bloc = BlocProvider.of<SignUpBloc>(context);
@@ -54,29 +80,7 @@ class _SignUpPageState extends State<SignUpPage> with SignUpPageMixin {
                     ),
                   ),
                   BlocListener<SignUpBloc, SignUpState>(
-                    listener: (context, state) {
-                      if (state is SignUpLoadingState) {
-                        setState(() => _isLoading = !_isLoading);
-                      }
-
-                      if (state is SignUpInvalidState) {
-                        _isLoading = !_isLoading;
-                        showSnackAlert(
-                          context: context,
-                          status: SnackBarStatus.negative,
-                          exceptionMessage: state.exception,
-                        );
-                      } else if (state is SignUpValidState) {
-                        if (context.mounted) {
-                          _isLoading = !_isLoading;
-                          _formKey.currentState!.reset();
-                          showSnackAlert(
-                              context: context,
-                              status: SnackBarStatus.positive);
-                          Navigator.pop(context);
-                        }
-                      }
-                    },
+                    listener: listenerValidator,
                     child: ListView(
                       shrinkWrap: true,
                       children: [

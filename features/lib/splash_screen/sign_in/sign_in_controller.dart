@@ -1,4 +1,4 @@
-import 'package:features/splash_screen/sign_up/firebase_options.dart';
+import 'package:features/splash_screen/firebase_options.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
