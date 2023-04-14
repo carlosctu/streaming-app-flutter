@@ -1,12 +1,14 @@
 import 'package:features/splash_screen/sign_up/bloc/sign_up_event.dart';
 import 'package:features/splash_screen/sign_up/bloc/sign_up_state.dart';
 import 'package:features/splash_screen/sign_up/model/sign_up_model.dart';
+import 'package:features/splash_screen/sign_up/repository/sign_up_repository.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
+  final SignUpRepository _repository;
   SignUpModel _model = const SignUpModel.empty();
 
-  SignUpBloc() : super(SignUpInitialState()) {
+  SignUpBloc(this._repository) : super(SignUpInitialState()) {
     on<SignUpEventUpdate>((event, emit) {
       _updateState(
         event.nameValue ?? model.nameValue,
@@ -16,8 +18,17 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
       );
     });
 
-    on<SignUpEventSubmitted>((event, emit) {
+    on<SignUpEventSubmitted>((event, emit) async {
       emit(SignUpLoadingState());
+      try {
+        await _repository.signUpWithEmailAndPassword(
+          email: event.model.emailValue,
+          password: event.model.passwordValue,
+        );
+        emit(SignUpValidState());
+      } catch (e) {
+        emit(SignUpInvalidState(exception: e.toString()));
+      }
     });
   }
 

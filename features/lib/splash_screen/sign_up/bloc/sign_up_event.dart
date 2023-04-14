@@ -1,3 +1,5 @@
+import 'package:features/splash_screen/sign_up/model/sign_up_model.dart';
+
 abstract class SignUpEvent {}
 
 class SignUpEventUpdate extends SignUpEvent {
@@ -12,16 +14,24 @@ class SignUpEventUpdate extends SignUpEvent {
     this.passwordValue,
     this.confirmPasswordValue,
   });
+
+  SignUpEventUpdate copyWith({
+    String? nameValue,
+    String? emailValue,
+    String? passwordValue,
+    String? confirmPasswordValue,
+  }) {
+    return SignUpEventUpdate(
+      nameValue: nameValue ?? this.nameValue,
+      emailValue: emailValue ?? this.emailValue,
+      passwordValue: passwordValue ?? this.passwordValue,
+      confirmPasswordValue: confirmPasswordValue ?? this.confirmPasswordValue,
+    );
+  }
 }
 
 class SignUpEventSubmitted extends SignUpEvent {
-  final String name;
-  final String email;
-  final String password;
+  final SignUpModel model;
 
-  SignUpEventSubmitted(
-    this.name,
-    this.email,
-    this.password,
-  );
+  SignUpEventSubmitted({required this.model});
 }

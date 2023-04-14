@@ -1,5 +1,6 @@
 import 'package:features/splash_screen/sign_in/sign_in_page.dart';
 import 'package:features/splash_screen/sign_up/bloc/sign_up_bloc.dart';
+import 'package:features/splash_screen/sign_up/repository/sign_up_repository.dart';
 import 'package:features/splash_screen/sign_up/sign_up_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -13,9 +14,13 @@ Route<dynamic>? onGenerateRoute(settings) {
     );
   } else if (settings.name == SignUpPage.route) {
     return MaterialPageRoute(
-      builder: (BuildContext context) => BlocProvider(
-        create: (context) => SignUpBloc(),
-        child: const SignUpPage(),
+      builder: (BuildContext context) => RepositoryProvider(
+        create: (BuildContext context) => SignUpRepository(),
+        child: BlocProvider(
+          create: (context) =>
+              SignUpBloc(RepositoryProvider.of<SignUpRepository>(context)),
+          child: const SignUpPage(),
+        ),
       ),
     );
     // } else if (settings.name == DetailsPage.route) {

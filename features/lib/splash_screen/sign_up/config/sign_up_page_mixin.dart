@@ -1,4 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 enum SnackBarStatus { positive, negative }
@@ -7,22 +6,9 @@ class SignUpPageMixin {
   void showSnackAlert({
     required BuildContext context,
     required SnackBarStatus status,
-    FirebaseAuthException? exception,
+    String? exceptionMessage,
   }) {
-    String snackMessage = "Account successfully created!";
-    if (status == SnackBarStatus.negative) {
-      switch (exception!.code) {
-        case "email-already-in-use":
-          snackMessage = exception.message ?? snackMessage;
-          break;
-        case "operation-not-allowed":
-          snackMessage =
-              "Can't not create and account with that email. Please try another or contact us";
-          break;
-        default:
-          snackMessage = "Please try again later";
-      }
-    }
+    String snackMessage = exceptionMessage ?? "Account successfully created!";
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         behavior: SnackBarBehavior.floating,
