@@ -2,6 +2,7 @@ import 'package:features/splash_screen/sign_in/widgets/sign_in_action_text_butto
 import 'package:features/splash_screen/sign_in/widgets/sign_in_auth_buttons.dart';
 import 'package:flutter/material.dart';
 
+
 class SignInPage extends StatefulWidget {
   const SignInPage({super.key});
 

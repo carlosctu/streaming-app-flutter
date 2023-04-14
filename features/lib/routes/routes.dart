@@ -1,3 +1,6 @@
+import 'package:features/home/home.dart';
+import 'package:features/splash_screen/sign_in/bloc/sign_in_bloc.dart';
+import 'package:features/splash_screen/sign_in/repository/sign_in_repository.dart';
 import 'package:features/splash_screen/sign_in/sign_in_page.dart';
 import 'package:features/splash_screen/sign_up/bloc/sign_up_bloc.dart';
 import 'package:features/splash_screen/sign_up/repository/sign_up_repository.dart';
@@ -10,7 +13,14 @@ Route<dynamic>? onGenerateRoute(settings) {
     return PageRouteBuilder(
       pageBuilder: (BuildContext context, Animation<double> animation,
               Animation<double> secondaryAnimation) =>
-          const SignInPage(),
+          RepositoryProvider(
+        create: (BuildContext context) => SignInRepository(),
+        child: BlocProvider(
+          create: (context) =>
+              SignInBloc(RepositoryProvider.of<SignInRepository>(context)),
+          child: const SignInPage(),
+        ),
+      ),
     );
   } else if (settings.name == SignUpPage.route) {
     return MaterialPageRoute(
@@ -28,6 +38,10 @@ Route<dynamic>? onGenerateRoute(settings) {
     // return DefaultPageRoute(
     // child: DetailsPage(cryptoDataArguments: arguments),
     // );
+  } else if (settings.name == "/home") {
+    return MaterialPageRoute(
+      builder: (BuildContext context) => const Home(),
+    );
   }
   return null;
 }
