@@ -63,21 +63,21 @@ class SignInAuthButtons extends StatelessWidget {
             children: [
               StyledAuthButton(
                 label: "Continue with Google",
-                onPressed: () => bloc.add(SignInEventUserAuthenticated()),
-                // final provider =
-                //     Provider.of<SignInController>(context, listen: false);
-                // provider.googleLogin();
+                onPressed: () => bloc.add(
+                  SignInEventUserAuthenticated(
+                    authType: AuthenticationType.google,
+                  ),
+                ),
                 asset: StreamingAppAssets.google,
               ),
               StyledAuthButton(
-                label: "Continue with Facebook",
+                label: "Continue with Twitter",
                 asset: StreamingAppAssets.twitter,
-                onPressed: () {},
-              ),
-              StyledAuthButton(
-                label: "Continue with Github",
-                asset: StreamingAppAssets.github,
-                onPressed: () {},
+                onPressed: () => bloc.add(
+                  SignInEventUserAuthenticated(
+                    authType: AuthenticationType.twitter,
+                  ),
+                ),
               ),
               const HorizontalDivider(
                 text: "or",
