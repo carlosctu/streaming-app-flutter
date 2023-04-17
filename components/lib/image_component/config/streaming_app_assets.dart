@@ -5,4 +5,5 @@ enum StreamingAppAssets {
   logogif,
   appLogo,
   welcome,
+  twitter,
 }

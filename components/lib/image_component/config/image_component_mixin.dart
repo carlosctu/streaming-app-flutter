@@ -7,12 +7,14 @@ mixin ImageComponentMixin {
       StreamingAppAssets.facebook: "assets/images/facebook.png",
       StreamingAppAssets.github: "assets/images/github.png",
       StreamingAppAssets.google: "assets/images/google.png",
+      StreamingAppAssets.twitter: "assets/images/twitter.png",
       StreamingAppAssets.logogif: "assets/images/logogif.gif",
       StreamingAppAssets.appLogo: "assets/json/appLogo.json",
       StreamingAppAssets.welcome: "assets/images/welcome.json",
     };
     return map[asset] ?? "";
   }
+
   String getIcon(IconAsset icon) {
     const map = {
       IconAsset.mail: "assets/icons/email.png",

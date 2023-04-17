@@ -71,7 +71,7 @@ class SignInAuthButtons extends StatelessWidget {
               ),
               StyledAuthButton(
                 label: "Continue with Facebook",
-                asset: StreamingAppAssets.facebook,
+                asset: StreamingAppAssets.twitter,
                 onPressed: () {},
               ),
               StyledAuthButton(

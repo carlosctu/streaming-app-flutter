@@ -56,12 +56,15 @@ PODS:
     - GTMSessionFetcher/Core (< 3.0, >= 1.5)
   - GTMSessionFetcher/Core (2.3.0)
   - PromisesObjC (2.2.0)
+  - twitter_login (0.0.1):
+    - Flutter
 
 DEPENDENCIES:
   - firebase_auth (from `.symlinks/plugins/firebase_auth/ios`)
   - firebase_core (from `.symlinks/plugins/firebase_core/ios`)
   - Flutter (from `Flutter`)
   - google_sign_in_ios (from `.symlinks/plugins/google_sign_in_ios/ios`)
+  - twitter_login (from `.symlinks/plugins/twitter_login/ios`)
 
 SPEC REPOS:
   trunk:
@@ -85,6 +88,8 @@ EXTERNAL SOURCES:
     :path: Flutter
   google_sign_in_ios:
     :path: ".symlinks/plugins/google_sign_in_ios/ios"
+  twitter_login:
+    :path: ".symlinks/plugins/twitter_login/ios"
 
 SPEC CHECKSUMS:
   AppAuth: e48b432bb4ba88b10cb2bcc50d7f3af21e78b9c2
@@ -101,6 +106,7 @@ SPEC CHECKSUMS:
   GTMAppAuth: 0ff230db599948a9ad7470ca667337803b3fc4dd
   GTMSessionFetcher: 3a63d75eecd6aa32c2fc79f578064e1214dfdec2
   PromisesObjC: 09985d6d70fbe7878040aa746d78236e6946d2ef
+  twitter_login: 2794db69b7640681171b17b3c2c84ad9dfb4a57f
 
 PODFILE CHECKSUM: ef19549a9bc3046e7bb7d2fab4d021637c0c58a3
 

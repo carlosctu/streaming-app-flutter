@@ -55,7 +55,7 @@
 			<string>Editor</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<!-- <string>com.googleusercontent.apps.885435647632-9fi5omg9ghb6uan081s02kp5iis8i23v</string> -->
+				<string>socialauth</string>
 				<string>com.googleusercontent.apps.898840857034-v7ojajs71ave3q7a2q5k49v2e2gokv8u</string>
 		</array>
 		</dict>

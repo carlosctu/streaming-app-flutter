@@ -3,6 +3,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:flutter/foundation.dart'
     show defaultTargetPlatform, kIsWeb, TargetPlatform;
+import 'package:twitter_login/twitter_login.dart';
 
 class SignInRepository {
   final defaultMessage = "Sorry, we couldn't sign you in";
@@ -23,6 +24,47 @@ class SignInRepository {
         throw UnsupportedError(
           'DefaultFirebaseOptions are not supported for this platform.',
         );
+    }
+  }
+
+  //Twitter SignIn()
+
+  Future twitterSignIn() async {
+    try {
+      final twitterLogin = TwitterLogin(
+        apiKey: dotenv.env['API_KEY_TWITTER']!,
+        apiSecretKey: dotenv.env['API_SECRET_KEY_TWITTER']!,
+        redirectURI: 'socialauth://',
+      );
+      final auth = await twitterLogin.loginV2();
+
+      if (auth.status != TwitterLoginStatus.loggedIn) {
+        throw Exception(defaultMessage);
+      }
+
+      final credential = TwitterAuthProvider.credential(
+        accessToken: auth.authToken!,
+        secret: auth.authTokenSecret!,
+      );
+      final userCredential =
+          await FirebaseAuth.instance.signInWithCredential(credential);
+
+      return userCredential;
+    } on FirebaseAuthException catch (ex) {
+      switch (ex.code) {
+        case "email-already-in-use":
+          throw Exception(ex.message);
+        case "account-exists-with-different-credential":
+          throw Exception(ex.message);
+        case "operation-not-allowed":
+          throw Exception(
+              "Can't not create and account with that email. Please try another or contact us");
+        default:
+          throw Exception("Please try again later");
+      }
+    } catch (e) {
+      print(e);
+      throw Exception(defaultMessage);
     }
   }
 

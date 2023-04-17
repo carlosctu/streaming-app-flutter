@@ -12,7 +12,7 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
     on<SignInEventUserAuthenticated>((event, emit) async {
       emit(SignInLoadingState());
       try {
-        UserCredential userCredential = await _repository.googleSignIn();
+        UserCredential userCredential = await _repository.twitterSignIn();
         emit(SignInValidState(credential: userCredential));
       } catch (e) {
         final exception = e.toString().split("Exception: ")[1];

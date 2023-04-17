@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">streaming-app-flutter</string>
+    <string name="facebook_app_id">243552241370100</string>
+    <string name="facebook_client_token">4986857216e3403036f1285055bc8cfa</string>
+</resources>
