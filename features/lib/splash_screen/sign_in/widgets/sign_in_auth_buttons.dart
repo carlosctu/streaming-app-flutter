@@ -1,16 +1,22 @@
 import 'package:components/design_components.dart';
 import 'package:features/home/home.dart';
 import 'package:features/splash_screen/sign_in/bloc/sign_in_bloc.dart';
+import 'package:features/splash_screen/sign_in/widgets/sign_in_form.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 enum SnackBarStatus { positive, negative }
 
-class SignInAuthButtons extends StatelessWidget {
+class SignInAuthButtons extends StatefulWidget {
   const SignInAuthButtons({
     super.key,
   });
 
+  @override
+  State<SignInAuthButtons> createState() => _SignInAuthButtonsState();
+}
+
+class _SignInAuthButtonsState extends State<SignInAuthButtons> {
   @override
   Widget build(BuildContext context) {
     final bloc = BlocProvider.of<SignInBloc>(context);
@@ -61,39 +67,46 @@ class SignInAuthButtons extends StatelessWidget {
             alignment: WrapAlignment.center,
             runSpacing: 4,
             children: [
-              StyledAuthButton(
-                label: "Continue with Google",
-                onPressed: () => bloc.add(
-                  SignInEventUserAuthenticated(
-                    authType: AuthenticationType.google,
-                  ),
-                ),
-                asset: StreamingAppAssets.google,
-              ),
-              StyledAuthButton(
-                label: "Continue with Twitter",
-                asset: StreamingAppAssets.twitter,
-                onPressed: () => bloc.add(
-                  SignInEventUserAuthenticated(
-                    authType: AuthenticationType.twitter,
-                  ),
-                ),
-              ),
-              const HorizontalDivider(
-                text: "or",
-              ),
-              StyledCustomButton(
-                content: const TextIconRow(
-                  icon: IconAsset.mail,
-                  alignment: RowAlignment.center,
-                  label: 'Continue with email',
-                ),
-                onPressed: () {},
-              ),
+              SignInForm(provider: bloc),
+              const HorizontalDivider(text: "or"),
+              _SignInSocialMediaButtons(provider: bloc),
             ],
           ),
         );
       },
+    );
+  }
+}
+
+class _SignInSocialMediaButtons extends StatelessWidget {
+  final SignInBloc provider;
+  const _SignInSocialMediaButtons({
+    required this.provider,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        StyledAuthButton(
+          label: "Continue with Google",
+          onPressed: () => provider.add(
+            SignInEventUserAuthenticated(
+              authType: AuthenticationType.google,
+            ),
+          ),
+          asset: StreamingAppAssets.google,
+        ),
+        StyledAuthButton(
+          label: "Continue with Twitter",
+          asset: StreamingAppAssets.twitter,
+          onPressed: () => provider.add(
+            SignInEventUserAuthenticated(
+              authType: AuthenticationType.twitter,
+            ),
+          ),
+        ),
+      ],
     );
   }
 }

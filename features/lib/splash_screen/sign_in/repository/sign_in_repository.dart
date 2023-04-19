@@ -27,8 +27,22 @@ class SignInRepository {
     }
   }
 
-  //Twitter SignIn()
+  //Email SignIn()
+  Future emailSignIn({required String email, required String password}) async {
+    try {
+      return await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+    } on FirebaseAuthException catch (e) {
+      throw Exception(e);
+    } catch (e) {
+      print(e);
+      throw Exception(defaultMessage);
+    }
+  }
 
+  //Twitter SignIn()
   Future twitterSignIn() async {
     try {
       final twitterLogin = TwitterLogin(

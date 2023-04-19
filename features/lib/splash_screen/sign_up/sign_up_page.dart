@@ -86,6 +86,7 @@ class _SignUpPageState extends State<SignUpPage> with SignUpPageMixin {
                       children: [
                         Form(
                           key: _formKey,
+                          autovalidateMode: AutovalidateMode.onUserInteraction,
                           child: SignUpFormFields(provider: bloc),
                         ),
                         StyledCustomButton(

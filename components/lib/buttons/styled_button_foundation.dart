@@ -20,11 +20,15 @@ class StyledButtonFoundation extends StatelessWidget
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.symmetric(vertical: 4),
+      margin: const EdgeInsets.symmetric(
+        vertical: 4,
+        horizontal: 16,
+      ),
       constraints: const BoxConstraints(
         minHeight: 42,
         maxHeight: 46,
       ),
+      width: double.infinity,
       decoration: BoxDecoration(
         color: getButtonColor(isColored, isDisabled),
         borderRadius: BorderRadius.circular(12),
@@ -32,7 +36,6 @@ class StyledButtonFoundation extends StatelessWidget
           color: const Color.fromARGB(255, 219, 219, 220),
         ),
       ),
-      width: MediaQuery.of(context).size.width / 1.2,
       child: MaterialButton(
         onPressed: isDisabled ? null : onPressed,
         child: DefaultTextStyle(

@@ -3,21 +3,23 @@ import 'package:flutter/material.dart';
 class InputFormField extends StatelessWidget {
   final TextEditingController? controller;
   final String labelText;
-  final String? Function(String?) validator;
+  final String? Function(String?)? validator;
   final Function(String)? onChanged;
   final bool obscureText;
   final Widget? suffixIcon;
   final IconData? prefixIcon;
+  final Function(String?)? onSaved;
 
   const InputFormField({
     super.key,
     this.controller,
     required this.labelText,
-    required this.validator,
+    this.validator,
     this.onChanged,
     this.obscureText = false,
     this.suffixIcon,
     this.prefixIcon,
+    this.onSaved,
   });
 
   @override
@@ -56,6 +58,7 @@ class InputFormField extends StatelessWidget {
               autovalidateMode: AutovalidateMode.onUserInteraction,
               validator: validator,
               onChanged: onChanged,
+              onSaved: onSaved,
             ),
           ),
         ],

@@ -21,7 +21,8 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
             userCredential = await _repository.twitterSignIn();
             break;
           case AuthenticationType.email:
-            userCredential = await _repository.twitterSignIn();
+            userCredential = await _repository.emailSignIn(
+                email: event.email, password: event.password);
             break;
         }
 
