@@ -1,8 +1,8 @@
 import 'package:components/design_components.dart';
+import 'package:features/shared/alerts/snack_bar_alert.dart';
 import 'package:features/splash_screen/sign_up/bloc/sign_up_bloc.dart';
 import 'package:features/splash_screen/sign_up/bloc/sign_up_event.dart';
 import 'package:features/splash_screen/sign_up/bloc/sign_up_state.dart';
-import 'package:features/splash_screen/sign_up/config/sign_up_page_mixin.dart';
 import 'package:features/splash_screen/sign_up/widgets/sign_up_form_fields.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -16,7 +16,7 @@ class SignUpPage extends StatefulWidget {
   State<SignUpPage> createState() => _SignUpPageState();
 }
 
-class _SignUpPageState extends State<SignUpPage> with SignUpPageMixin {
+class _SignUpPageState extends State<SignUpPage> {
   final _formKey = GlobalKey<FormState>();
   bool _isLoading = false;
 
