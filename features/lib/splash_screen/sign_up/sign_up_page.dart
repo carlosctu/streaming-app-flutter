@@ -22,12 +22,12 @@ class _SignUpPageState extends State<SignUpPage> {
 
   void listenerValidator(BuildContext context, SignUpState state) {
     if (state is SignUpLoadingState) {
-      setState(() => _isLoading = !_isLoading);
+      setState(() => _isLoading = true);
     }
 
     if (state is SignUpValidState) {
       if (context.mounted) {
-        _isLoading = !_isLoading;
+        _isLoading = false;
         _formKey.currentState!.reset();
         showSnackAlert(
           context: context,
@@ -37,7 +37,7 @@ class _SignUpPageState extends State<SignUpPage> {
         Navigator.pop(context);
       }
     } else if (state is SignUpInvalidState) {
-      _isLoading = !_isLoading;
+      _isLoading = false;
       showSnackAlert(
         context: context,
         status: SnackBarStatus.negative,

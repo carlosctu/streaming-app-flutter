@@ -11,6 +11,7 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
   SignInBloc(this._repository) : super(SignInInitialState()) {
     on<SignInEventUserAuthenticated>((event, emit) async {
       emit(SignInLoadingState());
+      Future.delayed(Duration(seconds: 5));
       try {
         UserCredential userCredential;
         switch (event.authType) {
@@ -25,7 +26,6 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
                 email: event.email, password: event.password);
             break;
         }
-
         emit(SignInValidState(credential: userCredential));
       } catch (e) {
         final exception = e.toString().split("Exception: ")[1];

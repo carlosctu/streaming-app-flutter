@@ -16,23 +16,30 @@ class SignInAuthButtons extends StatefulWidget {
 }
 
 class _SignInAuthButtonsState extends State<SignInAuthButtons> {
+  final _formKey = GlobalKey<FormState>();
+  bool _isLoading = false;
+
+  void listenerValidator(BuildContext context, SignInState state) {
+    if (state is SignInLoadingState) {
+      setState(() => _isLoading = true);
+    }
+    if (state is SignInValidState) {
+      setState(() => _isLoading = false);
+      _formKey.currentState!.reset();
+      Navigator.pushNamed(context, Home.route);
+    } else if (state is SignInInvalidState) {
+      setState(() => _isLoading = false);
+      showSnackAlert(
+        context: context,
+        status: SnackBarStatus.negative,
+        message: state.exception,
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final bloc = BlocProvider.of<SignInBloc>(context);
-
-    void listenerValidator(BuildContext context, SignInState state) {
-      if (state is SignInValidState) {
-        print(state.credential.user);
-        Navigator.pushNamed(context, Home.route);
-      } else if (state is SignInInvalidState) {
-        showSnackAlert(
-          context: context,
-          status: SnackBarStatus.negative,
-          message: state.exception,
-        );
-      }
-    }
-
     return BlocBuilder<SignInBloc, SignInState>(
       builder: (context, state) {
         return BlocListener<SignInBloc, SignInState>(
@@ -41,7 +48,11 @@ class _SignInAuthButtonsState extends State<SignInAuthButtons> {
             alignment: WrapAlignment.center,
             runSpacing: 4,
             children: [
-              SignInForm(provider: bloc),
+              SignInForm(
+                provider: bloc,
+                loading: _isLoading,
+                formKey: _formKey,
+              ),
               const HorizontalDivider(text: "or"),
               _SignInSocialMediaButtons(provider: bloc),
             ],

@@ -4,9 +4,16 @@ import 'package:features/splash_screen/sign_in/bloc/sign_in_bloc.dart';
 import 'package:flutter/material.dart';
 
 class SignInForm extends StatefulWidget {
+  final GlobalKey<FormState> formKey;
   final SignInBloc provider;
+  final bool loading;
 
-  const SignInForm({super.key, required this.provider});
+  const SignInForm({
+    Key? key,
+    required this.formKey,
+    required this.provider,
+    required this.loading,
+  }) : super(key: key);
 
   @override
   State<SignInForm> createState() => _SignInFormState();
@@ -14,7 +21,6 @@ class SignInForm extends StatefulWidget {
 
 class _SignInFormState extends State<SignInForm> {
   bool _obscureText = true;
-  final _formKey = GlobalKey<FormState>();
   String _emailId = '';
   String _password = '';
 
@@ -23,7 +29,7 @@ class _SignInFormState extends State<SignInForm> {
     return Column(
       children: [
         Form(
-          key: _formKey,
+          key: widget.formKey,
           child: Container(
             padding: const EdgeInsets.only(
               left: 16,
@@ -73,9 +79,10 @@ class _SignInFormState extends State<SignInForm> {
             alignment: RowAlignment.center,
             label: 'Sign in with email',
           ),
+          isLoading: widget.loading,
           onPressed: () {
-            if (_formKey.currentState!.validate()) {
-              _formKey.currentState!.save();
+            if (widget.formKey.currentState!.validate()) {
+              widget.formKey.currentState!.save();
               widget.provider.add(
                 SignInEventUserAuthenticated(
                   authType: AuthenticationType.email,
