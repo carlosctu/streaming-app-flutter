@@ -86,13 +86,15 @@ class _SignUpPageState extends State<SignUpPage> {
                       children: [
                         Form(
                           key: _formKey,
-                          autovalidateMode: AutovalidateMode.onUserInteraction,
                           child: SignUpFormFields(provider: bloc),
                         ),
                         StyledCustomButton(
                           isLoading: _isLoading,
-                          onPressed: () =>
-                              bloc.add(SignUpEventSubmitted(model: bloc.model)),
+                          onPressed: () {
+                            if (_formKey.currentState!.validate()) {
+                              bloc.add(SignUpEventSubmitted(model: bloc.model));
+                            }
+                          },
                           content: const Text('Sign up'),
                         )
                       ],
