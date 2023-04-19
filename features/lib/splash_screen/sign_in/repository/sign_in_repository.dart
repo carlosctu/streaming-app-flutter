@@ -1,3 +1,4 @@
+import 'package:features/shared/firebase/error_validations.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -34,8 +35,9 @@ class SignInRepository {
         email: email,
         password: password,
       );
-    } on FirebaseAuthException catch (e) {
-      throw Exception(e);
+    } on FirebaseAuthException catch (ex) {
+      print(ex);
+      firebaseErrorValidation(ex);
     } catch (e) {
       print(e);
       throw Exception(defaultMessage);
@@ -65,17 +67,8 @@ class SignInRepository {
 
       return userCredential;
     } on FirebaseAuthException catch (ex) {
-      switch (ex.code) {
-        case "email-already-in-use":
-          throw Exception(ex.message);
-        case "account-exists-with-different-credential":
-          throw Exception(ex.message);
-        case "operation-not-allowed":
-          throw Exception(
-              "Can't not create and account with that email. Please try another or contact us");
-        default:
-          throw Exception("Please try again later");
-      }
+      print(ex);
+      firebaseErrorValidation(ex);
     } catch (e) {
       print(e);
       throw Exception(defaultMessage);
@@ -105,8 +98,9 @@ class SignInRepository {
 
       // Return the SignIn data
       return FirebaseAuth.instance.signInWithCredential(credential);
-    } on FirebaseAuthException catch (e) {
-      throw Exception(e);
+    } on FirebaseAuthException catch (ex) {
+      print(ex);
+      firebaseErrorValidation(ex);
     } catch (e) {
       print(e);
       throw Exception(defaultMessage);
