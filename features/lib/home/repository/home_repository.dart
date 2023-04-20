@@ -1,6 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:features/home/home.dart';
-import 'package:features/home/model/home_response.dart';
+import 'package:features/home/repository/model/home_response.dart';
 
 class HomeRepository {
   final _dio = Dio();

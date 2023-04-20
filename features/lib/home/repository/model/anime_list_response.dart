@@ -1,4 +1,4 @@
-import 'package:features/home/model/anime_attributes_response.dart';
+import 'package:features/home/repository/model/anime_attributes_response.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'anime_list_response.g.dart';

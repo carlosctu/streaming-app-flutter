@@ -1,6 +1,4 @@
 import 'package:features/home/bloc/home_bloc.dart';
-import 'package:features/home/model/anime_list_response.dart';
-import 'package:features/home/model/home_response.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -66,9 +64,9 @@ class _Body extends StatelessWidget {
           stream: bloc.dataStream,
           builder: (context, snapshot) {
             if (snapshot.hasData) {
-              final todo = snapshot.data as HomeResponse;
+              final todo = snapshot.data;
               return Center(
-                child: Text('${todo.attributes}'),
+                child: Text('${todo.data}'),
               );
             } else if (snapshot.hasError) {
               return Center(
