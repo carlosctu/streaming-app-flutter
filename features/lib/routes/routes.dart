@@ -1,4 +1,6 @@
+import 'package:features/home/bloc/home_bloc.dart';
 import 'package:features/home/home.dart';
+import 'package:features/home/repository/home_repository.dart';
 import 'package:features/splash_screen/sign_in/bloc/sign_in_bloc.dart';
 import 'package:features/splash_screen/sign_in/repository/sign_in_repository.dart';
 import 'package:features/splash_screen/sign_in/sign_in_page.dart';
@@ -33,14 +35,16 @@ Route<dynamic>? onGenerateRoute(settings) {
         ),
       ),
     );
-    // } else if (settings.name == DetailsPage.route) {
-    // final arguments = settings.arguments as CryptoDataArguments;
-    // return DefaultPageRoute(
-    // child: DetailsPage(cryptoDataArguments: arguments),
-    // );
   } else if (settings.name == "/home") {
     return MaterialPageRoute(
-      builder: (BuildContext context) => const Home(),
+      builder: (BuildContext context) => RepositoryProvider(
+        create: (context) => HomeRepository(),
+        child: BlocProvider(
+          create: (context) =>
+              HomeBloc(RepositoryProvider.of<HomeRepository>(context)),
+          child: const Home(),
+        ),
+      ),
     );
   }
   return null;
