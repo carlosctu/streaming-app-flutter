@@ -1,4 +1,5 @@
 import 'package:features/home/bloc/home_bloc.dart';
+import 'package:features/home/model/home_view_data.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -64,7 +65,7 @@ class _Body extends StatelessWidget {
           stream: bloc.dataStream,
           builder: (context, snapshot) {
             if (snapshot.hasData) {
-              final todo = snapshot.data;
+              final todo = snapshot.data as HomeViewData;
               return Center(
                 child: Text('${todo.data}'),
               );

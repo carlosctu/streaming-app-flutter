@@ -10,13 +10,13 @@ class AnimeAttributesViewData extends Equatable {
   final PosterImageViewData? posterImage;
 
   const AnimeAttributesViewData({
-    this.synopsis,
-    this.coverImageTopOffset,
-    this.canonicalTitle,
-    this.averageRating,
-    this.popularityRank,
-    this.ageRating,
-    this.posterImage,
+    required this.synopsis,
+    required this.coverImageTopOffset,
+    required this.canonicalTitle,
+    required this.averageRating,
+    required this.popularityRank,
+    required this.ageRating,
+    required this.posterImage,
   });
 
   @override
@@ -41,12 +41,12 @@ class PosterImageViewData extends Equatable {
   final String? original;
   final ImageInfoViewData? imageInfo;
   const PosterImageViewData({
-    this.tiny,
-    this.large,
-    this.small,
-    this.medium,
-    this.original,
-    this.imageInfo,
+    required this.tiny,
+    required this.large,
+    required this.small,
+    required this.medium,
+    required this.original,
+    required this.imageInfo,
   });
 
   @override
@@ -65,7 +65,7 @@ class PosterImageViewData extends Equatable {
 class ImageInfoViewData extends Equatable {
   final ImageDimensionsViewData? dimensions;
   const ImageInfoViewData({
-    this.dimensions,
+    required this.dimensions,
   });
 
   @override
@@ -78,10 +78,10 @@ class ImageDimensionsViewData extends Equatable {
   final DimensionSizeViewData? small;
   final DimensionSizeViewData? medium;
   const ImageDimensionsViewData({
-    this.tiny,
-    this.large,
-    this.small,
-    this.medium,
+    required this.tiny,
+    required this.large,
+    required this.small,
+    required this.medium,
   });
 
   @override
@@ -97,8 +97,8 @@ class DimensionSizeViewData extends Equatable {
   final int? width;
   final int? height;
   const DimensionSizeViewData({
-    this.width,
-    this.height,
+    required this.width,
+    required this.height,
   });
 
   @override

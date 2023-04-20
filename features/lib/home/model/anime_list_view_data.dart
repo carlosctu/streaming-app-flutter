@@ -7,10 +7,10 @@ class AnimeListViewData extends Equatable {
   final LinkPathViewData? links;
   final AnimeAttributesViewData? attributes;
   const AnimeListViewData({
-    this.id,
-    this.type,
-    this.links,
-    this.attributes,
+    required this.id,
+    required this.type,
+    required this.links,
+    required this.attributes,
   });
 
   @override
@@ -25,7 +25,7 @@ class AnimeListViewData extends Equatable {
 class LinkPathViewData extends Equatable {
   final String? path;
   const LinkPathViewData({
-    this.path,
+    required this.path,
   });
 
   @override
