@@ -5,6 +5,7 @@ part 'anime_attributes_response.g.dart';
 @JsonSerializable()
 class AnimeAttributesResponse {
   final String? synopsis;
+  final String? description;
   final num? coverImageTopOffset;
   final String? canonicalTitle;
   final String? averageRating;
@@ -14,6 +15,7 @@ class AnimeAttributesResponse {
   final PosterImage? coverImage;
   AnimeAttributesResponse({
     this.synopsis,
+    this.description,
     this.coverImageTopOffset,
     this.canonicalTitle,
     this.averageRating,

@@ -10,6 +10,7 @@ AnimeAttributesResponse _$AnimeAttributesResponseFromJson(
         Map<String, dynamic> json) =>
     AnimeAttributesResponse(
       synopsis: json['synopsis'] as String?,
+      description: json['description'] as String?,
       coverImageTopOffset: json['coverImageTopOffset'] as num?,
       canonicalTitle: json['canonicalTitle'] as String?,
       averageRating: json['averageRating'] as String?,
@@ -27,6 +28,7 @@ Map<String, dynamic> _$AnimeAttributesResponseToJson(
         AnimeAttributesResponse instance) =>
     <String, dynamic>{
       'synopsis': instance.synopsis,
+      'description': instance.description,
       'coverImageTopOffset': instance.coverImageTopOffset,
       'canonicalTitle': instance.canonicalTitle,
       'averageRating': instance.averageRating,

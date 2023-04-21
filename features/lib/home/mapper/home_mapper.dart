@@ -20,6 +20,7 @@ extension HomeMapper on HomeResponse {
             links: LinkPathViewData(path: anime.links?.path),
             attributes: AnimeAttributesViewData(
               synopsis: attributes?.synopsis,
+              description: attributes?.description,
               coverImageTopOffset: attributes?.coverImageTopOffset,
               canonicalTitle: attributes?.canonicalTitle,
               averageRating: attributes?.averageRating,

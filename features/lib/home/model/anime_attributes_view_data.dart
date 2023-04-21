@@ -2,6 +2,7 @@ import 'package:equatable/equatable.dart';
 
 class AnimeAttributesViewData extends Equatable {
   final String? synopsis;
+  final String? description;
   final num? coverImageTopOffset;
   final String? canonicalTitle;
   final String? averageRating;
@@ -12,6 +13,7 @@ class AnimeAttributesViewData extends Equatable {
 
   const AnimeAttributesViewData( {
     required this.synopsis,
+    required this.description,
     required this.coverImageTopOffset,
     required this.canonicalTitle,
     required this.averageRating,
