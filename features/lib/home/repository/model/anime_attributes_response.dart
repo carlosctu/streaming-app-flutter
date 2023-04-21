@@ -11,6 +11,7 @@ class AnimeAttributesResponse {
   final num? popularityRank;
   final String? ageRating;
   final PosterImage? posterImage;
+  final PosterImage? coverImage;
   AnimeAttributesResponse({
     this.synopsis,
     this.coverImageTopOffset,
@@ -19,6 +20,7 @@ class AnimeAttributesResponse {
     this.popularityRank,
     this.ageRating,
     this.posterImage,
+    this.coverImage,
   });
 
   factory AnimeAttributesResponse.fromJson(Map<String, dynamic> json) =>

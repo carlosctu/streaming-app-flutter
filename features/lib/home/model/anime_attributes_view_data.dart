@@ -8,8 +8,9 @@ class AnimeAttributesViewData extends Equatable {
   final num? popularityRank;
   final String? ageRating;
   final PosterImageViewData? posterImage;
+  final PosterImageViewData? coverImage;
 
-  const AnimeAttributesViewData({
+  const AnimeAttributesViewData( {
     required this.synopsis,
     required this.coverImageTopOffset,
     required this.canonicalTitle,
@@ -17,6 +18,7 @@ class AnimeAttributesViewData extends Equatable {
     required this.popularityRank,
     required this.ageRating,
     required this.posterImage,
+    required this.coverImage,
   });
 
   @override
