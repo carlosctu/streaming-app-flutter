@@ -50,17 +50,24 @@ class _BackgroundImage extends StatelessWidget {
           Container(
             padding: const EdgeInsets.all(8),
             decoration: BoxDecoration(
+              gradient: LinearGradient(
+                colors: [
+                  Colors.transparent,
+                  Colors.black.withOpacity(0.5),
+                ],
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+              ),
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black.withOpacity(0.45),
+                  color: Colors.black.withOpacity(0.2),
                   spreadRadius: 10,
                   blurRadius: 10,
                 ),
               ],
             ),
-            child: Wrap(
-              alignment: WrapAlignment.start,
-              runSpacing: 6,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
                   '${anime?.canonicalTitle}',
@@ -70,13 +77,79 @@ class _BackgroundImage extends StatelessWidget {
                     fontWeight: FontWeight.bold,
                   ),
                 ),
+                const SizedBox(height: 6),
+                Wrap(
+                  spacing: 8,
+                  children: [
+                    if (anime?.ageRating != null)
+                      Container(
+                        padding: const EdgeInsets.all(4),
+                        decoration: const BoxDecoration(
+                          color: Color(0xffD93B41),
+                        ),
+                        child: Text(
+                          '${anime?.ageRating}',
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 10,
+                          ),
+                        ),
+                      ),
+                    if (anime?.averageRating != null)
+                      Container(
+                        padding: const EdgeInsets.all(4),
+                        decoration: const BoxDecoration(
+                          color: Color(0xffD93B41),
+                        ),
+                        child: Text(
+                          'Rating: ${anime!.averageRating!.replaceAll('', '.').substring(1, 4)}',
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 10,
+                          ),
+                        ),
+                      ),
+                  ],
+                ),
+                const SizedBox(height: 6),
                 Text(
-                  '${anime?.description?.replaceAll('\n', ' ').substring(0, 160)}...',
+                  '${anime?.description?.replaceAll('\n', ' ').substring(0, 120)}...',
                   style: const TextStyle(
                     color: Colors.white,
                     fontSize: 12.5,
                   ),
                 ),
+                const SizedBox(height: 6),
+                GestureDetector(
+                  onTap: () {},
+                  child: Container(
+                    padding: const EdgeInsets.all(6),
+                    decoration: const BoxDecoration(
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(5),
+                      ),
+                      color: Color(0xffD93B41),
+                    ),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: const [
+                        Text(
+                          'Watch now',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 12.5,
+                          ),
+                        ),
+                        Icon(
+                          Icons.play_arrow,
+                          size: 16,
+                          color: Colors.white,
+                        )
+                      ],
+                    ),
+                  ),
+                ),
+              
               ],
             ),
           ),
