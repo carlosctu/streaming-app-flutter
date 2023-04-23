@@ -18,7 +18,6 @@ class TrendingAnimeAgeRating extends StatelessWidget with AgeRatingMixin {
       scrollDirection: Axis.horizontal,
       itemBuilder: (context, index) {
         String? ageRating = animes[index].attributes?.ageRating;
-        int? episodes = animes[index].attributes!.episodeLength;
 
         return Container(
           margin: const EdgeInsets.only(right: 12),

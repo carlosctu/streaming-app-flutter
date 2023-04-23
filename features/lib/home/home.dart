@@ -1,7 +1,6 @@
 import 'package:features/home/bloc/home_bloc.dart';
 import 'package:features/home/model/home_view_data.dart';
 import 'package:features/home/widgets/home_body.dart';
-import 'package:features/home/widgets/home_cover_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -13,32 +12,6 @@ class Home extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const Scaffold(
-      // appBar: AppBar(
-      //   backgroundColor: Colors.transparent,
-      //   elevation: 0,
-      //   bottom: PreferredSize(
-      //     preferredSize: const Size.fromHeight(1.0),
-      //     child: Container(
-      //       decoration: const BoxDecoration(
-      //         border: Border(
-      //           bottom: BorderSide(
-      //             color: Colors.black26,
-      //             width: 1.0,
-      //           ),
-      //         ),
-      //       ),
-      //     ),
-      //   ),
-      //   leading: IconButton(
-      //     splashRadius: 18,
-      //     icon: const Icon(
-      //       Icons.arrow_back_outlined,
-      //       size: 24,
-      //       color: Color(0xffD93B41),
-      //     ),
-      //     onPressed: () => Navigator.pop(context),
-      //   ),
-      // ),
       body: _Body(),
     );
   }
