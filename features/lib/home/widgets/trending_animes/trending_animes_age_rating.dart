@@ -1,21 +1,16 @@
 import 'package:features/home/model/anime_list_view_data.dart';
+import 'package:features/home/widgets/config/trending_anime_age_rating_mixin.dart';
 import 'package:flutter/material.dart';
 
-class AnimeAgeRating extends StatelessWidget {
+class TrendingAnimeAgeRating extends StatelessWidget with AgeRatingMixin {
   final List<AnimeListViewData> animes;
-  const AnimeAgeRating({
+  const TrendingAnimeAgeRating({
     super.key,
     required this.animes,
   });
 
   @override
   Widget build(BuildContext context) {
-    String getFormattedTitle(String? title) {
-      if (title == null) return '';
-      if (title.length < 19) return title;
-      return '${title.substring(0, 18)}...';
-    }
-
     return ListView.builder(
       shrinkWrap: true,
       physics: const ClampingScrollPhysics(),
@@ -23,17 +18,7 @@ class AnimeAgeRating extends StatelessWidget {
       scrollDirection: Axis.horizontal,
       itemBuilder: (context, index) {
         String? ageRating = animes[index].attributes?.ageRating;
-
-        String getAgeGuide() {
-          switch (ageRating) {
-            case 'PG':
-              return 'A13';
-            case 'R':
-              return 'A17';
-            default:
-              return 'G';
-          }
-        }
+        int? episodes = animes[index].attributes!.episodeLength;
 
         return Container(
           margin: const EdgeInsets.only(right: 12),
@@ -41,7 +26,6 @@ class AnimeAgeRating extends StatelessWidget {
             maxWidth: 150,
           ),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Container(
@@ -55,49 +39,89 @@ class AnimeAgeRating extends StatelessWidget {
                   ),
                 ),
               ),
-              Text(getFormattedTitle(animes[index].attributes?.canonicalTitle)),
-              Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Container(
-                    padding: const EdgeInsets.all(4),
-                    margin: const EdgeInsets.only(right: 4),
-                    decoration: const BoxDecoration(
-                      color: Color(0xffD93B41),
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(2),
-                      ),
+              Container(
+                width: double.infinity,
+                padding: const EdgeInsets.only(
+                  bottom: 6,
+                  left: 6,
+                  top: 2,
+                ),
+                decoration: BoxDecoration(
+                  borderRadius: const BorderRadius.only(
+                    bottomLeft: Radius.circular(6),
+                    bottomRight: Radius.circular(6),
+                  ),
+                  gradient: LinearGradient(
+                    colors: [
+                      Colors.transparent,
+                      Colors.black.withOpacity(0.2),
+                    ],
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                  ),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.8),
                     ),
-                    child: Text(
-                      getAgeGuide(),
+                  ],
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const SizedBox(height: 4),
+                    Text(
+                      getFormattedTitle(
+                          animes[index].attributes?.canonicalTitle),
                       style: const TextStyle(
                         color: Colors.white,
-                        fontSize: 10,
                       ),
                     ),
-                  ),
-                  if (ageRating != null)
-                    Container(
-                      padding: const EdgeInsets.all(4),
-                      decoration: const BoxDecoration(
-                        color: Color(0xffD93B41),
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(2),
-                        ),
-                      ),
-                      child: Row(
-                        children: [
-                          Text(
-                            ageRating,
+                    const SizedBox(height: 4),
+                    Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Container(
+                          padding: const EdgeInsets.all(4),
+                          margin: const EdgeInsets.only(right: 4),
+                          decoration: BoxDecoration(
+                            color: getAgeGuide(ageRating).boxColor,
+                            borderRadius: const BorderRadius.all(
+                              Radius.circular(2),
+                            ),
+                          ),
+                          child: Text(
+                            getAgeGuide(ageRating).ageGuide,
                             style: const TextStyle(
                               color: Colors.white,
                               fontSize: 10,
                             ),
                           ),
-                        ],
-                      ),
+                        ),
+                        if (ageRating != null)
+                          Container(
+                            padding: const EdgeInsets.all(4),
+                            decoration: BoxDecoration(
+                              color: getAgeGuide(ageRating).boxColor,
+                              borderRadius: const BorderRadius.all(
+                                Radius.circular(2),
+                              ),
+                            ),
+                            child: Row(
+                              children: [
+                                Text(
+                                  ageRating,
+                                  style: const TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 10,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                      ],
                     ),
-                ],
+                  ],
+                ),
               ),
             ],
           ),

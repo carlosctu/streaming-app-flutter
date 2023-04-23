@@ -1,5 +1,6 @@
 import 'package:features/home/model/anime_attributes_view_data.dart';
 import 'package:features/home/model/home_view_data.dart';
+import 'package:features/home/widgets/config/trending_anime_age_rating_mixin.dart';
 import 'package:flutter/material.dart';
 
 class BackgroundImage extends StatelessWidget {
@@ -80,7 +81,8 @@ class BackgroundImage extends StatelessWidget {
   }
 }
 
-class _AnimeInformation extends StatelessWidget {
+class _AnimeInformation extends StatelessWidget
+    with AgeRatingMixin {
   final AnimeAttributesViewData? anime;
   const _AnimeInformation({
     required this.anime,
@@ -95,31 +97,14 @@ class _AnimeInformation extends StatelessWidget {
         if (anime?.ageRating != null)
           Container(
             padding: const EdgeInsets.all(4),
-            decoration: const BoxDecoration(
-              color: Color(0xffD93B41),
-              borderRadius: BorderRadius.all(
+            decoration: BoxDecoration(
+              color: getAgeGuide(anime?.ageRating).boxColor,
+              borderRadius: const BorderRadius.all(
                 Radius.circular(2),
               ),
             ),
             child: Text(
-              '${anime?.ageRating}',
-              style: const TextStyle(
-                color: Colors.white,
-                fontSize: 10,
-              ),
-            ),
-          ),
-        if (anime?.averageRating != null)
-          Container(
-            padding: const EdgeInsets.all(4),
-            decoration: const BoxDecoration(
-              color: Color(0xffD93B41),
-              borderRadius: BorderRadius.all(
-                Radius.circular(2),
-              ),
-            ),
-            child: Text(
-              'Rating: ${anime!.averageRating!.replaceAll('', '.').substring(1, 4)}',
+              getAgeGuide(anime?.ageRating).ageGuide,
               style: const TextStyle(
                 color: Colors.white,
                 fontSize: 10,
