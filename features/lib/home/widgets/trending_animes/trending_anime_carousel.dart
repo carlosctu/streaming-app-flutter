@@ -26,7 +26,7 @@ class TrendingAnimeCarousel extends StatelessWidget {
           ),
           const SizedBox(height: 8),
           SizedBox(
-            height: 300,
+            height: 260,
             width: double.infinity,
             child: TrendingAnimeAgeRating(animes: animes),
           ),

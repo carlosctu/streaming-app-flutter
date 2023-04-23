@@ -13,7 +13,7 @@ class TrendingAnimeAgeRating extends StatelessWidget with AgeRatingMixin {
   Widget build(BuildContext context) {
     return ListView.builder(
       shrinkWrap: true,
-      physics: const ClampingScrollPhysics(),
+      physics: const BouncingScrollPhysics(),
       itemCount: animes.length,
       scrollDirection: Axis.horizontal,
       itemBuilder: (context, index) {
@@ -27,21 +27,52 @@ class TrendingAnimeAgeRating extends StatelessWidget with AgeRatingMixin {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Container(
-                height: 200,
-                decoration: BoxDecoration(
-                  image: DecorationImage(
-                    fit: BoxFit.fitWidth,
-                    image: NetworkImage(
-                      animes[index].attributes!.posterImage!.small!,
+              Stack(
+                children: [
+                  Container(
+                    height: 200,
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                        color: Colors.black.withOpacity(0.4),
+                        width: 1.5,
+                      ),
+                      image: DecorationImage(
+                        fit: BoxFit.fitWidth,
+                        image: NetworkImage(
+                          animes[index].attributes!.posterImage!.small!,
+                        ),
+                      ),
                     ),
                   ),
-                ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Container(
+                        alignment: Alignment.topRight,
+                        padding: const EdgeInsets.all(4),
+                        margin: const EdgeInsets.all(4),
+                        decoration: BoxDecoration(
+                          color: getAgeGuide(ageRating).boxColor,
+                          borderRadius: const BorderRadius.all(
+                            Radius.circular(2),
+                          ),
+                        ),
+                        child: Text(
+                          getAgeGuide(ageRating).ageGuide,
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 10,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
               ),
               Container(
                 width: double.infinity,
                 padding: const EdgeInsets.only(
-                  bottom: 6,
+                  bottom: 8,
                   left: 6,
                   top: 2,
                 ),
@@ -77,46 +108,21 @@ class TrendingAnimeAgeRating extends StatelessWidget with AgeRatingMixin {
                     ),
                     const SizedBox(height: 4),
                     Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Container(
-                          padding: const EdgeInsets.all(4),
-                          margin: const EdgeInsets.only(right: 4),
-                          decoration: BoxDecoration(
-                            color: getAgeGuide(ageRating).boxColor,
-                            borderRadius: const BorderRadius.all(
-                              Radius.circular(2),
-                            ),
-                          ),
-                          child: Text(
-                            getAgeGuide(ageRating).ageGuide,
-                            style: const TextStyle(
-                              color: Colors.white,
-                              fontSize: 10,
-                            ),
+                      children: const [
+                        Text(
+                          'Series',
+                          style: TextStyle(
+                            color: Color(0xff2ABCBB),
+                            fontSize: 12,
                           ),
                         ),
-                        if (ageRating != null)
-                          Container(
-                            padding: const EdgeInsets.all(4),
-                            decoration: BoxDecoration(
-                              color: getAgeGuide(ageRating).boxColor,
-                              borderRadius: const BorderRadius.all(
-                                Radius.circular(2),
-                              ),
-                            ),
-                            child: Row(
-                              children: [
-                                Text(
-                                  ageRating,
-                                  style: const TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 10,
-                                  ),
-                                ),
-                              ],
-                            ),
+                        Text(
+                          '• Sub | Dub',
+                          style: TextStyle(
+                            color: Color.fromARGB(255, 146, 146, 147),
+                            fontSize: 12,
                           ),
+                        )
                       ],
                     ),
                   ],

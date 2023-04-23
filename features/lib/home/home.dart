@@ -29,15 +29,15 @@ class _Body extends StatelessWidget {
           stream: bloc.dataStream,
           builder: (context, snapshot) {
             if (snapshot.hasData) {
-              final todo = snapshot.data as HomeViewData;
+              final todo = snapshot.data as Map<AnimeTypes, HomeViewData>;
               return HomeBody(todo: todo);
             } else if (snapshot.hasError) {
-              return Center(
+              return const Center(
                 child: Text('Error fetching data'),
               );
             } else {
               bloc.fetch();
-              return Center(
+              return const Center(
                 child: CircularProgressIndicator(),
               );
             }

@@ -12,7 +12,7 @@ class BackgroundImage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final anime = todo.data[3].attributes;
+    final anime = todo.data[1].attributes;
     return Container(
       padding: const EdgeInsets.only(
         top: kToolbarHeight,
@@ -42,7 +42,7 @@ class BackgroundImage extends StatelessWidget {
               ),
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black.withOpacity(0.2),
+                  color: Colors.black.withOpacity(0.4),
                   spreadRadius: 10,
                   blurRadius: 10,
                 ),
