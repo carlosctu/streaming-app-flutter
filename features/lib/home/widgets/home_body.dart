@@ -20,9 +20,10 @@ class HomeBody extends StatelessWidget {
           floating: false,
           automaticallyImplyLeading: false,
           expandedHeight: 350,
-          collapsedHeight: 150,
+          collapsedHeight: kToolbarHeight + 20,
           backgroundColor: Colors.transparent,
           flexibleSpace: HomeCoverWidget(todo: todo[AnimeTypes.trending]!),
+          
         ),
         TrendingAnimeCarousel(
           animes: todo[AnimeTypes.trending]!.data,
