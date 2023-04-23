@@ -25,6 +25,8 @@ dependencies:
   build_runner: ^2.3.3
   json_serializable: ^6.6.1
   carousel_slider: ^4.2.1
+  cached_network_image: ^3.2.3
+  shimmer: ^2.0.0
 
 dev_dependencies:
   flutter_test:

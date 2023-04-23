@@ -13,18 +13,34 @@ class HomeBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final animes = todo[AnimeTypes.shounen]!.data;
-
-    return SingleChildScrollView(
-      child: Column(
-        children: [
-          HomeCoverWidget(todo: todo[AnimeTypes.trending]!),
-          TrendingAnimeCarousel(animes: todo[AnimeTypes.trending]!.data),
-          TrendingAnimeCarousel(animes: todo[AnimeTypes.shounen]!.data),
-          TrendingAnimeCarousel(animes: todo[AnimeTypes.newUpdates]!.data),
-          TrendingAnimeCarousel(animes: todo[AnimeTypes.romance]!.data),
-        ],
-      ),
+    return CustomScrollView(
+      slivers: [
+        SliverAppBar(
+          pinned: false,
+          floating: false,
+          automaticallyImplyLeading: false,
+          expandedHeight: 350,
+          collapsedHeight: 150,
+          backgroundColor: Colors.transparent,
+          flexibleSpace: HomeCoverWidget(todo: todo[AnimeTypes.trending]!),
+        ),
+        TrendingAnimeCarousel(
+          animes: todo[AnimeTypes.trending]!.data,
+          sectionTitle: 'Trending series',
+        ),
+        TrendingAnimeCarousel(
+          animes: todo[AnimeTypes.shounen]!.data,
+          sectionTitle: 'Recently updated',
+        ),
+        TrendingAnimeCarousel(
+          animes: todo[AnimeTypes.romance]!.data,
+          sectionTitle: 'Romance checkpoint',
+        ),
+        TrendingAnimeCarousel(
+          animes: todo[AnimeTypes.newUpdates]!.data,
+          sectionTitle: 'Shounen series',
+        ),
+      ],
     );
   }
 }

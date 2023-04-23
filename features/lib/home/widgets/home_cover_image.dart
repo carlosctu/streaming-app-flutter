@@ -6,19 +6,18 @@ import 'package:flutter/material.dart';
 class BackgroundImage extends StatelessWidget {
   final HomeViewData todo;
   const BackgroundImage({
-    super.key,
+    Key? key,
     required this.todo,
-  });
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final anime = todo.data[1].attributes;
     return Container(
-      padding: const EdgeInsets.only(
-        top: kToolbarHeight,
-      ),
+      // padding: const EdgeInsets.only(
+      //   top: kToolbarHeight,
+      // ),
       width: double.infinity,
-      height: 400,
       decoration: BoxDecoration(
         image: DecorationImage(
           image: NetworkImage('${anime?.posterImage?.original}'),
@@ -71,7 +70,7 @@ class BackgroundImage extends StatelessWidget {
                 ),
                 const SizedBox(height: 6),
                 const _WatchNowButton(),
-                const SizedBox(height: 4),
+                // const SizedBox(height: 4),
               ],
             ),
           ),
@@ -81,8 +80,7 @@ class BackgroundImage extends StatelessWidget {
   }
 }
 
-class _AnimeInformation extends StatelessWidget
-    with AgeRatingMixin {
+class _AnimeInformation extends StatelessWidget with AgeRatingMixin {
   final AnimeAttributesViewData? anime;
   const _AnimeInformation({
     required this.anime,
@@ -124,20 +122,21 @@ class _AnimeInformation extends StatelessWidget
 }
 
 class _WatchNowButton extends StatelessWidget {
-  const _WatchNowButton();
+  const _WatchNowButton({
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {},
-      child: Container(
-        padding: const EdgeInsets.all(6),
-        decoration: const BoxDecoration(
-          borderRadius: BorderRadius.all(
-            Radius.circular(5),
-          ),
-          color: Color(0xffD93B41),
+    return Container(
+      padding: const EdgeInsets.all(6),
+      decoration: const BoxDecoration(
+        borderRadius: BorderRadius.all(
+          Radius.circular(5),
         ),
+        color: Color(0xffD93B41),
+      ),
+      child: Flexible(
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: const [
