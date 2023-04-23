@@ -23,15 +23,15 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
 
       final results = await Future.wait([
         _repository.getTrendingList().then((data) => data.toViewData()),
-        _repository.getAnimeList('fantasy').then(
-              (data) => data.toViewData(),
-            ),
-        _repository.getAnimeList('drama').then(
-              (data) => data.toViewData(),
-            ),
-        _repository.getAnimeList('romance').then(
-              (data) => data.toViewData(),
-            )
+        _repository
+            .getAnimeList('fantasy', 'popularityRank')
+            .then((data) => data.toViewData()),
+        _repository
+            .getAnimeList('drama', '-averageRating')
+            .then((data) => data.toViewData()),
+        _repository
+            .getAnimeList('romance', 'popularityRank')
+            .then((data) => data.toViewData())
       ]);
 
       response[AnimeTypes.trending] = results[0];

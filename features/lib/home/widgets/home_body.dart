@@ -19,8 +19,10 @@ class HomeBody extends StatelessWidget {
       child: Column(
         children: [
           HomeCoverWidget(todo: todo[AnimeTypes.trending]!),
-          TrendingAnimeCarousel(animes: animes),
-          TrendingAnimeCarousel(animes: animes)
+          TrendingAnimeCarousel(animes: todo[AnimeTypes.trending]!.data),
+          TrendingAnimeCarousel(animes: todo[AnimeTypes.shounen]!.data),
+          TrendingAnimeCarousel(animes: todo[AnimeTypes.newUpdates]!.data),
+          TrendingAnimeCarousel(animes: todo[AnimeTypes.romance]!.data),
         ],
       ),
     );

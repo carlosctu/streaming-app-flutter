@@ -12,10 +12,10 @@ class HomeRepository {
     }
   }
 
-  Future<HomeResponse> getAnimeList(String category) async {
+  Future<HomeResponse> getAnimeList(String category, String sort) async {
     try {
       final result = await _dio.get(
-          'https://kitsu.io/api/edge/anime?filter[categories]=$category&sort=-averageRating');
+          'https://kitsu.io/api/edge/anime?filter[categories]=$category&sort=$sort');
       return HomeResponse.fromJson(result.data);
     } catch (ex) {
       throw Exception(ex);
