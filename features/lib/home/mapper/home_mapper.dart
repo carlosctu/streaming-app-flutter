@@ -80,6 +80,9 @@ extension HomeMapper on HomeResponse {
                   ),
                 ),
               ),
+              episodeLength: attributes?.episodeLength,
+              ageRatingGuide: attributes?.ageRatingGuide,
+              subType: attributes?.subtype,
             ),
           );
         },

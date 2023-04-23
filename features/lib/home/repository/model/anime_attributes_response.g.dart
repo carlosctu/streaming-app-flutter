@@ -22,6 +22,9 @@ AnimeAttributesResponse _$AnimeAttributesResponseFromJson(
       coverImage: json['coverImage'] == null
           ? null
           : PosterImage.fromJson(json['coverImage'] as Map<String, dynamic>),
+      episodeLength: json['episodeLength'] as int?,
+      ageRatingGuide: json['ageRatingGuide'] as String?,
+      subtype: json['subtype'] as String?,
     );
 
 Map<String, dynamic> _$AnimeAttributesResponseToJson(
@@ -36,6 +39,9 @@ Map<String, dynamic> _$AnimeAttributesResponseToJson(
       'ageRating': instance.ageRating,
       'posterImage': instance.posterImage,
       'coverImage': instance.coverImage,
+      'episodeLength': instance.episodeLength,
+      'ageRatingGuide': instance.ageRatingGuide,
+      'subtype': instance.subtype,
     };
 
 PosterImage _$PosterImageFromJson(Map<String, dynamic> json) => PosterImage(

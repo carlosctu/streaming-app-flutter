@@ -13,6 +13,9 @@ class AnimeAttributesResponse {
   final String? ageRating;
   final PosterImage? posterImage;
   final PosterImage? coverImage;
+  final int? episodeLength;
+  final String? ageRatingGuide;
+  final String? subtype;
   AnimeAttributesResponse({
     this.synopsis,
     this.description,
@@ -23,6 +26,9 @@ class AnimeAttributesResponse {
     this.ageRating,
     this.posterImage,
     this.coverImage,
+    this.episodeLength,
+    this.ageRatingGuide,
+    this.subtype,
   });
 
   factory AnimeAttributesResponse.fromJson(Map<String, dynamic> json) =>

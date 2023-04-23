@@ -1,6 +1,7 @@
 import 'package:features/home/bloc/home_bloc.dart';
 import 'package:features/home/model/home_view_data.dart';
-import 'package:features/home/widgets/home_cover_image.dart';
+import 'package:features/home/widgets/home_body.dart';
+import 'package:features/home/widgets/home_cover_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -56,11 +57,7 @@ class _Body extends StatelessWidget {
           builder: (context, snapshot) {
             if (snapshot.hasData) {
               final todo = snapshot.data as HomeViewData;
-              return Column(
-                children: [
-                  HomeCoverImage(todo: todo),
-                ],
-              );
+              return HomeBody(todo: todo);
             } else if (snapshot.hasError) {
               return Center(
                 child: Text('Error fetching data'),
