@@ -136,25 +136,23 @@ class _WatchNowButton extends StatelessWidget {
         ),
         color: Color(0xffD93B41),
       ),
-      child: Flexible(
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: const [
-            Icon(
-              Icons.play_arrow_sharp,
-              size: 16,
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: const [
+          Icon(
+            Icons.play_arrow_sharp,
+            size: 16,
+            color: Colors.white,
+          ),
+          SizedBox(width: 4),
+          Text(
+            'Watch now',
+            style: TextStyle(
               color: Colors.white,
+              fontSize: 12.5,
             ),
-            SizedBox(width: 4),
-            Text(
-              'Watch now',
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 12.5,
-              ),
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
