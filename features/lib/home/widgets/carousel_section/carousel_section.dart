@@ -1,11 +1,11 @@
 import 'package:features/home/model/anime_list_view_data.dart';
-import 'package:features/home/widgets/trending_animes/trending_animes_age_rating.dart';
+import 'package:features/home/widgets/carousel_section/widgets/carousel_anime_list_widget.dart';
 import 'package:flutter/material.dart';
 
-class TrendingAnimeCarousel extends StatelessWidget {
+class CarouselSection extends StatelessWidget {
   final List<AnimeListViewData> animes;
   final String sectionTitle;
-  const TrendingAnimeCarousel({
+  const CarouselSection({
     super.key,
     required this.animes,
     required this.sectionTitle,
@@ -31,7 +31,7 @@ class TrendingAnimeCarousel extends StatelessWidget {
             SizedBox(
               height: 260,
               width: double.infinity,
-              child: TrendingAnimeAgeRating(animes: animes),
+              child: CarouselAnimeListWidget(animes: animes),
             ),
           ],
         ),
