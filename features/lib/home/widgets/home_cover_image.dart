@@ -70,7 +70,6 @@ class BackgroundImage extends StatelessWidget {
                 ),
                 const SizedBox(height: 6),
                 const _WatchNowButton(),
-                // const SizedBox(height: 4),
               ],
             ),
           ),
@@ -78,6 +77,7 @@ class BackgroundImage extends StatelessWidget {
       ),
     );
   }
+
 }
 
 class _AnimeInformation extends StatelessWidget with AgeRatingMixin {

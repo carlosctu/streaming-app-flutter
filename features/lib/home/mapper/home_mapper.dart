@@ -14,7 +14,7 @@ extension HomeMapper on HomeResponse {
           final coverInfo = attributes?.coverImage;
           final converDimensions = coverInfo?.imageInfo?.dimensions;
 
-          return AnimeListViewData(
+          return AnimeViewData(
             id: anime.id,
             type: anime.type,
             links: LinkPathViewData(path: anime.links?.path),

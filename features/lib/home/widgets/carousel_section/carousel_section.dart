@@ -3,7 +3,7 @@ import 'package:features/home/widgets/carousel_section/widgets/carousel_anime_li
 import 'package:flutter/material.dart';
 
 class CarouselSection extends StatelessWidget {
-  final List<AnimeListViewData> animes;
+  final List<AnimeViewData> animes;
   final String sectionTitle;
   const CarouselSection({
     super.key,

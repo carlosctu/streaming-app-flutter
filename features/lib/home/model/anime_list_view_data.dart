@@ -1,12 +1,12 @@
 import 'package:equatable/equatable.dart';
 import 'package:features/home/model/anime_attributes_view_data.dart';
 
-class AnimeListViewData extends Equatable {
+class AnimeViewData extends Equatable {
   final String? id;
   final String? type;
   final LinkPathViewData? links;
   final AnimeAttributesViewData? attributes;
-  const AnimeListViewData({
+  const AnimeViewData({
     required this.id,
     required this.type,
     required this.links,

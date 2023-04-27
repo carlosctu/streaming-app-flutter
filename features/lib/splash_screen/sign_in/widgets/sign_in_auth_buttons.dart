@@ -1,5 +1,5 @@
 import 'package:components/design_components.dart';
-import 'package:features/home/home.dart';
+import 'package:features/home/home_page.dart';
 import 'package:features/shared/alerts/snack_bar_alert.dart';
 import 'package:features/splash_screen/sign_in/bloc/sign_in_bloc.dart';
 import 'package:features/splash_screen/sign_in/widgets/sign_in_form.dart';
@@ -26,7 +26,7 @@ class _SignInAuthButtonsState extends State<SignInAuthButtons> {
     if (state is SignInValidState) {
       setState(() => _isLoading = false);
       _formKey.currentState!.reset();
-      Navigator.pushNamed(context, Home.route);
+      Navigator.pushNamed(context, HomePage.route);
     } else if (state is SignInInvalidState) {
       setState(() => _isLoading = false);
       showSnackAlert(

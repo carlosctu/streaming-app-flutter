@@ -4,7 +4,7 @@ import 'package:features/home/widgets/carousel_section/widgets/carousel_anime_co
 import 'package:flutter/material.dart';
 
 class CarouselAnimeListWidget extends StatelessWidget {
-  final List<AnimeListViewData> animes;
+  final List<AnimeViewData> animes;
   const CarouselAnimeListWidget({
     super.key,
     required this.animes,
@@ -17,7 +17,7 @@ class CarouselAnimeListWidget extends StatelessWidget {
       itemCount: animes.length,
       scrollDirection: Axis.horizontal,
       itemBuilder: (context, index) {
-        AnimeListViewData anime = animes[index];
+        AnimeViewData anime = animes[index];
 
         return Image.network(
           fit: BoxFit.fill,

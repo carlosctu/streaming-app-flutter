@@ -1,10 +1,11 @@
+import 'package:features/anime_page/anime_page.dart';
 import 'package:features/home/model/anime_list_view_data.dart';
 import 'package:features/home/widgets/config/anime_rating_config.dart';
 import 'package:features/home/widgets/config/trending_anime_age_rating_mixin.dart';
 import 'package:flutter/material.dart';
 
 class AnimeContainerWidget extends StatelessWidget with AgeRatingMixin {
-  final AnimeListViewData anime;
+  final AnimeViewData anime;
   final Widget child;
   const AnimeContainerWidget({
     Key? key,
@@ -19,15 +20,24 @@ class AnimeContainerWidget extends StatelessWidget with AgeRatingMixin {
     final titleDescription =
         getFormattedTitle(anime.attributes?.canonicalTitle);
 
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.start,
-      children: [
-        _AnimeContainerImage(
-          animeRatingconfig: animeRatingconfig,
-          child: child,
+    return GestureDetector(
+      onTap: () => Navigator.pushNamed(
+        context,
+        AnimePage.name,
+        arguments: AnimePageArguments(
+          anime: anime,
         ),
-        _AnimeContainerDescription(titleDescription: titleDescription),
-      ],
+      ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          _AnimeContainerImage(
+            animeRatingconfig: animeRatingconfig,
+            child: child,
+          ),
+          _AnimeContainerDescription(titleDescription: titleDescription),
+        ],
+      ),
     );
   }
 }
