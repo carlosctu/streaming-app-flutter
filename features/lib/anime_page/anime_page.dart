@@ -1,6 +1,7 @@
 import 'package:components/design_components.dart';
 import 'package:features/home/model/anime_list_view_data.dart';
 import 'package:features/home/widgets/carousel_section/widgets/carousel_anime_container_widget.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
 class AnimePageArguments {
@@ -10,7 +11,7 @@ class AnimePageArguments {
   });
 }
 
-class AnimePage extends StatelessWidget {
+class AnimePage extends StatefulWidget {
   final AnimePageArguments args;
   const AnimePage({
     super.key,
@@ -20,9 +21,23 @@ class AnimePage extends StatelessWidget {
   static const name = "/anime";
 
   @override
+  State<AnimePage> createState() => _AnimePageState();
+}
+
+class _AnimePageState extends State<AnimePage> {
+  bool _isExpanded = false;
+
+  void _handleExpansion(bool isExpanded) {
+    setState(() {
+      _isExpanded = isExpanded;
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
-    print(args.anime);
-    final anime = args.anime;
+    print(widget.args.anime);
+
+    final anime = widget.args.anime;
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
@@ -65,17 +80,15 @@ class AnimePage extends StatelessWidget {
                       anime.attributes?.canonicalTitle ?? '',
                       style: const TextStyle(
                         color: Colors.black,
-                        fontSize: 18,
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600,
                       ),
                     ),
                     const SizedBox(height: 12),
-                    Text(
-                      anime.attributes?.synopsis?.split('(')[0] ?? '',
-                      style: const TextStyle(
-                        color: Colors.black,
-                        fontSize: 14,
-                      ),
+                    ExpandableText(
+                      text: anime.attributes?.synopsis?.split('(')[0],
                     ),
+                    Text('Content'),
                   ],
                 ),
               ),
@@ -130,5 +143,113 @@ class AnimeCoverImage extends StatelessWidget {
         )
       ],
     );
+  }
+}
+
+class ExpandableText extends StatefulWidget {
+  final String? text;
+  final int? trimLines;
+  const ExpandableText({
+    super.key,
+    this.text = '',
+    this.trimLines = 2,
+  });
+
+  @override
+  ExpandableTextState createState() => ExpandableTextState();
+}
+
+class ExpandableTextState extends State<ExpandableText> {
+  bool _readMore = true;
+
+  void _onTapLink() {
+    setState(() {
+      if (_readMore = false) _readMore = !_readMore;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    const clickableTextStyle = TextStyle(
+      fontSize: 13,
+      color: Colors.black,
+      fontWeight: FontWeight.w600,
+    );
+
+    const nonClickableTextStyle = TextStyle(
+      fontSize: 13,
+      color: Colors.black,
+    );
+
+    TextSpan link = TextSpan(
+      text: _readMore ? "... read more" : "",
+      style: clickableTextStyle,
+      recognizer: TapGestureRecognizer()..onTap = _onTapLink,
+    );
+
+    Widget result = LayoutBuilder(
+      builder: (BuildContext context, BoxConstraints constraints) {
+        assert(constraints.hasBoundedWidth);
+
+        final double maxWidth = constraints.maxWidth;
+
+        // Create a TextSpan with data
+        final text = TextSpan(
+          text: widget.text,
+        );
+
+        // Layout and measure link
+        TextPainter textPainter = TextPainter(
+          text: link,
+          textDirection: TextDirection
+              .rtl, //better to pass this from master widget if ltr and rtl both supported
+          maxLines: widget.trimLines,
+          ellipsis: '...',
+        );
+
+        textPainter.layout(minWidth: constraints.minWidth, maxWidth: maxWidth);
+
+        final linkSize = textPainter.size;
+
+        // Layout and measure text
+        textPainter.text = text;
+
+        textPainter.layout(minWidth: constraints.minWidth, maxWidth: maxWidth);
+
+        final textSize = textPainter.size;
+
+        // Get the endIndex of data
+        int endIndex;
+
+        final pos = textPainter.getPositionForOffset(Offset(
+          textSize.width - linkSize.width,
+          textSize.height,
+        ));
+
+        endIndex = textPainter.getOffsetBefore(pos.offset)!;
+
+        final TextSpan textSpan;
+
+        if (textPainter.didExceedMaxLines) {
+          textSpan = TextSpan(
+            text: _readMore ? widget.text!.substring(0, endIndex) : widget.text,
+            style: nonClickableTextStyle,
+            children: [link],
+          );
+        } else {
+          textSpan = TextSpan(
+            text: widget.text,
+          );
+        }
+
+        return RichText(
+          softWrap: true,
+          overflow: TextOverflow.clip,
+          text: textSpan,
+        );
+      },
+    );
+
+    return result;
   }
 }
