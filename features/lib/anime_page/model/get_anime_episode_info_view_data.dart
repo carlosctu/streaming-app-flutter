@@ -1,64 +1,75 @@
 import 'package:equatable/equatable.dart';
 
-class AnimeAttributesViewData extends Equatable {
+class GetAnimeEpisodeInfoViewData extends Equatable {
+  final EpisodeInfoViewData data;
+  const GetAnimeEpisodeInfoViewData({
+    required this.data,
+  });
+
+  @override
+  List<Object> get props => [data];
+}
+
+class EpisodeInfoViewData extends Equatable {
+  final String id;
+  final String type;
+  final EpisodeAttributesViewData attributes;
+  const EpisodeInfoViewData({
+    required this.id,
+    required this.type,
+    required this.attributes,
+  });
+
+  @override
+  List<Object> get props => [id, type, attributes];
+}
+
+class EpisodeAttributesViewData extends Equatable {
   final String? synopsis;
   final String? description;
-  final num? coverImageTopOffset;
   final String? canonicalTitle;
-  final String? averageRating;
-  final num? popularityRank;
-  final String? ageRating;
-  final PosterImageViewData? posterImage;
-  final PosterImageViewData? coverImage;
-  final int? episodeLength;
-  final String? ageRatingGuide;
-  final String? subType;
-  final String? youtubeVideoId;
-
-  const AnimeAttributesViewData({
-    required this.synopsis,
-    required this.description,
-    required this.coverImageTopOffset,
-    required this.canonicalTitle,
-    required this.averageRating,
-    required this.popularityRank,
-    required this.ageRating,
-    required this.posterImage,
-    required this.coverImage,
-    required this.episodeLength,
-    required this.ageRatingGuide,
-    required this.subType,
-    required this.youtubeVideoId,
+  final int? seasonNumber;
+  final int? number;
+  final int? episodesCount;
+  final ThumbNailInfoViewData? thumbnail;
+  const EpisodeAttributesViewData({
+    this.synopsis,
+    this.description,
+    this.canonicalTitle,
+    this.seasonNumber,
+    this.number,
+    this.episodesCount,
+    required this.thumbnail,
   });
 
   @override
   List<Object?> get props {
     return [
       synopsis,
-      coverImageTopOffset,
+      description,
       canonicalTitle,
-      averageRating,
-      popularityRank,
-      ageRating,
-      posterImage,
+      seasonNumber,
+      number,
+      episodesCount,
+      thumbnail,
     ];
   }
 }
 
-class PosterImageViewData extends Equatable {
+class ThumbNailInfoViewData extends Equatable {
   final String? tiny;
   final String? large;
   final String? small;
   final String? medium;
   final String? original;
   final ImageInfoViewData? imageInfo;
-  const PosterImageViewData({
-    required this.tiny,
-    required this.large,
-    required this.small,
-    required this.medium,
-    required this.original,
-    required this.imageInfo,
+  const ThumbNailInfoViewData({
+    this.tiny,
+    this.large,
+    this.small,
+    this.medium,
+    this.original,
+    this.imageInfo,
   });
 
   @override

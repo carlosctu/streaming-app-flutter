@@ -1,52 +1,67 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'anime_attributes_response.dart';
+part of 'get_anime_episode_info_response.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-AnimeAttributesResponse _$AnimeAttributesResponseFromJson(
+GetAnimeEpisodeInfoResponse _$GetAnimeEpisodeInfoResponseFromJson(
         Map<String, dynamic> json) =>
-    AnimeAttributesResponse(
-      synopsis: json['synopsis'] as String?,
-      description: json['description'] as String?,
-      coverImageTopOffset: json['coverImageTopOffset'] as num?,
-      canonicalTitle: json['canonicalTitle'] as String?,
-      averageRating: json['averageRating'] as String?,
-      popularityRank: json['popularityRank'] as num?,
-      ageRating: json['ageRating'] as String?,
-      posterImage: json['posterImage'] == null
-          ? null
-          : PosterImage.fromJson(json['posterImage'] as Map<String, dynamic>),
-      coverImage: json['coverImage'] == null
-          ? null
-          : PosterImage.fromJson(json['coverImage'] as Map<String, dynamic>),
-      episodeLength: json['episodeLength'] as int?,
-      ageRatingGuide: json['ageRatingGuide'] as String?,
-      subtype: json['subtype'] as String?,
-      youtubeVideoId: json['youtubeVideoId'] as String?,
+    GetAnimeEpisodeInfoResponse(
+      data: EpisodeInfoResponse.fromJson(json['data'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$AnimeAttributesResponseToJson(
-        AnimeAttributesResponse instance) =>
+Map<String, dynamic> _$GetAnimeEpisodeInfoResponseToJson(
+        GetAnimeEpisodeInfoResponse instance) =>
+    <String, dynamic>{
+      'data': instance.data,
+    };
+
+EpisodeInfoResponse _$EpisodeInfoResponseFromJson(Map<String, dynamic> json) =>
+    EpisodeInfoResponse(
+      id: json['id'] as String,
+      type: json['type'] as String,
+      attributes: EpisodeAttributesResponse.fromJson(
+          json['attributes'] as Map<String, dynamic>),
+    );
+
+Map<String, dynamic> _$EpisodeInfoResponseToJson(
+        EpisodeInfoResponse instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'type': instance.type,
+      'attributes': instance.attributes,
+    };
+
+EpisodeAttributesResponse _$EpisodeAttributesResponseFromJson(
+        Map<String, dynamic> json) =>
+    EpisodeAttributesResponse(
+      synopsis: json['synopsis'] as String?,
+      description: json['description'] as String?,
+      canonicalTitle: json['canonicalTitle'] as String?,
+      seasonNumber: json['seasonNumber'] as int?,
+      number: json['number'] as int?,
+      episodesCount: json['length'] as int?,
+      thumbnail: json['thumbnail'] == null
+          ? null
+          : ThumbNailInfo.fromJson(json['thumbnail'] as Map<String, dynamic>),
+    );
+
+Map<String, dynamic> _$EpisodeAttributesResponseToJson(
+        EpisodeAttributesResponse instance) =>
     <String, dynamic>{
       'synopsis': instance.synopsis,
       'description': instance.description,
-      'coverImageTopOffset': instance.coverImageTopOffset,
       'canonicalTitle': instance.canonicalTitle,
-      'averageRating': instance.averageRating,
-      'popularityRank': instance.popularityRank,
-      'ageRating': instance.ageRating,
-      'posterImage': instance.posterImage,
-      'coverImage': instance.coverImage,
-      'episodeLength': instance.episodeLength,
-      'ageRatingGuide': instance.ageRatingGuide,
-      'subtype': instance.subtype,
-      'youtubeVideoId': instance.youtubeVideoId,
+      'seasonNumber': instance.seasonNumber,
+      'number': instance.number,
+      'length': instance.episodesCount,
+      'thumbnail': instance.thumbnail,
     };
 
-PosterImage _$PosterImageFromJson(Map<String, dynamic> json) => PosterImage(
+ThumbNailInfo _$ThumbNailInfoFromJson(Map<String, dynamic> json) =>
+    ThumbNailInfo(
       tiny: json['tiny'] as String?,
       large: json['large'] as String?,
       small: json['small'] as String?,
@@ -57,7 +72,7 @@ PosterImage _$PosterImageFromJson(Map<String, dynamic> json) => PosterImage(
           : ImageInfo.fromJson(json['meta'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$PosterImageToJson(PosterImage instance) =>
+Map<String, dynamic> _$ThumbNailInfoToJson(ThumbNailInfo instance) =>
     <String, dynamic>{
       'tiny': instance.tiny,
       'large': instance.large,

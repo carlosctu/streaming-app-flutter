@@ -1,45 +1,62 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-part 'anime_attributes_response.g.dart';
+part 'get_anime_episode_info_response.g.dart';
 
 @JsonSerializable()
-class AnimeAttributesResponse {
-  final String? synopsis;
-  final String? description;
-  final num? coverImageTopOffset;
-  final String? canonicalTitle;
-  final String? averageRating;
-  final num? popularityRank;
-  final String? ageRating;
-  final PosterImage? posterImage;
-  final PosterImage? coverImage;
-  final int? episodeLength;
-  final String? ageRatingGuide;
-  final String? subtype;
-  final String? youtubeVideoId;
-  AnimeAttributesResponse({
-    this.synopsis,
-    this.description,
-    this.coverImageTopOffset,
-    this.canonicalTitle,
-    this.averageRating,
-    this.popularityRank,
-    this.ageRating,
-    this.posterImage,
-    this.coverImage,
-    this.episodeLength,
-    this.ageRatingGuide,
-    this.subtype,
-    this.youtubeVideoId,
+class GetAnimeEpisodeInfoResponse {
+  final EpisodeInfoResponse data;
+  GetAnimeEpisodeInfoResponse({
+    required this.data,
   });
 
-  factory AnimeAttributesResponse.fromJson(Map<String, dynamic> json) =>
-      _$AnimeAttributesResponseFromJson(json);
-  Map<String, dynamic> toJson() => _$AnimeAttributesResponseToJson(this);
+  factory GetAnimeEpisodeInfoResponse.fromJson(Map<String, dynamic> json) =>
+      _$GetAnimeEpisodeInfoResponseFromJson(json);
+  Map<String, dynamic> toJson() => _$GetAnimeEpisodeInfoResponseToJson(this);
 }
 
 @JsonSerializable()
-class PosterImage {
+class EpisodeInfoResponse {
+  final String id;
+  final String type;
+  final EpisodeAttributesResponse attributes;
+  EpisodeInfoResponse({
+    required this.id,
+    required this.type,
+    required this.attributes,
+  });
+
+  factory EpisodeInfoResponse.fromJson(Map<String, dynamic> json) =>
+      _$EpisodeInfoResponseFromJson(json);
+  Map<String, dynamic> toJson() => _$EpisodeInfoResponseToJson(this);
+}
+
+@JsonSerializable()
+class EpisodeAttributesResponse {
+  final String? synopsis;
+  final String? description;
+  final String? canonicalTitle;
+  final int? seasonNumber;
+  final int? number;
+  @JsonKey(name: 'length')
+  final int? episodesCount;
+  final ThumbNailInfo? thumbnail;
+  EpisodeAttributesResponse({
+    this.synopsis,
+    this.description,
+    this.canonicalTitle,
+    this.seasonNumber,
+    this.number,
+    this.episodesCount,
+    this.thumbnail,
+  });
+
+  factory EpisodeAttributesResponse.fromJson(Map<String, dynamic> json) =>
+      _$EpisodeAttributesResponseFromJson(json);
+  Map<String, dynamic> toJson() => _$EpisodeAttributesResponseToJson(this);
+}
+
+@JsonSerializable()
+class ThumbNailInfo {
   final String? tiny;
   final String? large;
   final String? small;
@@ -47,7 +64,7 @@ class PosterImage {
   final String? original;
   @JsonKey(name: 'meta')
   final ImageInfo? imageInfo;
-  PosterImage({
+  ThumbNailInfo({
     this.tiny,
     this.large,
     this.small,
@@ -56,9 +73,9 @@ class PosterImage {
     this.imageInfo,
   });
 
-  factory PosterImage.fromJson(Map<String, dynamic> json) =>
-      _$PosterImageFromJson(json);
-  Map<String, dynamic> toJson() => _$PosterImageToJson(this);
+  factory ThumbNailInfo.fromJson(Map<String, dynamic> json) =>
+      _$ThumbNailInfoFromJson(json);
+  Map<String, dynamic> toJson() => _$ThumbNailInfoToJson(this);
 }
 
 @JsonSerializable()
@@ -84,6 +101,7 @@ class ImageDimensions {
     this.small,
     this.medium,
   });
+
   factory ImageDimensions.fromJson(Map<String, dynamic> json) =>
       _$ImageDimensionsFromJson(json);
   Map<String, dynamic> toJson() => _$ImageDimensionsToJson(this);
@@ -97,6 +115,7 @@ class DimensionSize {
     this.width,
     this.height,
   });
+
   factory DimensionSize.fromJson(Map<String, dynamic> json) =>
       _$DimensionSizeFromJson(json);
   Map<String, dynamic> toJson() => _$DimensionSizeToJson(this);

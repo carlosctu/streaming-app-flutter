@@ -14,9 +14,6 @@ class BackgroundImage extends StatelessWidget {
   Widget build(BuildContext context) {
     final anime = todo.data[1].attributes;
     return Container(
-      // padding: const EdgeInsets.only(
-      //   top: kToolbarHeight,
-      // ),
       width: double.infinity,
       decoration: BoxDecoration(
         image: DecorationImage(
