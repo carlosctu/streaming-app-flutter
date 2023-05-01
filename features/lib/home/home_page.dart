@@ -1,5 +1,6 @@
 import 'package:features/home/bloc/home_bloc.dart';
 import 'package:features/home/model/home_view_data.dart';
+import 'package:features/home/widgets/config/home_loading_shimmer.dart';
 import 'package:features/home/widgets/home_body.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -37,9 +38,7 @@ class _Body extends StatelessWidget {
               );
             } else {
               bloc.fetch();
-              return const Center(
-                child: CircularProgressIndicator(),
-              );
+              return const HomeLoadingShimmer();
             }
           },
         );
