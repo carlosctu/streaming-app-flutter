@@ -1,7 +1,6 @@
 import 'package:components/design_components.dart';
 import 'package:features/home/model/anime_list_view_data.dart';
-import 'package:features/home/widgets/carousel_section/widgets/carousel_anime_container_widget.dart';
-import 'package:flutter/gestures.dart';
+import 'package:features/shared/utils/expandable_text_widget.dart';
 import 'package:flutter/material.dart';
 
 class AnimePageArguments {
@@ -14,9 +13,9 @@ class AnimePageArguments {
 class AnimePage extends StatefulWidget {
   final AnimePageArguments args;
   const AnimePage({
-    super.key,
+    Key? key,
     required this.args,
-  });
+  }) : super(key: key);
 
   static const name = "/anime";
 
@@ -24,13 +23,42 @@ class AnimePage extends StatefulWidget {
   State<AnimePage> createState() => _AnimePageState();
 }
 
-class _AnimePageState extends State<AnimePage> {
-  bool _isExpanded = false;
+class _AnimePageState extends State<AnimePage>
+    with SingleTickerProviderStateMixin {
+  final titleKey = GlobalKey();
+  late ScrollController scrollController;
+  late TabController tabController;
+  bool _showTitle = false;
 
-  void _handleExpansion(bool isExpanded) {
-    setState(() {
-      _isExpanded = isExpanded;
-    });
+  @override
+  void initState() {
+    scrollController = ScrollController();
+    tabController = TabController(
+      length: 2,
+      vsync: this,
+    );
+    scrollController.addListener(_scrollListener);
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    scrollController.dispose();
+    super.dispose();
+  }
+
+  void _scrollListener() {
+    print(scrollController.offset);
+    print(scrollController.position);
+    if (scrollController.offset > 0 && !_showTitle) {
+      setState(() {
+        _showTitle = true;
+      });
+    } else if (scrollController.offset <= 0 && _showTitle) {
+      setState(() {
+        _showTitle = false;
+      });
+    }
   }
 
   @override
@@ -38,65 +66,137 @@ class _AnimePageState extends State<AnimePage> {
     print(widget.args.anime);
 
     final anime = widget.args.anime;
+    String title = anime.attributes?.canonicalTitle ?? '';
+
     return Scaffold(
       extendBodyBehindAppBar: true,
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-      ),
       body: SafeArea(
         top: false,
-        child: CustomScrollView(
-          physics: const BouncingScrollPhysics(),
-          slivers: [
-            SliverToBoxAdapter(
-              child: Image.network(
-                anime.attributes!.posterImage!.original!,
-                fit: BoxFit.fill,
-                loadingBuilder: (context, child, loadingProgress) {
-                  return Container(
-                    child: loadingProgress == null
-                        ? AnimeCoverImage(
-                            anime: anime,
-                            child: child,
-                          )
-                        : ShimmerEffect(
-                            height: 500,
-                            width: MediaQuery.of(context).size.width,
+        child: NestedScrollView(
+            // controller: scrollController,
+            physics: const ClampingScrollPhysics(),
+            headerSliverBuilder:
+                (BuildContext context, bool innerBoxIsScrolled) {
+              return [
+                SliverOverlapAbsorber(
+                  handle:
+                      NestedScrollView.sliverOverlapAbsorberHandleFor(context),
+                  sliver: const SliverAppBar(
+                    floating: true,
+                    snap: true,
+                    pinned: true,
+                    backgroundColor: Colors.black26,
+                  ),
+                ),
+                SliverToBoxAdapter(
+                  child: Hero(
+                    tag: 'HeroCoverImage${anime.id}',
+                    placeholderBuilder: (context, heroSize, child) {
+                      return const ShimmerEffect(
+                        height: 150,
+                        width: 150,
+                      );
+                    },
+                    child: Image.network(
+                      anime.attributes!.posterImage!.original!,
+                      fit: BoxFit.fill,
+                      loadingBuilder: (context, child, loadingProgress) {
+                        return Container(
+                          child: loadingProgress == null
+                              ? AnimeCoverImage(
+                                  anime: anime,
+                                  child: child,
+                                )
+                              : ShimmerEffect(
+                                  height: 500,
+                                  width: MediaQuery.of(context).size.width,
+                                ),
+                        );
+                      },
+                    ),
+                  ),
+                ),
+                SliverPadding(
+                  padding: const EdgeInsets.only(
+                    left: 16,
+                    right: 16,
+                    top: 24,
+                    bottom: 8,
+                  ),
+                  sliver: SliverToBoxAdapter(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          title,
+                          style: const TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w500,
                           ),
-                  );
-                },
-              ),
-            ),
-            SliverToBoxAdapter(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 16,
-                  vertical: 24,
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      anime.attributes?.canonicalTitle ?? '',
-                      style: const TextStyle(
-                        color: Colors.black,
-                        fontSize: 16,
-                        fontWeight: FontWeight.w600,
-                      ),
+                        ),
+                        const SizedBox(height: 12),
+                        ExpandableTextWidget(
+                          text: anime.attributes?.synopsis?.split('(')[0],
+                          trimLines: 4,
+                        ),
+                      ],
                     ),
-                    const SizedBox(height: 12),
-                    ExpandableText(
-                      text: anime.attributes?.synopsis?.split('(')[0],
-                    ),
-                    Text('Content'),
-                  ],
+                  ),
                 ),
-              ),
-            ),
-          ],
-        ),
+                SliverPersistentHeader(
+                  pinned: false,
+                  delegate: MySliverPersistentHeaderDelegate(
+                    controller: tabController,
+                  ),
+                ),
+              ];
+            },
+            body: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Text('body'),
+            )),
       ),
     );
+  }
+}
+
+class MySliverPersistentHeaderDelegate extends SliverPersistentHeaderDelegate {
+  final TabController controller;
+  MySliverPersistentHeaderDelegate({
+    required this.controller,
+  });
+  @override
+  Widget build(
+      BuildContext context, double shrinkOffset, bool overlapsContent) {
+    return Container(
+      margin: const EdgeInsets.symmetric(horizontal: 16),
+      decoration: BoxDecoration(
+        border: Border(
+          bottom: BorderSide(color: Colors.grey.shade400, width: 1.0),
+        ),
+      ),
+      child: TabBar(
+        isScrollable: true,
+        controller: controller,
+        labelColor: Colors.black,
+        indicatorColor: const Color(0xffD93B41),
+        tabs: const [
+          Tab(text: 'Episodes'),
+          Tab(text: 'Trailer'),
+        ],
+      ),
+    );
+  }
+
+  @override
+  double get maxExtent => 48;
+
+  @override
+  double get minExtent => 48;
+
+  @override
+  bool shouldRebuild(covariant SliverPersistentHeaderDelegate oldDelegate) {
+    return false;
   }
 }
 
@@ -135,121 +235,13 @@ class AnimeCoverImage extends StatelessWidget {
             boxShadow: [
               BoxShadow(
                 color: Colors.black.withOpacity(0.7),
-                spreadRadius: 5,
-                blurRadius: 60,
+                spreadRadius: 4,
+                blurRadius: 40,
               ),
             ],
           ),
         )
       ],
     );
-  }
-}
-
-class ExpandableText extends StatefulWidget {
-  final String? text;
-  final int? trimLines;
-  const ExpandableText({
-    super.key,
-    this.text = '',
-    this.trimLines = 2,
-  });
-
-  @override
-  ExpandableTextState createState() => ExpandableTextState();
-}
-
-class ExpandableTextState extends State<ExpandableText> {
-  bool _readMore = true;
-
-  void _onTapLink() {
-    setState(() {
-      if (_readMore = false) _readMore = !_readMore;
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    const clickableTextStyle = TextStyle(
-      fontSize: 13,
-      color: Colors.black,
-      fontWeight: FontWeight.w600,
-    );
-
-    const nonClickableTextStyle = TextStyle(
-      fontSize: 13,
-      color: Colors.black,
-    );
-
-    TextSpan link = TextSpan(
-      text: _readMore ? "... read more" : "",
-      style: clickableTextStyle,
-      recognizer: TapGestureRecognizer()..onTap = _onTapLink,
-    );
-
-    Widget result = LayoutBuilder(
-      builder: (BuildContext context, BoxConstraints constraints) {
-        assert(constraints.hasBoundedWidth);
-
-        final double maxWidth = constraints.maxWidth;
-
-        // Create a TextSpan with data
-        final text = TextSpan(
-          text: widget.text,
-        );
-
-        // Layout and measure link
-        TextPainter textPainter = TextPainter(
-          text: link,
-          textDirection: TextDirection
-              .rtl, //better to pass this from master widget if ltr and rtl both supported
-          maxLines: widget.trimLines,
-          ellipsis: '...',
-        );
-
-        textPainter.layout(minWidth: constraints.minWidth, maxWidth: maxWidth);
-
-        final linkSize = textPainter.size;
-
-        // Layout and measure text
-        textPainter.text = text;
-
-        textPainter.layout(minWidth: constraints.minWidth, maxWidth: maxWidth);
-
-        final textSize = textPainter.size;
-
-        // Get the endIndex of data
-        int endIndex;
-
-        final pos = textPainter.getPositionForOffset(Offset(
-          textSize.width - linkSize.width,
-          textSize.height,
-        ));
-
-        endIndex = textPainter.getOffsetBefore(pos.offset)!;
-
-        final TextSpan textSpan;
-
-        if (textPainter.didExceedMaxLines) {
-          textSpan = TextSpan(
-            text: _readMore ? widget.text!.substring(0, endIndex) : widget.text,
-            style: nonClickableTextStyle,
-            children: [link],
-          );
-        } else {
-          textSpan = TextSpan(
-            text: widget.text,
-          );
-        }
-
-        return RichText(
-          softWrap: true,
-          overflow: TextOverflow.clip,
-          text: textSpan,
-        );
-      },
-    );
-
-    return result;
   }
 }

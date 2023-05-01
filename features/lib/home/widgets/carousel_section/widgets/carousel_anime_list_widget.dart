@@ -30,6 +30,7 @@ class CarouselAnimeListWidget extends StatelessWidget {
               ),
               child: loadingProgress == null
                   ? AnimeContainerWidget(
+                      index: anime.id!,
                       anime: anime,
                       child: child,
                     )

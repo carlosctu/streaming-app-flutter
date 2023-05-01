@@ -1,3 +1,4 @@
+import 'package:components/design_components.dart';
 import 'package:features/anime_page/anime_page.dart';
 import 'package:features/home/model/anime_list_view_data.dart';
 import 'package:features/home/widgets/config/anime_rating_config.dart';
@@ -5,10 +6,12 @@ import 'package:features/home/widgets/config/trending_anime_age_rating_mixin.dar
 import 'package:flutter/material.dart';
 
 class AnimeContainerWidget extends StatelessWidget with AgeRatingMixin {
+  final String index;
   final AnimeViewData anime;
   final Widget child;
   const AnimeContainerWidget({
     Key? key,
+    required this.index,
     required this.anime,
     required this.child,
   }) : super(key: key);
@@ -32,6 +35,7 @@ class AnimeContainerWidget extends StatelessWidget with AgeRatingMixin {
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           _AnimeContainerImage(
+            index: index,
             animeRatingconfig: animeRatingconfig,
             child: child,
           ),
@@ -43,21 +47,33 @@ class AnimeContainerWidget extends StatelessWidget with AgeRatingMixin {
 }
 
 class _AnimeContainerImage extends StatelessWidget {
+  final String index;
   final Widget child;
   final AnimeRatingConfig animeRatingconfig;
   const _AnimeContainerImage({
+    Key? key,
+    required this.index,
     required this.child,
     required this.animeRatingconfig,
-  });
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        SizedBox(
-          height: 200,
-          width: 200,
-          child: child,
+        Hero(
+          tag: 'HeroCoverImage$index',
+          placeholderBuilder: (context, heroSize, child) {
+            return const ShimmerEffect(
+              height: 150,
+              width: 150,
+            );
+          },
+          child: SizedBox(
+            height: 200,
+            width: 200,
+            child: child,
+          ),
         ),
         Row(
           mainAxisAlignment: MainAxisAlignment.end,
