@@ -1,5 +1,20 @@
 import 'package:features/anime_page/model/get_anime_episode_info_view_data.dart';
+import 'package:features/anime_page/model/get_anime_episodes_info_view_data.dart';
 import 'package:features/anime_page/repository/model/get_anime_episode_info_response.dart';
+import 'package:features/anime_page/repository/model/get_anime_episodes_id_response.dart';
+
+extension GetAnimeEpisodesIdMapper on GetAnimeEpisodesIdResponse {
+  GetAnimeEpisodesIdViewData toViewData() {
+    return GetAnimeEpisodesIdViewData(
+      data: data.map((episode) {
+        return EpisodeInfoIdViewData(
+          id: episode.id,
+          type: episode.type,
+        );
+      }).toList(),
+    );
+  }
+}
 
 extension GetAnimeEpisodeInfoMapper on GetAnimeEpisodeInfoResponse {
   GetAnimeEpisodeInfoViewData toViewData() {

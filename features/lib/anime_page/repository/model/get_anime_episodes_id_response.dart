@@ -16,10 +16,10 @@ class GetAnimeEpisodesIdResponse {
 
 @JsonSerializable()
 class EpisodeInfoResponse {
-  final String episodes;
+  final String type;
   final String id;
   EpisodeInfoResponse({
-    required this.episodes,
+    required this.type,
     required this.id,
   });
 

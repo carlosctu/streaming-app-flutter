@@ -37,7 +37,6 @@ class _Body extends StatelessWidget {
                 child: Text('Error fetching data'),
               );
             } else {
-            bloc.fetch();
               return const HomeLoadingShimmer();
             }
           },

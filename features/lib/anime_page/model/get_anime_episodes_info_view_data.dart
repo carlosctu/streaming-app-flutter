@@ -1,8 +1,8 @@
 import 'package:equatable/equatable.dart';
 
-class GetAnimeEpisodesInfoViewData extends Equatable {
-  final List<EpisodeInfoViewData> data;
-  const GetAnimeEpisodesInfoViewData({
+class GetAnimeEpisodesIdViewData extends Equatable {
+  final List<EpisodeInfoIdViewData> data;
+  const GetAnimeEpisodesIdViewData({
     required this.data,
   });
 
@@ -10,10 +10,10 @@ class GetAnimeEpisodesInfoViewData extends Equatable {
   List<Object> get props => [data];
 }
 
-class EpisodeInfoViewData extends Equatable {
+class EpisodeInfoIdViewData extends Equatable {
   final String id;
   final String type;
-  const EpisodeInfoViewData({
+  const EpisodeInfoIdViewData({
     required this.id,
     required this.type,
   });

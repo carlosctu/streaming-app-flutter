@@ -15,7 +15,9 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   final HomeRepository _repository;
   final _dataController = StreamController();
 
-  HomeBloc(this._repository) : super(HomeInitialState());
+  HomeBloc(this._repository) : super(HomeInitialState()) {
+    fetch();
+  }
 
   void fetch() async {
     try {

@@ -1,4 +1,6 @@
 import 'package:features/anime_page/anime_page.dart';
+import 'package:features/anime_page/bloc/anime_page_bloc.dart';
+import 'package:features/anime_page/repository/anime_page_repository.dart';
 import 'package:features/home/bloc/home_bloc.dart';
 import 'package:features/home/home_page.dart';
 import 'package:features/home/repository/home_repository.dart';
@@ -50,7 +52,16 @@ Route<dynamic>? onGenerateRoute(settings) {
   } else if (settings.name == "/anime") {
     final arguments = settings.arguments as AnimePageArguments;
     return MaterialPageRoute(
-      builder: (BuildContext context) => AnimePage(args: arguments),
+      builder: (context) => RepositoryProvider(
+        create: (context) => AnimePageRepository(),
+        child: BlocProvider(
+          create: (context) => AnimePageBloc(
+            RepositoryProvider.of<AnimePageRepository>(context),
+            animeId: arguments.anime.id!,
+          ),
+          child: AnimePage(args: arguments),
+        ),
+      ),
     );
   }
   return null;

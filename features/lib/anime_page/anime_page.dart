@@ -1,8 +1,10 @@
+import 'package:features/anime_page/bloc/anime_page_bloc.dart';
 import 'package:features/anime_page/widgets/anime_cover_image_widget.dart';
 import 'package:features/anime_page/widgets/anime_description_widget.dart';
 import 'package:features/anime_page/widgets/sliver_tabbar_delegate_widget.dart';
 import 'package:features/home/model/anime_list_view_data.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class AnimePageArguments {
   final AnimeViewData anime;
@@ -62,50 +64,65 @@ class _AnimePageState extends State<AnimePage>
 
   @override
   Widget build(BuildContext context) {
+    final bloc = BlocProvider.of<AnimePageBloc>(context);
     final anime = widget.args.anime;
-
     print(widget.args.anime);
+    print('-----------------------------------------');
+    print('-----------------------------------------');
+    // print(bloc);
 
     return Scaffold(
       extendBodyBehindAppBar: true,
-      body: SafeArea(
-        top: false,
-        child: NestedScrollView(
-          physics: const ClampingScrollPhysics(),
-          headerSliverBuilder: (BuildContext context, _) {
-            return [
-              SliverOverlapAbsorber(
-                handle:
-                    NestedScrollView.sliverOverlapAbsorberHandleFor(context),
-                sliver: const SliverAppBar(
-                  floating: true,
-                  snap: true,
-                  pinned: true,
-                  backgroundColor: Colors.black26,
-                ),
-              ),
-              SliverToBoxAdapter(
-                child: AnimeCoverImageWidget(anime: anime),
-              ),
-              SliverPadding(
-                padding: const EdgeInsets.fromLTRB(16, 24, 16, 8),
-                sliver: SliverToBoxAdapter(
-                  child: AnimeDescriptionWidget(anime: anime),
-                ),
-              ),
-              SliverPersistentHeader(
-                pinned: false,
-                delegate: SliverTabbarDelegateWidget(
-                  controller: tabController,
-                ),
-              ),
-            ];
-          },
-          body: const Padding(
-            padding: EdgeInsets.all(16.0),
-            child: Text('body'),
-          ),
-        ),
+      body: BlocBuilder<AnimePageBloc, AnimePageState>(
+        builder: (context, state) {
+          bloc.fetch();
+          return SafeArea(
+            top: false,
+            child: NestedScrollView(
+              physics: const ClampingScrollPhysics(),
+              headerSliverBuilder: (BuildContext context, _) {
+                return [
+                  SliverOverlapAbsorber(
+                    handle: NestedScrollView.sliverOverlapAbsorberHandleFor(
+                        context),
+                    sliver: const SliverAppBar(
+                      floating: true,
+                      snap: true,
+                      pinned: true,
+                      backgroundColor: Colors.black26,
+                    ),
+                  ),
+                  SliverToBoxAdapter(
+                    child: AnimeCoverImageWidget(anime: anime),
+                  ),
+                  SliverPadding(
+                    padding: const EdgeInsets.fromLTRB(16, 24, 16, 8),
+                    sliver: SliverToBoxAdapter(
+                      child: AnimeDescriptionWidget(anime: anime),
+                    ),
+                  ),
+                  SliverPersistentHeader(
+                    pinned: false,
+                    delegate: SliverTabbarDelegateWidget(
+                      controller: tabController,
+                    ),
+                  ),
+                ];
+              },
+              body: StreamBuilder(
+                  stream: bloc.dataStream,
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData) {
+                      print(snapshot.data);
+                    }
+                    return Padding(
+                      padding: EdgeInsets.all(16.0),
+                      child: Text('body'),
+                    );
+                  }),
+            ),
+          );
+        },
       ),
     );
   }

@@ -22,13 +22,13 @@ Map<String, dynamic> _$GetAnimeEpisodesIdResponseToJson(
 
 EpisodeInfoResponse _$EpisodeInfoResponseFromJson(Map<String, dynamic> json) =>
     EpisodeInfoResponse(
-      episodes: json['episodes'] as String,
+      type: json['type'] as String,
       id: json['id'] as String,
     );
 
 Map<String, dynamic> _$EpisodeInfoResponseToJson(
         EpisodeInfoResponse instance) =>
     <String, dynamic>{
-      'episodes': instance.episodes,
+      'type': instance.type,
       'id': instance.id,
     };
