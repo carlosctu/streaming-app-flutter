@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:features/anime_page/mapper/anime_page_mapper.dart';
-import 'package:features/anime_page/model/get_anime_episode_info_view_data.dart';
 import 'package:features/anime_page/model/get_anime_episodes_info_view_data.dart';
 import 'package:features/anime_page/repository/anime_page_repository.dart';
 import 'package:features/anime_page/repository/model/get_anime_episode_info_response.dart';
@@ -40,64 +39,43 @@ class AnimePageBloc extends Bloc<AnimePageEvent, AnimePageState> {
       List<GetAnimeEpisodeInfoResponse> episodeInfoList =
           await Future.wait(futures);
 
-      final response = episodeInfoList.map((e) => e.toViewData());
+      // final response = episodeInfoList.map((e) => e.toViewData()).toList();
 
-      print(response);
+      // print(response[0]);
 
-      // final viewDataList = episodeInfoList.map((info) {
-      //   return info.toViewData();
-      // }).toList();
-
-      print(episodeInfoList);
-
-      final data = episodeInfoList.map((e) => e.toViewData()).toList();
-
-      // final response = await Future.wait(episodesList
-      //     .map(
-      //       (id) async => await _repository
-      //           .getAnimeEpisodeInfo(id)
-      //           .then((value) => value.toViewData()),
-      //     )
-      //     .toList());
-
-      // print(response);
-
-      // final episodesInfo = await fetchAnimeEpisodesInfo(episodesList);
-
-      // print(episodesInfo);
-      // _dataController.sink.add(episodesInfo);
+      _dataController.sink.add(episodeInfoList);
     } catch (ex) {
       throw Exception(ex);
     }
   }
 
-  Future<List<GetAnimeEpisodeInfoViewData>> fetchAnimeEpisodesInfo(
-      List<String> episodesList) async {
-    List<GetAnimeEpisodeInfoViewData> response = [];
-    try {
-      final response = await _repository
-          .getAnimeEpisodeInfo(episodesList[0])
-          .then((value) => value.toViewData());
-      print(response);
-      final data = await Future.wait(episodesList
-          .map((id) async => _repository
-              .getAnimeEpisodeInfo(id)
-              .then((value) => value.toViewData()))
-          .toList());
-      print(data[0].data.attributes);
-      // print(response);
-      // final data = episodesList.map((id) async {
-      // final episodeInfo = await _repository
-      // .getAnimeEpisodeInfo(id)
-      // .then((value) => value.toViewData());
-      // response.add(episodeInfo);
-      // }).toList();
-      // print(data);
-      return Future.value([]);
-    } catch (ex) {
-      throw Exception(ex);
-    }
-  }
+  // Future<List<GetAnimeEpisodeInfoViewData>> fetchAnimeEpisodesInfo(
+  //     List<String> episodesList) async {
+  //   List<GetAnimeEpisodeInfoViewData> response = [];
+  //   try {
+  //     final response = await _repository
+  //         .getAnimeEpisodeInfo(episodesList[0])
+  //         .then((value) => value.toViewData());
+  //     print(response);
+  //     final data = await Future.wait(episodesList
+  //         .map((id) async => _repository
+  //             .getAnimeEpisodeInfo(id)
+  //             .then((value) => value.toViewData()))
+  //         .toList());
+  //     print(data[0].data.attributes);
+  //     // print(response);
+  //     // final data = episodesList.map((id) async {
+  //     // final episodeInfo = await _repository
+  //     // .getAnimeEpisodeInfo(id)
+  //     // .then((value) => value.toViewData());
+  //     // response.add(episodeInfo);
+  //     // }).toList();
+  //     // print(data);
+  //     return Future.value([]);
+  //   } catch (ex) {
+  //     throw Exception(ex);
+  //   }
+  // }
 
   Stream get dataStream => _dataController.stream;
 

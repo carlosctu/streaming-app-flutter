@@ -1,10 +1,14 @@
+import 'package:components/design_components.dart';
 import 'package:features/anime_page/bloc/anime_page_bloc.dart';
+import 'package:features/anime_page/repository/model/get_anime_episode_info_response.dart';
 import 'package:features/anime_page/widgets/anime_cover_image_widget.dart';
 import 'package:features/anime_page/widgets/anime_description_widget.dart';
 import 'package:features/anime_page/widgets/sliver_tabbar_delegate_widget.dart';
 import 'package:features/home/model/anime_list_view_data.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+import 'model/get_anime_episode_info_view_data.dart';
 
 class AnimePageArguments {
   final AnimeViewData anime;
@@ -67,9 +71,6 @@ class _AnimePageState extends State<AnimePage>
     final bloc = BlocProvider.of<AnimePageBloc>(context);
     final anime = widget.args.anime;
     print(widget.args.anime);
-    print('-----------------------------------------');
-    print('-----------------------------------------');
-    // print(bloc);
 
     return Scaffold(
       extendBodyBehindAppBar: true,
@@ -113,7 +114,10 @@ class _AnimePageState extends State<AnimePage>
                   stream: bloc.dataStream,
                   builder: (context, snapshot) {
                     if (snapshot.hasData) {
-                      print(snapshot.data);
+                      return EpisodesListContainerWidget(
+                        data:
+                            snapshot.data as List<GetAnimeEpisodeInfoResponse>,
+                      );
                     }
                     return Padding(
                       padding: EdgeInsets.all(16.0),
@@ -124,6 +128,94 @@ class _AnimePageState extends State<AnimePage>
           );
         },
       ),
+    );
+  }
+}
+
+class EpisodesListContainerWidget extends StatelessWidget {
+  final List<GetAnimeEpisodeInfoResponse> data;
+  const EpisodesListContainerWidget({
+    super.key,
+    required this.data,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    Widget getEpisodeDescription(String? description) {
+      if (description == null) return const SizedBox.shrink();
+      if (description.length > 120) {
+        return Text(
+          '${description.replaceAll('\n', ' ').substring(0, 120)}...',
+          style: const TextStyle(
+            fontSize: 12,
+          ),
+        );
+      }
+      return Text(description);
+    }
+
+    return ListView(
+      padding: const EdgeInsets.symmetric(
+        horizontal: 12,
+        // vertical: 24,
+      ),
+      shrinkWrap: true,
+      children: [
+        ListView.separated(
+          physics: const NeverScrollableScrollPhysics(),
+          shrinkWrap: true,
+          itemCount: data.length,
+          separatorBuilder: (context, index) => const SizedBox(height: 24),
+          itemBuilder: (context, index) {
+            final episode = data[index].data;
+            return Row(
+              children: [
+                if (episode.attributes.thumbnail?.original != null)
+                  Image.network(
+                    episode.attributes.thumbnail!.original!,
+                    fit: BoxFit.fill,
+                    loadingBuilder: (context, child, loadingProgress) {
+                      return SizedBox(
+                        height: 90,
+                        width: 160,
+                        child: loadingProgress == null
+                            ? Container(
+                                margin: const EdgeInsets.only(right: 12),
+                                child: child,
+                              )
+                            : ShimmerEffect(
+                                height: 500,
+                                width: MediaQuery.of(context).size.width,
+                              ),
+                      );
+                    },
+                  ),
+                Flexible(
+                  child: ConstrainedBox(
+                    constraints: const BoxConstraints(
+                      maxHeight: 90,
+                    ),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          episode.attributes.canonicalTitle ?? '',
+                          style: const TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                        getEpisodeDescription(episode.attributes.description)
+                      ],
+                    ),
+                  ),
+                )
+              ],
+            );
+          },
+        ),
+      ],
     );
   }
 }
