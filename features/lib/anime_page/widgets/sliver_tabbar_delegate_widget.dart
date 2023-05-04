@@ -30,10 +30,10 @@ class SliverTabbarDelegateWidget extends SliverPersistentHeaderDelegate {
   }
 
   @override
-  double get maxExtent => 48;
+  double get maxExtent => 36;
 
   @override
-  double get minExtent => 48;
+  double get minExtent => 36;
 
   @override
   bool shouldRebuild(covariant SliverPersistentHeaderDelegate oldDelegate) {

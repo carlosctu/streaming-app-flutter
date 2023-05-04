@@ -154,68 +154,75 @@ class EpisodesListContainerWidget extends StatelessWidget {
       return Text(description);
     }
 
-    return ListView(
-      padding: const EdgeInsets.symmetric(
-        horizontal: 12,
-        // vertical: 24,
-      ),
-      shrinkWrap: true,
-      children: [
-        ListView.separated(
-          physics: const NeverScrollableScrollPhysics(),
-          shrinkWrap: true,
-          itemCount: data.length,
-          separatorBuilder: (context, index) => const SizedBox(height: 24),
-          itemBuilder: (context, index) {
-            final episode = data[index].data;
-            return Row(
-              children: [
-                if (episode.attributes.thumbnail?.original != null)
-                  Image.network(
-                    episode.attributes.thumbnail!.original!,
-                    fit: BoxFit.fill,
-                    loadingBuilder: (context, child, loadingProgress) {
-                      return SizedBox(
-                        height: 90,
-                        width: 160,
-                        child: loadingProgress == null
-                            ? Container(
-                                margin: const EdgeInsets.only(right: 12),
-                                child: child,
-                              )
-                            : ShimmerEffect(
-                                height: 500,
-                                width: MediaQuery.of(context).size.width,
-                              ),
-                      );
-                    },
-                  ),
-                Flexible(
-                  child: ConstrainedBox(
-                    constraints: const BoxConstraints(
-                      maxHeight: 90,
-                    ),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          episode.attributes.canonicalTitle ?? '',
-                          style: const TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                        getEpisodeDescription(episode.attributes.description)
-                      ],
-                    ),
-                  ),
-                )
-              ],
-            );
-          },
+    return MediaQuery.removePadding(
+      removeTop: true,
+      context: context,
+      child: SingleChildScrollView(
+        physics: const ClampingScrollPhysics(),
+        padding: const EdgeInsets.symmetric(
+          horizontal: 12,
+          // vertical: 24,
         ),
-      ],
+        child: Column(
+          children: [
+            ListView.separated(
+              physics: const NeverScrollableScrollPhysics(),
+              shrinkWrap: true,
+              itemCount: data.length,
+              separatorBuilder: (context, index) => const SizedBox(height: 24),
+              itemBuilder: (context, index) {
+                final episode = data[index].data;
+                return Row(
+                  children: [
+                    if (episode.attributes.thumbnail?.original != null)
+                      Image.network(
+                        episode.attributes.thumbnail!.original!,
+                        fit: BoxFit.fill,
+                        loadingBuilder: (context, child, loadingProgress) {
+                          return SizedBox(
+                            height: 90,
+                            width: 160,
+                            child: loadingProgress == null
+                                ? Container(
+                                    margin: const EdgeInsets.only(right: 12),
+                                    child: child,
+                                  )
+                                : ShimmerEffect(
+                                    height: 500,
+                                    width: MediaQuery.of(context).size.width,
+                                  ),
+                          );
+                        },
+                      ),
+                    Flexible(
+                      child: ConstrainedBox(
+                        constraints: const BoxConstraints(
+                          maxHeight: 90,
+                        ),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              episode.attributes.canonicalTitle ?? '',
+                              style: const TextStyle(
+                                fontSize: 14,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                            getEpisodeDescription(
+                                episode.attributes.description)
+                          ],
+                        ),
+                      ),
+                    )
+                  ],
+                );
+              },
+            ),
+          ],
+        ),
+      ),
     );
   }
 }
