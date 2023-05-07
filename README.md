@@ -1,17 +1,31 @@
-# streaming_app_flutter
+# Streaming App Mobile (Flutter)
 
-A new Flutter project.
+The Streaming App Mobile is a mobile application for streaming anime content that is currently under development. It is being developed using Dart and Flutter, along with Firebase and BloC Provider.
 
-## Getting Started
+## Technologies Used
 
-This project is a starting point for a Flutter application.
+The Streaming App Mobile has been developed using the following technologies:
 
-A few resources to get you started if this is your first Flutter project:
+- **Dart:** programming language used by Flutter.
+- **Flutter:** Google's mobile development framework.
+- **Firebase:** mobile development platform that provides tools and services for creating high-quality applications.
+- **BloC Provider:** state management pattern used to separate business logic from user interface.
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+## Running the Application
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
-# streaming-app-flutter
+To run the streaming app on your own machine, follow these steps:
+
+1. Clone this repository.
+2. Install Flutter on your machine if you haven't already.
+3. Run `flutter pub get` to install the project dependencies.
+4. Run `flutter run` to start the application on your emulator or physical device.
+
+It will soon on a AppStore or PlayStore...
+
+## Video
+
+
+
+https://user-images.githubusercontent.com/72350887/236708897-2baf7bf4-f960-4307-9120-fc9c267c30a7.mp4
+
+
