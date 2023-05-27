@@ -13,13 +13,17 @@ enum AnimeTypes { trending, romance, shounen, newUpdates }
 
 class HomeBloc extends Bloc<HomeEvent, HomeState> {
   final HomeRepository _repository;
-  final _dataController = StreamController();
 
-  HomeBloc(this._repository) : super(HomeInitialState()) {
-    fetch();
+  HomeBloc(this._repository) : super(const HomeState.initial()) {
+    on<HomeEventFetchAnimeList>(_onFetchAnimeList);
   }
 
-  void fetch() async {
+  void _onFetchAnimeList(
+    HomeEventFetchAnimeList event,
+    Emitter<HomeState> emit,
+  ) async {
+    emit(state.loading());
+
     try {
       Map<AnimeTypes, HomeViewData> response = {};
 
@@ -41,15 +45,9 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       response[AnimeTypes.shounen] = results[2];
       response[AnimeTypes.romance] = results[3];
 
-      _dataController.sink.add(response);
-    } catch (ex) {
-      throw Exception(ex);
+      emit(state.validState(response));
+    } on Exception catch (ex) {
+      emit(state.inValidState(ex));
     }
-  }
-
-  Stream get dataStream => _dataController.stream;
-
-  void dispose() {
-    _dataController.close();
   }
 }

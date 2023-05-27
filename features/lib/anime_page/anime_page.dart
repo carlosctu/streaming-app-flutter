@@ -8,8 +8,6 @@ import 'package:features/home/model/anime_list_view_data.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'model/get_anime_episode_info_view_data.dart';
-
 class AnimePageArguments {
   final AnimeViewData anime;
   AnimePageArguments({
@@ -70,7 +68,6 @@ class _AnimePageState extends State<AnimePage>
   Widget build(BuildContext context) {
     final bloc = BlocProvider.of<AnimePageBloc>(context);
     final anime = widget.args.anime;
-    print(widget.args.anime);
 
     return Scaffold(
       extendBodyBehindAppBar: true,
@@ -119,10 +116,7 @@ class _AnimePageState extends State<AnimePage>
                             snapshot.data as List<GetAnimeEpisodeInfoResponse>,
                       );
                     }
-                    return Padding(
-                      padding: EdgeInsets.all(16.0),
-                      child: Text('body'),
-                    );
+                    return const SizedBox.shrink();
                   }),
             ),
           );
@@ -161,7 +155,7 @@ class EpisodesListContainerWidget extends StatelessWidget {
         physics: const ClampingScrollPhysics(),
         padding: const EdgeInsets.symmetric(
           horizontal: 12,
-          // vertical: 24,
+          vertical: 24,
         ),
         child: Column(
           children: [
