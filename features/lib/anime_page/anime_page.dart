@@ -125,9 +125,7 @@ class _AnimePageState extends State<AnimePage>
                         data: snapshot.data!.data,
                       );
                     case AnimePageStatus.loading:
-                      return const Center(
-                        child: CircularProgressIndicator(),
-                      );
+                      return const ProgressLoader();
                     case AnimePageStatus.invalid:
                     default:
                       return const Center(
