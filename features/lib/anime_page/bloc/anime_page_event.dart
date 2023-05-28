@@ -1,8 +1,10 @@
-part of 'anime_page_bloc.dart';
-
-@immutable
 abstract class AnimePageEvent {}
 
-class AnimePageEventFetchEpisodesId extends HomeEvent {}
+class AnimePageEventFetchAnimeInfo extends AnimePageEvent {
+  String animeId;
+  AnimePageEventFetchAnimeInfo({
+    required this.animeId,
+  });
+}
 
-class AnimePageEventFetchEpisodesInfo extends HomeEvent {}
+class AnimePageEventFetchEpisodesInfo extends AnimePageEvent {}

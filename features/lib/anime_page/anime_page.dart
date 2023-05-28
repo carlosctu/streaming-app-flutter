@@ -1,5 +1,8 @@
 import 'package:components/design_components.dart';
 import 'package:features/anime_page/bloc/anime_page_bloc.dart';
+import 'package:features/anime_page/bloc/anime_page_event.dart';
+import 'package:features/anime_page/bloc/anime_page_state.dart';
+import 'package:features/anime_page/repository/anime_page_repository.dart';
 import 'package:features/anime_page/repository/model/get_anime_episode_info_response.dart';
 import 'package:features/anime_page/widgets/anime_cover_image_widget.dart';
 import 'package:features/anime_page/widgets/anime_description_widget.dart';
@@ -35,8 +38,15 @@ class _AnimePageState extends State<AnimePage>
   late TabController tabController;
   bool _showTitle = false;
 
+  AnimePageBloc get animePageBloc => context.read<AnimePageBloc>();
+
   @override
   void initState() {
+    animePageBloc.add(
+      AnimePageEventFetchAnimeInfo(
+        animeId: widget.args.anime.id!,
+      ),
+    );
     scrollController = ScrollController();
     tabController = TabController(
       length: 2,
@@ -66,14 +76,12 @@ class _AnimePageState extends State<AnimePage>
 
   @override
   Widget build(BuildContext context) {
-    final bloc = BlocProvider.of<AnimePageBloc>(context);
     final anime = widget.args.anime;
 
     return Scaffold(
       extendBodyBehindAppBar: true,
       body: BlocBuilder<AnimePageBloc, AnimePageState>(
         builder: (context, state) {
-          bloc.fetch();
           return SafeArea(
             top: false,
             child: NestedScrollView(
@@ -108,16 +116,26 @@ class _AnimePageState extends State<AnimePage>
                 ];
               },
               body: StreamBuilder(
-                  stream: bloc.dataStream,
-                  builder: (context, snapshot) {
-                    if (snapshot.hasData) {
+                stream: animePageBloc.stream,
+                builder: (context, snapshot) {
+                  final state = snapshot.data?.status;
+                  switch (state) {
+                    case AnimePageStatus.valid:
                       return EpisodesListContainerWidget(
-                        data:
-                            snapshot.data as List<GetAnimeEpisodeInfoResponse>,
+                        data: snapshot.data!.data,
                       );
-                    }
-                    return const SizedBox.shrink();
-                  }),
+                    case AnimePageStatus.loading:
+                      return const Center(
+                        child: CircularProgressIndicator(),
+                      );
+                    case AnimePageStatus.invalid:
+                    default:
+                      return const Center(
+                        child: Text('Error to fetch data.'),
+                      );
+                  }
+                },
+              ),
             ),
           );
         },

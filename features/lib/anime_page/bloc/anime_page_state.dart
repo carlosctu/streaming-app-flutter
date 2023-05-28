@@ -1,12 +1,52 @@
-part of 'anime_page_bloc.dart';
+import 'package:features/anime_page/repository/model/get_anime_episode_info_response.dart';
 
-@immutable
-abstract class AnimePageState {}
+enum AnimePageStatus {
+  valid,
+  loading,
+  invalid,
+}
 
-class AnimePageInitialState extends AnimePageState {}
+class AnimePageState {
+  final AnimePageStatus status;
+  final List<GetAnimeEpisodeInfoResponse> data;
+  final Exception? exception;
+  const AnimePageState._({
+    this.status = AnimePageStatus.loading,
+    this.data = const [],
+    this.exception,
+  });
 
-class AnimePageLoadingState extends AnimePageState {}
+  const AnimePageState.initial() : this._();
 
-class AnimePageValidState extends AnimePageState {}
+  AnimePageState loading() {
+    return copyWith(
+      status: AnimePageStatus.loading,
+    );
+  }
 
-class AnimePageInvalidState extends AnimePageState {}
+  AnimePageState validState(List<GetAnimeEpisodeInfoResponse> animeInfo) {
+    return copyWith(
+      status: AnimePageStatus.valid,
+      data: animeInfo,
+    );
+  }
+
+  AnimePageState invalidState(Exception? ex) {
+    return copyWith(
+      status: AnimePageStatus.invalid,
+      exception: ex,
+    );
+  }
+
+  AnimePageState copyWith({
+    AnimePageStatus? status,
+    List<GetAnimeEpisodeInfoResponse>? data,
+    Exception? exception,
+  }) {
+    return AnimePageState._(
+      status: status ?? this.status,
+      data: data ?? this.data,
+      exception: exception ?? this.exception,
+    );
+  }
+}

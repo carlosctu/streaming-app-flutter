@@ -62,7 +62,6 @@ class MyApp extends StatelessWidget {
           BlocProvider<AnimePageBloc>(
             create: (context) => AnimePageBloc(
               context.read<AnimePageRepository>(),
-              animeId: '',
             ),
           ),
         ],

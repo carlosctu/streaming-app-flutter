@@ -1,33 +1,30 @@
 import 'dart:async';
 
+import 'package:features/anime_page/bloc/anime_page_event.dart';
+import 'package:features/anime_page/bloc/anime_page_state.dart';
 import 'package:features/anime_page/mapper/anime_page_mapper.dart';
 import 'package:features/anime_page/model/get_anime_episodes_info_view_data.dart';
 import 'package:features/anime_page/repository/anime_page_repository.dart';
 import 'package:features/anime_page/repository/model/get_anime_episode_info_response.dart';
-import 'package:features/home/bloc/home_bloc.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
-part 'anime_page_event.dart';
-part 'anime_page_state.dart';
 
 class AnimePageBloc extends Bloc<AnimePageEvent, AnimePageState> {
   final AnimePageRepository _repository;
-  final String animeId;
-  final _dataController = StreamController();
 
-  AnimePageBloc(
-    this._repository, {
-    required this.animeId,
-  }) : super(AnimePageInitialState()) {
-    fetch();
+  AnimePageBloc(this._repository) : super(const AnimePageState.initial()) {
+    on<AnimePageEventFetchAnimeInfo>(_onFetchAnimeInfo);
   }
 
-  void fetch() async {
+  void _onFetchAnimeInfo(
+    AnimePageEventFetchAnimeInfo event,
+    Emitter<AnimePageState> emit,
+  ) async {
     List<String> episodesList = [];
+    emit(state.loading());
+    
     try {
       GetAnimeEpisodesIdViewData result = await _repository
-          .getAnimeEpisodesId(animeId)
+          .getAnimeEpisodesId(event.animeId)
           .then((value) => value.toViewData());
 
       episodesList = result.data.map((info) => info.id).toList();
@@ -39,13 +36,9 @@ class AnimePageBloc extends Bloc<AnimePageEvent, AnimePageState> {
       List<GetAnimeEpisodeInfoResponse> episodeInfoList =
           await Future.wait(futures);
 
-      // final response = episodeInfoList.map((e) => e.toViewData()).toList();
-
-      // print(response[0]);
-
-      _dataController.sink.add(episodeInfoList);
-    } catch (ex) {
-      throw Exception(ex);
+      emit(state.validState(episodeInfoList));
+    } on Exception catch (ex) {
+      emit(state.invalidState(ex));
     }
   }
 
@@ -76,10 +69,4 @@ class AnimePageBloc extends Bloc<AnimePageEvent, AnimePageState> {
   //     throw Exception(ex);
   //   }
   // }
-
-  Stream get dataStream => _dataController.stream;
-
-  void dispose() {
-    _dataController.close();
-  }
 }
