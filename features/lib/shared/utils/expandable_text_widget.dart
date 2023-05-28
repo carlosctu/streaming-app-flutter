@@ -78,7 +78,7 @@ class ExpandableTextWidgetState extends State<ExpandableTextWidget> {
 
         final pos = textPainter.getPositionForOffset(Offset(
           textSize.width - linkSize.width,
-          textSize.height,
+          textSize.height - linkSize.height,
         ));
 
         endIndex = textPainter.getOffsetBefore(pos.offset)!;

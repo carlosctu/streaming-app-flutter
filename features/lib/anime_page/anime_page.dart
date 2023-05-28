@@ -95,6 +95,7 @@ class _AnimePageState extends State<AnimePage>
                       floating: true,
                       snap: true,
                       pinned: true,
+                      title: Text(''),
                       backgroundColor: Colors.black26,
                     ),
                   ),
@@ -107,10 +108,13 @@ class _AnimePageState extends State<AnimePage>
                       child: AnimeDescriptionWidget(anime: anime),
                     ),
                   ),
-                  SliverPersistentHeader(
-                    pinned: false,
-                    delegate: SliverTabbarDelegateWidget(
-                      controller: tabController,
+                  SliverPadding(
+                    padding: EdgeInsets.zero,
+                    sliver: SliverPersistentHeader(
+                      pinned: false,
+                      delegate: SliverTabbarDelegateWidget(
+                        controller: tabController,
+                      ),
                     ),
                   ),
                 ];
@@ -151,19 +155,6 @@ class EpisodesListContainerWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Widget getEpisodeDescription(String? description) {
-      if (description == null) return const SizedBox.shrink();
-      if (description.length > 120) {
-        return Text(
-          '${description.replaceAll('\n', ' ').substring(0, 120)}...',
-          style: const TextStyle(
-            fontSize: 12,
-          ),
-        );
-      }
-      return Text(description);
-    }
-
     return MediaQuery.removePadding(
       removeTop: true,
       context: context,
@@ -189,12 +180,12 @@ class EpisodesListContainerWidget extends StatelessWidget {
                         episode.attributes.thumbnail!.original!,
                         fit: BoxFit.fill,
                         loadingBuilder: (context, child, loadingProgress) {
-                          return SizedBox(
+                          return Container(
+                            margin: const EdgeInsets.only(right: 12),
                             height: 90,
                             width: 160,
                             child: loadingProgress == null
                                 ? Container(
-                                    margin: const EdgeInsets.only(right: 12),
                                     child: child,
                                   )
                                 : ShimmerEffect(
@@ -209,20 +200,9 @@ class EpisodesListContainerWidget extends StatelessWidget {
                         constraints: const BoxConstraints(
                           maxHeight: 90,
                         ),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              episode.attributes.canonicalTitle ?? '',
-                              style: const TextStyle(
-                                fontSize: 14,
-                                fontWeight: FontWeight.w600,
-                              ),
-                            ),
-                            getEpisodeDescription(
-                                episode.attributes.description)
-                          ],
+                        child: _buildEpisodeDescription(
+                          episode.attributes.canonicalTitle,
+                          episode.attributes.description,
                         ),
                       ),
                     )
@@ -234,5 +214,54 @@ class EpisodesListContainerWidget extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  Widget _buildEpisodeDescription(String? title, String? description) {
+    int maxLength = 140;
+    title ??= '';
+
+    if (title.length > 30) {
+      return Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            '${title.replaceAll('\n', ' ').substring(0, 30)}...',
+            style: const TextStyle(
+              fontSize: 14,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+          _buildEpisodeSynopsis(description, maxLength - title.length)
+        ],
+      );
+    }
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          title,
+          style: const TextStyle(
+            fontSize: 14,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+        _buildEpisodeSynopsis(description, maxLength - title.length)
+      ],
+    );
+  }
+
+  Widget _buildEpisodeSynopsis(String? description, int maxLength) {
+    if (description == null) return const SizedBox.shrink();
+    if (description.length > maxLength) {
+      return Text(
+        '${description.replaceAll('\n', ' ').substring(0, maxLength)}...',
+        style: const TextStyle(
+          fontSize: 12,
+        ),
+      );
+    }
+    return Text(description);
   }
 }

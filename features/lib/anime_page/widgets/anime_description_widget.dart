@@ -34,7 +34,7 @@ class AnimeDescriptionWidget extends StatelessWidget with AgeRatingMixin {
             Container(
               alignment: Alignment.topRight,
               padding: const EdgeInsets.all(4),
-              margin: const EdgeInsets.all(4),
+              margin: const EdgeInsets.fromLTRB(0,4,4,4),
               decoration: BoxDecoration(
                 color: animeRatingconfig.boxColor,
                 borderRadius: const BorderRadius.all(
