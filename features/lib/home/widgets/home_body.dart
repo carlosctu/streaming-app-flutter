@@ -23,7 +23,7 @@ class HomeBody extends StatelessWidget {
             floating: false,
             automaticallyImplyLeading: false,
             expandedHeight: 350,
-            collapsedHeight: kToolbarHeight + 40,
+            collapsedHeight: kToolbarHeight + 60,
             backgroundColor: Colors.transparent,
             flexibleSpace: HomeCoverWidget(todo: todo[AnimeTypes.trending]!),
           ),

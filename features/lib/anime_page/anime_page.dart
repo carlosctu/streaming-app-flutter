@@ -2,7 +2,6 @@ import 'package:components/design_components.dart';
 import 'package:features/anime_page/bloc/anime_page_bloc.dart';
 import 'package:features/anime_page/bloc/anime_page_event.dart';
 import 'package:features/anime_page/bloc/anime_page_state.dart';
-import 'package:features/anime_page/repository/anime_page_repository.dart';
 import 'package:features/anime_page/repository/model/get_anime_episode_info_response.dart';
 import 'package:features/anime_page/widgets/anime_cover_image_widget.dart';
 import 'package:features/anime_page/widgets/anime_description_widget.dart';
@@ -31,11 +30,12 @@ class AnimePage extends StatefulWidget {
   State<AnimePage> createState() => _AnimePageState();
 }
 
-class _AnimePageState extends State<AnimePage>
-    with SingleTickerProviderStateMixin {
+class _AnimePageState extends State<AnimePage> with TickerProviderStateMixin {
   final titleKey = GlobalKey();
   late ScrollController scrollController;
   late TabController tabController;
+  late Animation<double> animatedColor;
+  late AnimationController animationController;
   bool _showTitle = false;
 
   AnimePageBloc get animePageBloc => context.read<AnimePageBloc>();
@@ -48,6 +48,13 @@ class _AnimePageState extends State<AnimePage>
       ),
     );
     scrollController = ScrollController();
+
+    animationController = AnimationController(
+      duration: const Duration(milliseconds: 400),
+      vsync: this,
+    );
+    animatedColor =
+        Tween<double>(begin: 0, end: 0.9).animate(animationController);
     tabController = TabController(
       length: 2,
       vsync: this,
@@ -58,17 +65,26 @@ class _AnimePageState extends State<AnimePage>
 
   @override
   void dispose() {
+    animationController.dispose();
     scrollController.dispose();
+    scrollController.removeListener(_scrollListener);
     super.dispose();
   }
 
   void _scrollListener() {
-    if (scrollController.offset > 0 && !_showTitle) {
+    final coverImageHeight = (widget.args.anime.attributes?.posterImage
+                ?.imageInfo?.dimensions?.medium?.height
+                ?.toDouble() ??
+            500) -
+        kToolbarHeight;
+    if (scrollController.offset > coverImageHeight && !_showTitle) {
       setState(() {
+        animationController.forward();
         _showTitle = true;
       });
-    } else if (scrollController.offset <= 0 && _showTitle) {
+    } else if (scrollController.offset <= coverImageHeight && _showTitle) {
       setState(() {
+        animationController.reverse();
         _showTitle = false;
       });
     }
@@ -85,18 +101,40 @@ class _AnimePageState extends State<AnimePage>
           return SafeArea(
             top: false,
             child: NestedScrollView(
+              controller: scrollController,
               physics: const ClampingScrollPhysics(),
               headerSliverBuilder: (BuildContext context, _) {
                 return [
                   SliverOverlapAbsorber(
                     handle: NestedScrollView.sliverOverlapAbsorberHandleFor(
                         context),
-                    sliver: const SliverAppBar(
+                    sliver: SliverAppBar(
                       floating: true,
                       snap: true,
                       pinned: true,
-                      title: Text(''),
-                      backgroundColor: Colors.black26,
+                      flexibleSpace: AnimatedBuilder(
+                        animation: animationController,
+                        builder: (BuildContext context, Widget? child) {
+                          return Container(
+                            color:
+                                Colors.black.withOpacity(animatedColor.value),
+                          );
+                        },
+                      ),
+                      backgroundColor: Colors.transparent,
+                      centerTitle: true,
+                      title: AnimatedOpacity(
+                        duration: const Duration(milliseconds: 500),
+                        opacity: _showTitle ? 1.0 : 0,
+                        child: AnimatedBuilder(
+                          animation: animationController,
+                          builder: (context, child) {
+                            return Text(
+                              anime.attributes?.canonicalTitle ?? '',
+                            );
+                          },
+                        ),
+                      ),
                     ),
                   ),
                   SliverToBoxAdapter(
