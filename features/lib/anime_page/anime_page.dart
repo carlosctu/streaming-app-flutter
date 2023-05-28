@@ -2,9 +2,9 @@ import 'package:components/design_components.dart';
 import 'package:features/anime_page/bloc/anime_page_bloc.dart';
 import 'package:features/anime_page/bloc/anime_page_event.dart';
 import 'package:features/anime_page/bloc/anime_page_state.dart';
-import 'package:features/anime_page/repository/model/get_anime_episode_info_response.dart';
 import 'package:features/anime_page/widgets/anime_cover_image_widget.dart';
 import 'package:features/anime_page/widgets/anime_description_widget.dart';
+import 'package:features/anime_page/widgets/anime_episodes_list_container_widget.dart';
 import 'package:features/anime_page/widgets/sliver_tabbar_delegate_widget.dart';
 import 'package:features/home/model/anime_list_view_data.dart';
 import 'package:flutter/material.dart';
@@ -35,59 +35,69 @@ class _AnimePageState extends State<AnimePage> with TickerProviderStateMixin {
   late ScrollController scrollController;
   late TabController tabController;
   late Animation<double> animatedColor;
-  late AnimationController animationController;
-  bool _showTitle = false;
+  late Animation<Offset> position;
+  late AnimationController appbarController;
 
   AnimePageBloc get animePageBloc => context.read<AnimePageBloc>();
 
   @override
   void initState() {
     animePageBloc.add(
-      AnimePageEventFetchAnimeInfo(
-        animeId: widget.args.anime.id!,
-      ),
+      AnimePageEventFetchAnimeInfo(animeId: widget.args.anime.id!),
     );
     scrollController = ScrollController();
-
-    animationController = AnimationController(
-      duration: const Duration(milliseconds: 400),
-      vsync: this,
-    );
-    animatedColor =
-        Tween<double>(begin: 0, end: 0.9).animate(animationController);
     tabController = TabController(
       length: 2,
       vsync: this,
     );
+    _appBarTitleAnimation();
     scrollController.addListener(_scrollListener);
     super.initState();
   }
 
-  @override
-  void dispose() {
-    animationController.dispose();
-    scrollController.dispose();
-    scrollController.removeListener(_scrollListener);
-    super.dispose();
+  void _appBarTitleAnimation() {
+    appbarController = AnimationController(
+      duration: const Duration(milliseconds: 150),
+      vsync: this,
+    );
+
+    animatedColor = Tween<double>(
+      begin: 0,
+      end: 0.95,
+    ).animate(appbarController);
+
+    position = Tween<Offset>(
+      begin: const Offset(0.0, 4),
+      end: Offset.zero,
+    ).animate(
+      CurvedAnimation(
+        parent: appbarController,
+        curve: Curves.linearToEaseOut,
+      ),
+    );
   }
 
   void _scrollListener() {
+    const bottomOffset = 64;
     final coverImageHeight = (widget.args.anime.attributes?.posterImage
                 ?.imageInfo?.dimensions?.medium?.height
                 ?.toDouble() ??
-            500) -
-        kToolbarHeight;
-    if (scrollController.offset > coverImageHeight && !_showTitle) {
-      setState(() {
-        animationController.forward();
-        _showTitle = true;
-      });
-    } else if (scrollController.offset <= coverImageHeight && _showTitle) {
-      setState(() {
-        animationController.reverse();
-        _showTitle = false;
-      });
+            550) -
+        bottomOffset;
+
+    if (scrollController.offset > coverImageHeight) {
+      appbarController.forward();
+    } else if (scrollController.offset <= coverImageHeight) {
+      appbarController.reverse();
     }
+  }
+
+  @override
+  void dispose() {
+    appbarController.dispose();
+    scrollController.dispose();
+    scrollController.removeListener(_scrollListener);
+    super.dispose();
   }
 
   @override
@@ -107,32 +117,31 @@ class _AnimePageState extends State<AnimePage> with TickerProviderStateMixin {
                 return [
                   SliverOverlapAbsorber(
                     handle: NestedScrollView.sliverOverlapAbsorberHandleFor(
-                        context),
+                      context,
+                    ),
                     sliver: SliverAppBar(
                       floating: true,
                       snap: true,
                       pinned: true,
                       flexibleSpace: AnimatedBuilder(
-                        animation: animationController,
+                        animation: appbarController,
                         builder: (BuildContext context, Widget? child) {
                           return Container(
-                            color:
-                                Colors.black.withOpacity(animatedColor.value),
+                            color: Colors.black.withOpacity(
+                              animatedColor.value,
+                            ),
                           );
                         },
                       ),
                       backgroundColor: Colors.transparent,
                       centerTitle: true,
-                      title: AnimatedOpacity(
-                        duration: const Duration(milliseconds: 500),
-                        opacity: _showTitle ? 1.0 : 0,
-                        child: AnimatedBuilder(
-                          animation: animationController,
-                          builder: (context, child) {
-                            return Text(
-                              anime.attributes?.canonicalTitle ?? '',
-                            );
-                          },
+                      title: SlideTransition(
+                        position: position,
+                        child: Text(
+                          anime.attributes?.canonicalTitle ?? '',
+                          style: const TextStyle(
+                            fontSize: 18,
+                          ),
                         ),
                       ),
                     ),
@@ -181,125 +190,5 @@ class _AnimePageState extends State<AnimePage> with TickerProviderStateMixin {
         },
       ),
     );
-  }
-}
-
-class EpisodesListContainerWidget extends StatelessWidget {
-  final List<GetAnimeEpisodeInfoResponse> data;
-  const EpisodesListContainerWidget({
-    super.key,
-    required this.data,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return MediaQuery.removePadding(
-      removeTop: true,
-      context: context,
-      child: SingleChildScrollView(
-        physics: const ClampingScrollPhysics(),
-        padding: const EdgeInsets.symmetric(
-          horizontal: 12,
-          vertical: 24,
-        ),
-        child: Column(
-          children: [
-            ListView.separated(
-              physics: const NeverScrollableScrollPhysics(),
-              shrinkWrap: true,
-              itemCount: data.length,
-              separatorBuilder: (context, index) => const SizedBox(height: 24),
-              itemBuilder: (context, index) {
-                final episode = data[index].data;
-                return Row(
-                  children: [
-                    if (episode.attributes.thumbnail?.original != null)
-                      Image.network(
-                        episode.attributes.thumbnail!.original!,
-                        fit: BoxFit.fill,
-                        loadingBuilder: (context, child, loadingProgress) {
-                          return Container(
-                            margin: const EdgeInsets.only(right: 12),
-                            height: 90,
-                            width: 160,
-                            child: loadingProgress == null
-                                ? Container(
-                                    child: child,
-                                  )
-                                : ShimmerEffect(
-                                    height: 500,
-                                    width: MediaQuery.of(context).size.width,
-                                  ),
-                          );
-                        },
-                      ),
-                    Flexible(
-                      child: ConstrainedBox(
-                        constraints: const BoxConstraints(
-                          maxHeight: 90,
-                        ),
-                        child: _buildEpisodeDescription(
-                          episode.attributes.canonicalTitle,
-                          episode.attributes.description,
-                        ),
-                      ),
-                    )
-                  ],
-                );
-              },
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildEpisodeDescription(String? title, String? description) {
-    int maxLength = 140;
-    title ??= '';
-
-    if (title.length > 30) {
-      return Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            '${title.replaceAll('\n', ' ').substring(0, 30)}...',
-            style: const TextStyle(
-              fontSize: 14,
-              fontWeight: FontWeight.w600,
-            ),
-          ),
-          _buildEpisodeSynopsis(description, maxLength - title.length)
-        ],
-      );
-    }
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          title,
-          style: const TextStyle(
-            fontSize: 14,
-            fontWeight: FontWeight.w600,
-          ),
-        ),
-        _buildEpisodeSynopsis(description, maxLength - title.length)
-      ],
-    );
-  }
-
-  Widget _buildEpisodeSynopsis(String? description, int maxLength) {
-    if (description == null) return const SizedBox.shrink();
-    if (description.length > maxLength) {
-      return Text(
-        '${description.replaceAll('\n', ' ').substring(0, maxLength)}...',
-        style: const TextStyle(
-          fontSize: 12,
-        ),
-      );
-    }
-    return Text(description);
   }
 }
