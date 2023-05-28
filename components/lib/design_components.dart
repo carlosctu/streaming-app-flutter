@@ -10,3 +10,4 @@ export './row/config/row_alignment_mixin.dart';
 export './dividers/horizontal_divider.dart';
 export './form_fields/input_form_field.dart';
 export './shimmer/shimmer_effect.dart';
+export './loaders/progress_loader.dart';

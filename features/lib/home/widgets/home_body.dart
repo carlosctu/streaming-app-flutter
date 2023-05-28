@@ -31,18 +31,18 @@ class HomeBody extends StatelessWidget {
             animes: todo[AnimeTypes.trending]!.data,
             sectionTitle: 'Trending series',
           ),
-          // CarouselSection(
-          //   animes: todo[AnimeTypes.shounen]!.data,
-          //   sectionTitle: 'Recently updated',
-          // ),
-          // CarouselSection(
-          //   animes: todo[AnimeTypes.romance]!.data,
-          //   sectionTitle: 'Romance checkpoint',
-          // ),
-          // CarouselSection(
-          //   animes: todo[AnimeTypes.newUpdates]!.data,
-          //   sectionTitle: 'Shounen series',
-          // ),
+          CarouselSection(
+            animes: todo[AnimeTypes.shounen]!.data,
+            sectionTitle: 'Recently updated',
+          ),
+          CarouselSection(
+            animes: todo[AnimeTypes.romance]!.data,
+            sectionTitle: 'Romance checkpoint',
+          ),
+          CarouselSection(
+            animes: todo[AnimeTypes.newUpdates]!.data,
+            sectionTitle: 'Shounen series',
+          ),
         ],
       ),
     );

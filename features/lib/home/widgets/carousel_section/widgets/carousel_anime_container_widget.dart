@@ -61,20 +61,21 @@ class _AnimeContainerImage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        Hero(
-          tag: 'HeroCoverImage$index',
-          placeholderBuilder: (context, heroSize, child) {
-            return const ShimmerEffect(
-              height: 150,
-              width: 150,
-            );
-          },
-          child: SizedBox(
-            height: 200,
-            width: 200,
-            child: child,
-          ),
+        // Hero(
+        // tag: 'HeroCoverImage$index',
+        // placeholderBuilder: (context, heroSize, child) {
+        // return const ShimmerEffect(
+        //   height: 150,
+        //   width: 150,
+        // );
+        // },
+        // child:
+        SizedBox(
+          height: 200,
+          width: 200,
+          child: child,
         ),
+        // ),
         Row(
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
