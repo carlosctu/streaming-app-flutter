@@ -53,34 +53,42 @@ class _AnimeCoverImage extends StatelessWidget {
     return Stack(
       alignment: AlignmentDirectional.bottomCenter,
       children: [
-        SizedBox(
-          height: anime
-              .attributes?.posterImage?.imageInfo?.dimensions?.medium?.height
-              ?.toDouble(),
-          width: MediaQuery.of(context).size.width,
-          child: child,
-        ),
-        Container(
-          height: 80,
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
-              colors: [
-                Colors.transparent,
-                Colors.black.withOpacity(0.9),
-              ],
-            ),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withOpacity(0.7),
-                spreadRadius: 4,
-                blurRadius: 40,
-              ),
-            ],
-          ),
-        )
+        _buildAnimeCoverImage(context),
+        _buildShadowContainer(),
       ],
+    );
+  }
+
+  Widget _buildAnimeCoverImage(BuildContext context) {
+    return SizedBox(
+      height: anime
+          .attributes?.posterImage?.imageInfo?.dimensions?.medium?.height
+          ?.toDouble(),
+      width: MediaQuery.of(context).size.width,
+      child: child,
+    );
+  }
+
+  Widget _buildShadowContainer() {
+    return Container(
+      height: 80,
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+          colors: [
+            Colors.transparent,
+            Colors.black.withOpacity(0.9),
+          ],
+        ),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.7),
+            spreadRadius: 4,
+            blurRadius: 40,
+          ),
+        ],
+      ),
     );
   }
 }

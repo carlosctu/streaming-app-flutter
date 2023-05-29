@@ -20,53 +20,76 @@ class EpisodesListContainerWidget extends StatelessWidget {
           horizontal: 12,
           vertical: 24,
         ),
-        child: Column(
-          children: [
-            ListView.separated(
-              physics: const NeverScrollableScrollPhysics(),
-              shrinkWrap: true,
-              itemCount: data.length,
-              separatorBuilder: (context, index) => const SizedBox(height: 24),
-              itemBuilder: (context, index) {
-                final episode = data[index].data;
-                return Row(
-                  children: [
-                    if (episode.attributes.thumbnail?.original != null)
-                      Image.network(
-                        episode.attributes.thumbnail!.original!,
-                        fit: BoxFit.fill,
-                        loadingBuilder: (context, child, loadingProgress) {
-                          return Container(
-                            margin: const EdgeInsets.only(right: 12),
-                            height: 90,
-                            width: 160,
-                            child: loadingProgress == null
-                                ? Container(
-                                    child: child,
-                                  )
-                                : ShimmerEffect(
-                                    height: 500,
-                                    width: MediaQuery.of(context).size.width,
-                                  ),
-                          );
-                        },
-                      ),
-                    Flexible(
-                      child: ConstrainedBox(
-                        constraints: const BoxConstraints(
-                          maxHeight: 90,
-                        ),
-                        child: _buildEpisodeDescription(
-                          episode.attributes.canonicalTitle,
-                          episode.attributes.description,
-                        ),
-                      ),
-                    )
-                  ],
-                );
-              },
-            ),
-          ],
+        child: ListView.separated(
+          physics: const NeverScrollableScrollPhysics(),
+          shrinkWrap: true,
+          itemCount: data.length,
+          separatorBuilder: (context, index) => const SizedBox(height: 24),
+          itemBuilder: (context, index) {
+            final episode = data[index].data;
+            return Row(
+              children: [
+                if (episode.attributes.thumbnail?.original != null) ...[
+                  _EpisodeImageContainer(episode: episode),
+                  _EpisodeInformationContainer(episode: episode),
+                ],
+              ],
+            );
+          },
+        ),
+      ),
+    );
+  }
+}
+
+class _EpisodeImageContainer extends StatelessWidget {
+  final EpisodeInfoResponse episode;
+  const _EpisodeImageContainer({
+    Key? key,
+    required this.episode,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Image.network(
+      episode.attributes.thumbnail!.original!,
+      fit: BoxFit.fill,
+      loadingBuilder: (context, child, loadingProgress) {
+        return Container(
+          margin: const EdgeInsets.only(right: 12),
+          height: 90,
+          width: 160,
+          child: loadingProgress == null
+              ? Container(
+                  child: child,
+                )
+              : ShimmerEffect(
+                  height: 500,
+                  width: MediaQuery.of(context).size.width,
+                ),
+        );
+      },
+    );
+  }
+}
+
+class _EpisodeInformationContainer extends StatelessWidget {
+  final EpisodeInfoResponse episode;
+  const _EpisodeInformationContainer({
+    Key? key,
+    required this.episode,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Flexible(
+      child: ConstrainedBox(
+        constraints: const BoxConstraints(
+          maxHeight: 90,
+        ),
+        child: _buildEpisodeDescription(
+          episode.attributes.canonicalTitle,
+          episode.attributes.description,
         ),
       ),
     );

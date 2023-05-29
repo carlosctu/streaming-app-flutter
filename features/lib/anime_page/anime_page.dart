@@ -63,7 +63,7 @@ class _AnimePageState extends State<AnimePage> with TickerProviderStateMixin {
 
     animatedColor = Tween<double>(
       begin: 0,
-      end: 0.95,
+      end: 0.90,
     ).animate(appbarController);
 
     position = Tween<Offset>(
@@ -119,31 +119,8 @@ class _AnimePageState extends State<AnimePage> with TickerProviderStateMixin {
                     handle: NestedScrollView.sliverOverlapAbsorberHandleFor(
                       context,
                     ),
-                    sliver: SliverAppBar(
-                      floating: true,
-                      snap: true,
-                      pinned: true,
-                      flexibleSpace: AnimatedBuilder(
-                        animation: appbarController,
-                        builder: (BuildContext context, Widget? child) {
-                          return Container(
-                            color: Colors.black.withOpacity(
-                              animatedColor.value,
-                            ),
-                          );
-                        },
-                      ),
-                      backgroundColor: Colors.transparent,
-                      centerTitle: true,
-                      title: SlideTransition(
-                        position: position,
-                        child: Text(
-                          anime.attributes?.canonicalTitle ?? '',
-                          style: const TextStyle(
-                            fontSize: 18,
-                          ),
-                        ),
-                      ),
+                    sliver: _buildSliverAppBar(
+                      animeName: anime.attributes?.canonicalTitle,
                     ),
                   ),
                   SliverToBoxAdapter(
@@ -188,6 +165,81 @@ class _AnimePageState extends State<AnimePage> with TickerProviderStateMixin {
             ),
           );
         },
+      ),
+    );
+  }
+
+  Widget _buildSliverAppBar({String? animeName = ''}) {
+    return SliverAppBar(
+      floating: true,
+      snap: true,
+      pinned: true,
+      centerTitle: true,
+      backgroundColor: Colors.transparent,
+      actions: [
+        PopupMenuButton(
+          padding: EdgeInsets.zero,
+          constraints: const BoxConstraints(maxWidth: kToolbarHeight * 2.5),
+          child: const Padding(
+            padding: EdgeInsets.symmetric(horizontal: 12.0),
+            child: Icon(Icons.more_vert),
+          ),
+          itemBuilder: (context) {
+            return [
+              PopupMenuItem(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: const [
+                    Text(
+                      'Watch later',
+                      style: TextStyle(fontSize: 14),
+                    ),
+                    Icon(
+                      Icons.watch_later_outlined,
+                      color: Colors.black,
+                      size: 18,
+                    )
+                  ],
+                ),
+              ),
+              PopupMenuItem(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: const [
+                    Text(
+                      'Share',
+                      style: TextStyle(fontSize: 14),
+                    ),
+                    Icon(
+                      Icons.share,
+                      color: Colors.black,
+                      size: 18,
+                    )
+                  ],
+                ),
+              ),
+            ];
+          },
+        ),
+      ],
+      flexibleSpace: AnimatedBuilder(
+        animation: appbarController,
+        builder: (BuildContext context, Widget? child) {
+          return Container(
+            color: Colors.black.withOpacity(
+              animatedColor.value,
+            ),
+          );
+        },
+      ),
+      title: SlideTransition(
+        position: position,
+        child: Text(
+          animeName!,
+          style: const TextStyle(
+            fontSize: 18,
+          ),
+        ),
       ),
     );
   }

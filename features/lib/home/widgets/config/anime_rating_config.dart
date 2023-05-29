@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-class AnimeRatingConfig {
+class AnimeGuideConfig {
   String ageGuide;
   Color boxColor;
-  AnimeRatingConfig({
+  AnimeGuideConfig({
     required this.ageGuide,
     required this.boxColor,
   });
