@@ -13,28 +13,26 @@ class CarouselSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SliverToBoxAdapter(
-      child: Padding(
-        padding: const EdgeInsets.fromLTRB(12, 12, 12, 0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              sectionTitle,
-              style: const TextStyle(
-                color: Colors.black,
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-              ),
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(12, 12, 12, 0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            sectionTitle,
+            style: const TextStyle(
+              color: Colors.black,
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
             ),
-            const SizedBox(height: 12),
-            SizedBox(
-              height: 260,
-              width: double.infinity,
-              child: CarouselAnimeListWidget(animes: animes),
-            ),
-          ],
-        ),
+          ),
+          const SizedBox(height: 12),
+          SizedBox(
+            height: 260,
+            width: double.infinity,
+            child: CarouselAnimeListWidget(animes: animes),
+          ),
+        ],
       ),
     );
   }

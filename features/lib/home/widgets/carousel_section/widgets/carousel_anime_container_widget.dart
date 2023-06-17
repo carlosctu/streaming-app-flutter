@@ -19,7 +19,7 @@ class AnimeContainerWidget extends StatelessWidget with AgeRatingMixin {
   @override
   Widget build(BuildContext context) {
     String? ageRating = anime.attributes?.ageRating;
-    AnimeRatingConfig animeRatingconfig = getAgeGuide(ageRating);
+    AnimeGuideConfig animeRatingconfig = getAgeGuide(ageRating);
     final titleDescription =
         getFormattedTitle(anime.attributes?.canonicalTitle);
 
@@ -49,7 +49,7 @@ class AnimeContainerWidget extends StatelessWidget with AgeRatingMixin {
 class _AnimeContainerImage extends StatelessWidget {
   final String index;
   final Widget child;
-  final AnimeRatingConfig animeRatingconfig;
+  final AnimeGuideConfig animeRatingconfig;
   const _AnimeContainerImage({
     Key? key,
     required this.index,

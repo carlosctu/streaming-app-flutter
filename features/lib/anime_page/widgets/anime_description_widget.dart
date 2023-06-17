@@ -15,52 +15,58 @@ class AnimeDescriptionWidget extends StatelessWidget with AgeRatingMixin {
   Widget build(BuildContext context) {
     String title = anime.attributes?.canonicalTitle ?? '';
     String? ageRating = anime.attributes?.ageRating;
-    AnimeRatingConfig animeRatingconfig = getAgeGuide(ageRating);
+    AnimeGuideConfig animeRatingconfig = getAgeGuide(ageRating);
 
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+    return Wrap(
+      runSpacing: 12,
       children: [
-        Text(
-          title,
-          style: const TextStyle(
-            fontSize: 18,
-            fontWeight: FontWeight.w600,
-          ),
-        ),
-        const SizedBox(height: 12),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            Container(
-              alignment: Alignment.topRight,
-              padding: const EdgeInsets.all(4),
-              margin: const EdgeInsets.fromLTRB(0,4,4,4),
-              decoration: BoxDecoration(
-                color: animeRatingconfig.boxColor,
-                borderRadius: const BorderRadius.all(
-                  Radius.circular(2),
-                ),
-              ),
-              child: Text(
-                animeRatingconfig.ageGuide,
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 10,
-                ),
-              ),
-            ),
-            const Text(
-              '• Subtitled',
-              style: TextStyle(
-                fontSize: 12,
-              ),
-            ),
-          ],
-        ),
-        const SizedBox(height: 12),
+        _buildAnimeTitle(title),
+        _buildAnimeInformationGuide(animeRatingconfig),
         ExpandableTextWidget(
           text: anime.attributes?.synopsis?.split('(')[0],
           trimLines: 4,
+        ),
+      ],
+    );
+  }
+
+  Widget _buildAnimeTitle(String title) {
+    return Text(
+      title,
+      style: const TextStyle(
+        fontSize: 18,
+        fontWeight: FontWeight.w600,
+      ),
+    );
+  }
+
+  Widget _buildAnimeInformationGuide(AnimeGuideConfig animeGuide) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: [
+        Container(
+          alignment: Alignment.topRight,
+          padding: const EdgeInsets.all(4),
+          margin: const EdgeInsets.fromLTRB(0, 4, 4, 4),
+          decoration: BoxDecoration(
+            color: animeGuide.boxColor,
+            borderRadius: const BorderRadius.all(
+              Radius.circular(2),
+            ),
+          ),
+          child: Text(
+            animeGuide.ageGuide,
+            style: const TextStyle(
+              color: Colors.white,
+              fontSize: 10,
+            ),
+          ),
+        ),
+        const Text(
+          '• Subtitled',
+          style: TextStyle(
+            fontSize: 12,
+          ),
         ),
       ],
     );

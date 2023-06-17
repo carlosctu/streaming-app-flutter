@@ -4,15 +4,15 @@ import 'package:features/home/widgets/config/trending_anime_age_rating_mixin.dar
 import 'package:flutter/material.dart';
 
 class BackgroundImage extends StatelessWidget {
-  final HomeViewData todo;
+  final HomeViewData data;
   const BackgroundImage({
     Key? key,
-    required this.todo,
+    required this.data,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final anime = todo.data[1].attributes;
+    final anime = data.data[1].attributes;
     return Container(
       width: double.infinity,
       decoration: BoxDecoration(
@@ -74,7 +74,6 @@ class BackgroundImage extends StatelessWidget {
       ),
     );
   }
-
 }
 
 class _AnimeInformation extends StatelessWidget with AgeRatingMixin {
@@ -85,6 +84,7 @@ class _AnimeInformation extends StatelessWidget with AgeRatingMixin {
 
   @override
   Widget build(BuildContext context) {
+    final episodes = anime?.episodeLength;
     return Wrap(
       spacing: 8,
       crossAxisAlignment: WrapCrossAlignment.center,
@@ -106,13 +106,14 @@ class _AnimeInformation extends StatelessWidget with AgeRatingMixin {
               ),
             ),
           ),
-        Text(
-          '• ${anime?.episodeLength} Episodes',
-          style: const TextStyle(
-            color: Colors.white,
-            fontSize: 12,
+        if (episodes != null)
+          Text(
+            '• $episodes Episodes',
+            style: const TextStyle(
+              color: Colors.white,
+              fontSize: 12,
+            ),
           ),
-        ),
       ],
     );
   }

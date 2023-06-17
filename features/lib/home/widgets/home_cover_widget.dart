@@ -11,16 +11,13 @@ class HomeCoverWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.only(bottom: 12),
-      child: Stack(
-        alignment: Alignment.topRight,
-        children: [
-          BackgroundImage(todo: todo),
-          const _ImageShadow(),
-          const _CloseButton(),
-        ],
-      ),
+    return Stack(
+      alignment: Alignment.topRight,
+      children: [
+        BackgroundImage(data: todo),
+        const _ImageShadow(),
+        const _CloseButton(),
+      ],
     );
   }
 }
