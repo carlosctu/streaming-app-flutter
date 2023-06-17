@@ -87,16 +87,19 @@ class _EpisodeInformationContainer extends StatelessWidget {
         constraints: const BoxConstraints(
           maxHeight: 90,
         ),
-        child: _buildEpisodeDescription(
-          episode.attributes.canonicalTitle,
-          episode.attributes.description,
-        ),
+        child: _buildEpisodeDescription(episode.attributes.canonicalTitle,
+            episode.attributes.description, context),
       ),
     );
   }
 
-  Widget _buildEpisodeDescription(String? title, String? description) {
-    int maxLength = 140;
+  Widget _buildEpisodeDescription(
+    String? title,
+    String? description,
+    BuildContext context,
+  ) {
+    final maxHeight = MediaQuery.of(context).size.height;
+    int maxLength = maxHeight < 680 ? 100 : 140;
     title ??= '';
 
     if (title.length > 30) {

@@ -60,10 +60,16 @@ class _AnimeCoverImage extends StatelessWidget {
   }
 
   Widget _buildAnimeCoverImage(BuildContext context) {
+    final maxHeight = MediaQuery.of(context).size.height;
+    final coverImage = anime
+            .attributes?.posterImage?.imageInfo?.dimensions?.small?.height
+            ?.toDouble() ??
+        MediaQuery.of(context).size.height / 1.6;
+
     return SizedBox(
-      height: anime
-          .attributes?.posterImage?.imageInfo?.dimensions?.medium?.height
-          ?.toDouble(),
+      height: maxHeight < 680
+          ? coverImage
+          : (MediaQuery.of(context).size.height / 2),
       width: MediaQuery.of(context).size.width,
       child: child,
     );
