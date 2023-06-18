@@ -1,12 +1,13 @@
 import 'package:features/home/model/home_view_data.dart';
 import 'package:features/home/widgets/home_cover_image.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class HomeCoverWidget extends StatelessWidget {
-  final HomeViewData todo;
+  final HomeViewData data;
   const HomeCoverWidget({
     super.key,
-    required this.todo,
+    required this.data,
   });
 
   @override
@@ -14,7 +15,7 @@ class HomeCoverWidget extends StatelessWidget {
     return Stack(
       alignment: Alignment.topRight,
       children: [
-        BackgroundImage(data: todo),
+        BackgroundImage(data: data),
         const _ImageShadow(),
         const _CloseButton(),
       ],

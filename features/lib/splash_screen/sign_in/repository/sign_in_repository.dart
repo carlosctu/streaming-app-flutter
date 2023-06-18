@@ -31,13 +31,16 @@ class SignInRepository {
     }
   }
 
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+
   //Email SignIn()
   Future emailSignIn({required String email, required String password}) async {
     try {
-      return await FirebaseAuth.instance.signInWithEmailAndPassword(
+      final credential = await _auth.signInWithEmailAndPassword(
         email: email,
         password: password,
       );
+      return credential;
     } on FirebaseAuthException catch (ex) {
       firebaseErrorValidation(ex);
     } catch (e) {
@@ -63,15 +66,13 @@ class SignInRepository {
         accessToken: auth.authToken!,
         secret: auth.authTokenSecret!,
       );
-      final userCredential =
-          await FirebaseAuth.instance.signInWithCredential(credential);
 
-      return userCredential;
+      await _authService.saveData(credential);
+
+      return _auth.signInWithCredential(credential);
     } on FirebaseAuthException catch (ex) {
-      print(ex);
       firebaseErrorValidation(ex);
     } catch (e) {
-      print(e);
       throw Exception(defaultMessage);
     }
   }
@@ -100,7 +101,7 @@ class SignInRepository {
       await _authService.saveData(credential);
 
       // Return the SignIn data
-      return FirebaseAuth.instance.signInWithCredential(credential);
+      return _auth.signInWithCredential(credential);
     } on FirebaseAuthException catch (ex) {
       firebaseErrorValidation(ex);
     } catch (e) {
@@ -111,13 +112,22 @@ class SignInRepository {
   Future signInWithToken(AuthCredential? credential) async {
     if (credential == null) return;
     try {
-      final userCredential =
-          await FirebaseAuth.instance.signInWithCredential(credential);
+      final userCredential = await _auth.signInWithCredential(credential);
       return userCredential;
     } on FirebaseAuthException catch (ex) {
       firebaseErrorValidation(ex);
     } catch (e) {
       throw Exception(defaultMessage);
+    }
+  }
+
+  Future<void> signOut() async {
+    try {
+      await _auth.signOut();
+      // User is successfully signed out
+    } catch (e) {
+      // Handle sign-out error
+      print('Error signing out: $e');
     }
   }
 }

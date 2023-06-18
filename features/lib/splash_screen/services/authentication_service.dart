@@ -1,4 +1,3 @@
-import 'package:features/splash_screen/model/user_credential_info.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:hive/hive.dart';
 

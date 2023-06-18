@@ -36,7 +36,7 @@ class _HomePageState extends State<HomePage> {
                 switch (state) {
                   case HomeStatus.valid:
                     final data = snapshot.data!.animeList;
-                    return HomeBody(todo: data);
+                    return HomeBody(data: data);
                   case HomeStatus.loading:
                     return const HomeLoadingShimmer();
                   case HomeStatus.invalid:

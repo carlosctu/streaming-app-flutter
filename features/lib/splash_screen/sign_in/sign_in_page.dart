@@ -1,9 +1,7 @@
-import 'package:features/home/home_page.dart';
 import 'package:features/splash_screen/services/authentication_service.dart';
 import 'package:features/splash_screen/sign_in/bloc/sign_in_bloc.dart';
 import 'package:features/splash_screen/sign_in/widgets/sign_in_action_text_button.dart';
 import 'package:features/splash_screen/sign_in/widgets/sign_in_auth_buttons.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -51,16 +49,21 @@ class _SignInPageState extends State<SignInPage> {
         return BlocListener<SignInBloc, SignInState>(
           listener: navigateIfUseHasSavedCredentials,
           child: Scaffold(
+            resizeToAvoidBottomInset: false,
             body: SafeArea(
-              child: Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: const [
-                    SignInHeader(),
-                    SignInAuthButtons(),
-                    SignInFooterText(),
-                  ],
+              child: SingleChildScrollView(
+                child: Container(
+                  height: MediaQuery.of(context).size.height,
+                  padding: const EdgeInsets.all(16.0),
+                  alignment: Alignment.center,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: const [
+                      SignInHeader(),
+                      SignInAuthButtons(),
+                      SignInFooterText(),
+                    ],
+                  ),
                 ),
               ),
             ),

@@ -1,6 +1,7 @@
 import 'package:components/design_components.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:features/splash_screen/sign_in/bloc/sign_in_bloc.dart';
+
 import 'package:flutter/material.dart';
 
 class SignInForm extends StatefulWidget {
