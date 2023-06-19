@@ -20,20 +20,25 @@ class _SignInAuthButtonsState extends State<SignInAuthButtons> {
   bool _isLoading = false;
 
   void listenerValidator(BuildContext context, SignInState state) {
-    if (state is SignInLoadingState) {
-      setState(() => _isLoading = true);
-    }
-    if (state is SignInValidState) {
-      setState(() => _isLoading = false);
-      _formKey.currentState!.reset();
-      Navigator.pushNamed(context, HomePage.route);
-    } else if (state is SignInInvalidState) {
-      setState(() => _isLoading = false);
-      showSnackAlert(
-        context: context,
-        status: SnackBarStatus.negative,
-        message: state.exception,
-      );
+    switch (state.status) {
+      case SignInStatus.loading:
+        setState(() => _isLoading = true);
+        break;
+      case SignInStatus.valid:
+        setState(() => _isLoading = false);
+        _formKey.currentState!.reset();
+        Navigator.pushNamed(context, HomePage.route);
+        break;
+      case SignInStatus.invalid:
+        setState(() => _isLoading = false);
+        showSnackAlert(
+          context: context,
+          status: SnackBarStatus.negative,
+          message: state.exception ?? '',
+        );
+        break;
+      default:
+        break;
     }
   }
 

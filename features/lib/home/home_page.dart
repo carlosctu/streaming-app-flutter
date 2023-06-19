@@ -24,28 +24,31 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: BlocBuilder<HomeBloc, HomeState>(
-        builder: (context, state) {
-          return StreamBuilder(
-            stream: homeBloc.stream,
-            builder: (context, snapshot) {
-              final state = snapshot.data?.status;
-              switch (state) {
-                case HomeStatus.valid:
-                  final data = snapshot.data!.animeList;
-                  return HomeBody(todo: data);
-                case HomeStatus.loading:
-                  return const HomeLoadingShimmer();
-                case HomeStatus.invalid:
-                default:
-                  return const Center(
-                    child: Text('Error fetching data'),
-                  );
-              }
-            },
-          );
-        },
+    return WillPopScope(
+      onWillPop: () async => false,
+      child: Scaffold(
+        body: BlocBuilder<HomeBloc, HomeState>(
+          builder: (context, state) {
+            return StreamBuilder(
+              stream: homeBloc.stream,
+              builder: (context, snapshot) {
+                final state = snapshot.data?.status;
+                switch (state) {
+                  case HomeStatus.valid:
+                    final data = snapshot.data!.animeList;
+                    return HomeBody(data: data);
+                  case HomeStatus.loading:
+                    return const HomeLoadingShimmer();
+                  case HomeStatus.invalid:
+                  default:
+                    return const Center(
+                      child: Text('Error fetching data'),
+                    );
+                }
+              },
+            );
+          },
+        ),
       ),
     );
   }

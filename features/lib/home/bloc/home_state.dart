@@ -1,24 +1,5 @@
 part of 'home_bloc.dart';
 
-// @immutable
-// abstract class HomeState {}
-
-// class HomeLoadingState extends HomeState {}
-
-// class HomeValidState extends HomeState {
-//   final Map<AnimeTypes, HomeViewData> data;
-//   HomeValidState({
-//     required this.data,
-//   });
-// }
-
-// class HomeInvalidState extends HomeState {
-//   final Object exception;
-//   HomeInvalidState({
-//     required this.exception,
-//   });
-// }
-
 enum HomeStatus {
   valid,
   loading,

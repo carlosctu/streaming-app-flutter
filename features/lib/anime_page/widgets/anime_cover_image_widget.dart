@@ -69,7 +69,7 @@ class _AnimeCoverImage extends StatelessWidget {
     return SizedBox(
       height: maxHeight < 680
           ? coverImage
-          : (MediaQuery.of(context).size.height / 2),
+          : (MediaQuery.of(context).size.height / 1.8),
       width: MediaQuery.of(context).size.width,
       child: child,
     );

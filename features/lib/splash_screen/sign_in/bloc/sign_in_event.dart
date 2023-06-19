@@ -24,6 +24,11 @@ class SignInEventUpdate extends SignInEvent {
   }
 }
 
+class SignInEventLoginWithCredentials extends SignInEvent {
+  final AuthCredential? credential;
+  SignInEventLoginWithCredentials({this.credential});
+}
+
 class SignInEventUserAuthenticated extends SignInEvent {
   final AuthenticationType authType;
   final String email;
