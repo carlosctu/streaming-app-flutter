@@ -1,8 +1,7 @@
-import 'dart:ui';
-
 import 'package:features/home/bloc/home_bloc.dart';
 import 'package:features/home/model/home_view_data.dart';
 import 'package:features/home/widgets/carousel_section/carousel_section.dart';
+import 'package:features/home/widgets/floating_bottom_app_bar/floating_bottom_app_bar.dart';
 import 'package:features/home/widgets/home_cover_widget.dart';
 import 'package:flutter/material.dart';
 
@@ -80,7 +79,10 @@ class AnimeHomePage extends StatelessWidget {
           ),
         ),
         SliverPadding(
-          padding: const EdgeInsets.only(top: 12),
+          padding: const EdgeInsets.only(
+            top: 12,
+            bottom: 48,
+          ),
           sliver: SliverList(
             delegate: SliverChildListDelegate(
               [
@@ -105,81 +107,6 @@ class AnimeHomePage extends StatelessWidget {
           ),
         ),
       ],
-    );
-  }
-}
-
-class FloatingBottomAppBar extends StatelessWidget {
-  final PageController controller;
-  const FloatingBottomAppBar({
-    Key? key,
-    required this.controller,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Positioned.fill(
-      child: Container(
-        padding: const EdgeInsets.only(bottom: 16),
-        child: Align(
-          alignment: AlignmentDirectional.bottomCenter,
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(16),
-            child: BackdropFilter(
-              filter: ImageFilter.blur(sigmaX: 6, sigmaY: 3),
-              child: LayoutBuilder(
-                builder: (context, constrains) {
-                  return Container(
-                    padding: EdgeInsets.zero,
-                    color: Colors.black.withOpacity(0.3),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        IconButton(
-                          padding: EdgeInsets.zero,
-                          color: Colors.white,
-                          icon: Container(
-                            height: constrains.maxHeight,
-                            width: constrains.maxWidth,
-                            color: const Color(0xffD93B41),
-                            child: const Icon(Icons.search),
-                          ),
-                          onPressed: () {},
-                        ),
-                        const SizedBox(width: 12),
-                        IconButton(
-                          padding: EdgeInsets.zero,
-                          color: Colors.white,
-                          icon: Container(
-                            height: constrains.maxHeight,
-                            width: constrains.maxWidth,
-                            color: const Color(0xffD93B41),
-                            child: const Icon(Icons.home),
-                          ),
-                          onPressed: () {},
-                        ),
-                        const SizedBox(width: 12),
-                        IconButton(
-                          padding: EdgeInsets.zero,
-                          color: Colors.white,
-                          icon: Container(
-                            height: constrains.maxHeight,
-                            width: constrains.maxWidth,
-                            color: const Color(0xffD93B41),
-                            child: Icon(Icons.person),
-                          ),
-                          onPressed: () {},
-                        ),
-                      ],
-                    ),
-                  );
-                },
-              ),
-            ),
-          ),
-        ),
-      ),
     );
   }
 }
