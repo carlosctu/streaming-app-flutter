@@ -1,3 +1,4 @@
+import 'package:components/design_components.dart';
 import 'package:flutter/material.dart';
 
 class UserPage extends StatefulWidget {
@@ -80,73 +81,6 @@ class _UserPageState extends State<UserPage> {
           ],
         ),
       ),
-    );
-  }
-}
-
-class NavigationRow extends StatelessWidget {
-  final Widget? leading;
-  final Widget leftContent;
-  final Widget? trailing;
-  final Widget? rightContent;
-  final Function()? onPressed;
-  const NavigationRow({
-    Key? key,
-    this.leading,
-    required this.leftContent,
-    this.trailing,
-    this.rightContent,
-    this.onPressed,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        InkWell(
-          key: const Key('ActionRowButton'),
-          splashFactory: NoSplash.splashFactory,
-          onTap: onPressed,
-          child: Container(
-            padding: const EdgeInsets.symmetric(
-              horizontal: 32,
-              vertical: 16,
-            ),
-            child: IntrinsicHeight(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  if (leading != null)
-                    Container(
-                      alignment: Alignment.center,
-                      padding: const EdgeInsets.only(right: 16),
-                      child: leading,
-                    ),
-                  Flexible(
-                    child: Align(
-                      alignment: Alignment.centerLeft,
-                      child: leftContent,
-                    ),
-                  ),
-                  if (rightContent != null)
-                    Flexible(
-                      child: Align(
-                        alignment: Alignment.centerRight,
-                        child: rightContent!,
-                      ),
-                    ),
-                  if (trailing != null)
-                    Container(
-                      padding: const EdgeInsets.only(left: 12),
-                      child: trailing,
-                    ),
-                ],
-              ),
-            ),
-          ),
-        ),
-      ],
     );
   }
 }
