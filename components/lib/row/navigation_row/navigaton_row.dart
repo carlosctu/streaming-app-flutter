@@ -52,11 +52,14 @@ class NavigationRow extends StatelessWidget {
                         child: rightContent,
                       ),
                     ),
-                  if (trailing != null)
-                    Container(
-                      padding: const EdgeInsets.only(left: 12),
-                      child: trailing,
-                    ),
+                  Container(
+                    padding: const EdgeInsets.only(left: 12),
+                    child: trailing ??
+                        const Icon(
+                          Icons.arrow_forward_ios,
+                          size: 18,
+                        ),
+                  ),
                 ],
               ),
             ),

@@ -30,6 +30,7 @@ class _UserPageState extends State<UserPage> {
         elevation: 0,
       ),
       body: SingleChildScrollView(
+        padding: const EdgeInsets.only(top: 32),
         child: Wrap(
           children: [
             NavigationRow(
@@ -68,9 +69,20 @@ class _UserPageState extends State<UserPage> {
             NavigationRow(
               onPressed: () {},
               leading: const Icon(
+                Icons.help_outline,
+              ),
+              leftContent: const Text(
+                'Help Center',
+                style: TextStyle(),
+              ),
+            ),
+            NavigationRow(
+              onPressed: () {},
+              leading: const Icon(
                 Icons.logout_outlined,
                 color: Color(0xffD93B41),
               ),
+              trailing: const SizedBox.shrink(),
               leftContent: const Text(
                 'Logout',
                 style: TextStyle(

@@ -1,5 +1,5 @@
 import 'package:components/image_component/config/streaming_app_assets.dart';
-import 'package:components/row/text_icon_row.dart';
+import 'package:components/row/text_icon_row/text_icon_row.dart';
 
 mixin ImageComponentMixin {
   String getAsset(StreamingAppAssets asset) {
