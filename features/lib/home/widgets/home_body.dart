@@ -3,6 +3,7 @@ import 'package:features/home/model/home_view_data.dart';
 import 'package:features/home/widgets/carousel_section/carousel_section.dart';
 import 'package:features/home/widgets/floating_bottom_app_bar/floating_bottom_app_bar.dart';
 import 'package:features/home/widgets/home_cover_widget.dart';
+import 'package:features/user_page/user_page.dart';
 import 'package:flutter/material.dart';
 
 class HomeBody extends StatefulWidget {
@@ -41,9 +42,7 @@ class _HomeBodyState extends State<HomeBody> {
                 child: Text('Search Page'),
               ),
               AnimeHomePage(data: widget.data),
-              const Center(
-                child: Text('User Page'),
-              ),
+              const UserPage(),
             ],
           ),
           FloatingBottomAppBar(

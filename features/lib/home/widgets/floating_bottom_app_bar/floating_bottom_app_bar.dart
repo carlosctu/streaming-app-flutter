@@ -1,6 +1,6 @@
 import 'dart:ui';
 
-import 'package:features/home/widgets/floating_bottom_app_bar/floagin_bottom_app_bar_item.dart';
+import 'package:features/home/widgets/floating_bottom_app_bar/floating_bottom_app_bar_item.dart';
 import 'package:flutter/material.dart';
 
 class FloatingBottomAppBar extends StatefulWidget {
@@ -29,7 +29,6 @@ class _FloatingBottomAppBarState extends State<FloatingBottomAppBar> {
               child: LayoutBuilder(
                 builder: (context, constrains) {
                   return Container(
-                    padding: EdgeInsets.zero,
                     color: Colors.black.withOpacity(0.3),
                     child: Row(
                       mainAxisSize: MainAxisSize.min,
