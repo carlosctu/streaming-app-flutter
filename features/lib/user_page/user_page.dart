@@ -77,7 +77,7 @@ class _UserPageState extends State<UserPage> {
               ),
             ),
             NavigationRow(
-              onPressed: () {},
+              onPressed: () => Navigator.pushReplacementNamed(context, '/'),
               leading: const Icon(
                 Icons.logout_outlined,
                 color: Color(0xffD93B41),

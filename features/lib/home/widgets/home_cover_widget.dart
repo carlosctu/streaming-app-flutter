@@ -1,6 +1,5 @@
 import 'package:features/home/model/home_view_data.dart';
 import 'package:features/home/widgets/home_cover_image.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class HomeCoverWidget extends StatelessWidget {
@@ -17,26 +16,7 @@ class HomeCoverWidget extends StatelessWidget {
       children: [
         BackgroundImage(data: data),
         const _ImageShadow(),
-        const _CloseButton(),
       ],
-    );
-  }
-}
-
-class _CloseButton extends StatelessWidget {
-  const _CloseButton();
-
-  @override
-  Widget build(BuildContext context) {
-    return IconButton(
-      padding: const EdgeInsets.only(top: kToolbarHeight - 5),
-      splashRadius: 18,
-      icon: const Icon(
-        Icons.cancel_sharp,
-        size: 24,
-        color: Colors.white,
-      ),
-      onPressed: () => Navigator.pop(context),
     );
   }
 }
