@@ -5,7 +5,7 @@ export './image_component/image_component.dart';
 export './image_component/config/image_component_mixin.dart';
 export './image_component/config/streaming_app_assets.dart';
 export 'row/text_icon_row/text_icon_row.dart';
-export 'row/navigation_row/navigaton_row.dart';
+export 'row/navigation_row/navigation_row.dart';
 export 'row/text_icon_row/config/row_alignment.dart';
 export 'row/text_icon_row/config/row_alignment_mixin.dart';
 export './dividers/horizontal_divider.dart';

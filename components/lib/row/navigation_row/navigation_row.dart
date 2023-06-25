@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 
 class NavigationRow extends StatelessWidget {
@@ -6,6 +7,7 @@ class NavigationRow extends StatelessWidget {
   final Widget? trailing;
   final Widget? rightContent;
   final Function()? onPressed;
+  final bool showDivider;
   const NavigationRow({
     Key? key,
     this.leading,
@@ -13,6 +15,7 @@ class NavigationRow extends StatelessWidget {
     this.trailing,
     this.rightContent,
     this.onPressed,
+    this.showDivider = true,
   }) : super(key: key);
 
   @override
@@ -65,6 +68,13 @@ class NavigationRow extends StatelessWidget {
             ),
           ),
         ),
+        if (showDivider)
+          Divider(
+            height: 1,
+            indent: 32,
+            endIndent: 32,
+            color: Colors.black.withOpacity(0.4),
+          )
       ],
     );
   }
