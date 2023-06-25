@@ -1,6 +1,7 @@
 import 'package:components/design_components.dart';
 import 'package:features/home/home_page.dart';
 import 'package:features/shared/alerts/snack_bar_alert.dart';
+import 'package:features/shared/providers/user_info_cubit.dart';
 import 'package:features/splash_screen/sign_in/bloc/sign_in_bloc.dart';
 import 'package:features/splash_screen/sign_in/widgets/sign_in_form.dart';
 import 'package:flutter/material.dart';
@@ -20,6 +21,8 @@ class _SignInAuthButtonsState extends State<SignInAuthButtons> {
   bool _isLoading = false;
 
   void listenerValidator(BuildContext context, SignInState state) {
+    final userInfoCubit = context.read<UserInfoCubit>();
+
     switch (state.status) {
       case SignInStatus.loading:
         setState(() => _isLoading = true);
@@ -27,6 +30,7 @@ class _SignInAuthButtonsState extends State<SignInAuthButtons> {
       case SignInStatus.valid:
         setState(() => _isLoading = false);
         _formKey.currentState!.reset();
+        userInfoCubit.updateUserInfo(state.credential);
         Navigator.pushNamed(context, HomePage.route);
         break;
       case SignInStatus.invalid:

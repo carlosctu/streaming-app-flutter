@@ -3,6 +3,7 @@ import 'package:features/anime_page/repository/anime_page_repository.dart';
 import 'package:features/home/bloc/home_bloc.dart';
 import 'package:features/home/repository/home_repository.dart';
 import 'package:features/routes/routes.dart';
+import 'package:features/shared/providers/user_info_cubit.dart';
 import 'package:features/splash_screen/services/authentication_service.dart';
 import 'package:features/splash_screen/sign_in/bloc/sign_in_bloc.dart';
 import 'package:features/splash_screen/sign_in/repository/sign_in_repository.dart';
@@ -53,6 +54,9 @@ class MyApp extends StatelessWidget {
             create: (context) => SignInBloc(
               context.read<SignInRepository>(),
             ),
+          ),
+          BlocProvider<UserInfoCubit>(
+            create: (context) => UserInfoCubit(),
           ),
           BlocProvider<SignUpBloc>(
             create: (context) => SignUpBloc(

@@ -3,21 +3,23 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>885435647632-9fi5omg9ghb6uan081s02kp5iis8i23v.apps.googleusercontent.com</string>
+	<string>898840857034-v7ojajs71ave3q7a2q5k49v2e2gokv8u.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.885435647632-9fi5omg9ghb6uan081s02kp5iis8i23v</string>
+	<string>com.googleusercontent.apps.898840857034-v7ojajs71ave3q7a2q5k49v2e2gokv8u</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>898840857034-j1leqgr9tbkpk771hgvhd3rru43p33lb.apps.googleusercontent.com</string>
 	<key>API_KEY</key>
-	<string>AIzaSyCf1LvlfN3zuOsq2rRhFvhyp8mYpooxbfY</string>
+	<string>AIzaSyAFlTQa9U-Yuu4SqQ1vYyLI9_bLqWjg1Iw</string>
 	<key>GCM_SENDER_ID</key>
-	<string>885435647632</string>
+	<string>898840857034</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>asda</string>
+	<string>com.example.streamingAppFlutter</string>
 	<key>PROJECT_ID</key>
-	<string>streaming-app-flutter-57058</string>
+	<string>streaming-app-flutter-72e24</string>
 	<key>STORAGE_BUCKET</key>
-	<string>streaming-app-flutter-57058.appspot.com</string>
+	<string>streaming-app-flutter-72e24.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -29,6 +31,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:885435647632:ios:e3ba12fbdccc4693013a15</string>
+	<string>1:898840857034:ios:8a7cf37117e50cb40c2733</string>
 </dict>
 </plist>

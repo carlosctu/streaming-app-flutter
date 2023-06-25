@@ -1,4 +1,4 @@
-import 'package:components/row/config/row_alignment.dart';
+import 'package:components/row/text_icon_row/config/row_alignment.dart';
 import 'package:flutter/material.dart';
 
 mixin RowAlignmentMixin {

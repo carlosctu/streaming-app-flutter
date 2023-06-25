@@ -1,6 +1,6 @@
 import 'package:components/image_component/image_component.dart';
-import 'package:components/row/config/row_alignment.dart';
-import 'package:components/row/config/row_alignment_mixin.dart';
+import 'package:components/row/text_icon_row/config/row_alignment.dart';
+import 'package:components/row/text_icon_row/config/row_alignment_mixin.dart';
 import 'package:flutter/material.dart';
 
 enum IconAsset { mail }

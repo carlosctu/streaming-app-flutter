@@ -15,4 +15,9 @@ class AuthenticationService {
     }
     return null;
   }
+
+  Future deleteUserData() async {
+    Box<OAuthCredential> box = await Hive.openBox('credentialUserBox');
+    await box.delete(0);
+  }
 }
