@@ -1,3 +1,4 @@
+import 'package:features/shared/providers/user_info_cubit.dart';
 import 'package:features/splash_screen/services/authentication_service.dart';
 import 'package:features/splash_screen/sign_in/bloc/sign_in_bloc.dart';
 import 'package:features/splash_screen/sign_in/widgets/sign_in_action_text_button.dart';
@@ -33,8 +34,10 @@ class _SignInPageState extends State<SignInPage> {
 
   void navigateIfUseHasSavedCredentials(
       BuildContext context, SignInState state) {
+    final userInfoCubit = context.read<UserInfoCubit>();
     switch (state.status) {
       case SignInStatus.validSavedCredentials:
+        userInfoCubit.updateUserInfo(state.credential);
         Navigator.pushNamed(context, '/home');
         break;
       default:

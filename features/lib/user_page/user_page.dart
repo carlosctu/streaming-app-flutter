@@ -1,5 +1,8 @@
 import 'package:components/design_components.dart';
+import 'package:features/shared/providers/user_info_cubit.dart';
+import 'package:features/splash_screen/services/authentication_service.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class UserPage extends StatefulWidget {
   const UserPage({super.key});
@@ -13,6 +16,10 @@ class _UserPageState extends State<UserPage> {
 
   @override
   Widget build(BuildContext context) {
+    final authService = AuthenticationService();
+    final userInfoCubit = context.watch<UserInfoCubit>();
+    final userInfo = userInfoCubit.state?.user;
+
     return Scaffold(
       appBar: AppBar(
         centerTitle: false,
@@ -33,6 +40,33 @@ class _UserPageState extends State<UserPage> {
         padding: const EdgeInsets.only(top: 32),
         child: Wrap(
           children: [
+            if (userInfo != null)
+              Container(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 32,
+                  vertical: 16,
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          '${userInfo.displayName}',
+                          style: const TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        const SizedBox(height: 12),
+                        Text('${userInfo.email}'),
+                      ],
+                    )
+                  ],
+                ),
+              ),
             NavigationRow(
               onPressed: () {},
               leading: const Icon(Icons.person_2_outlined),
@@ -77,7 +111,10 @@ class _UserPageState extends State<UserPage> {
               ),
             ),
             NavigationRow(
-              onPressed: () => Navigator.pushReplacementNamed(context, '/'),
+              onPressed: () {
+                authService.deleteUserData();
+                Navigator.pushReplacementNamed(context, '/');
+              },
               leading: const Icon(
                 Icons.logout_outlined,
                 color: Color(0xffD93B41),
